@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { SAMPLE_CLIPS } from "@/lib/content/sample-clips";
+import { PODCAST_EPISODES } from "@/lib/content/podcast-episodes";
+import { LIBRARY_RESOURCES } from "@/lib/content/resources";
 import { AskedRecently } from "@/components/home/AskedRecently";
 import { ContinueWatching } from "@/components/home/ContinueWatching";
 import { LatestRun, LatestRunSkeleton } from "@/components/home/LatestRun";
+import { PodcastCard } from "@/components/library/PodcastCard";
+import { ResourceCard } from "@/components/library/ResourceCard";
+import { VideoCard } from "@/components/library/VideoCard";
 
 export default function HomePage() {
   // Static rails render immediately; the DB-backed "Latest run" card
@@ -11,6 +16,8 @@ export default function HomePage() {
   // analysisRun.findFirst().
   const featured = SAMPLE_CLIPS.find((c) => c.id === "vcfp-2025-05-fmf-decides")!;
   const lessonRail = SAMPLE_CLIPS.slice(1, 4);
+  const featuredPodcasts = PODCAST_EPISODES.slice(0, 2);
+  const featuredResources = LIBRARY_RESOURCES.slice(0, 3);
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
@@ -52,7 +59,7 @@ export default function HomePage() {
       {/* Continue watching · only renders if localStorage has entries */}
       <ContinueWatching />
 
-      {/* Today's read · featured clip */}
+      {/* Today's read · featured clip · real YouTube thumbnail backs the hero */}
       <section className="mt-10 sm:mt-12">
         <SectionRow
           eyebrow="01 · today's read · stage-routed"
@@ -67,7 +74,15 @@ export default function HomePage() {
             className="group block overflow-hidden rounded-xl border border-border/80 bg-card/40 transition hover:border-brand-gold/40"
           >
             <div className="relative aspect-[16/9] bg-gradient-to-br from-forest to-[#0c1812]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(60,169,74,0.15),transparent_60%),radial-gradient(circle_at_75%_70%,rgba(245,200,66,0.10),transparent_60%)]" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`https://i.ytimg.com/vi/${featured.youtubeId}/hqdefault.jpg`}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover opacity-70 transition group-hover:opacity-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/40" />
               <div className="absolute inset-x-5 bottom-5 z-10 flex items-end justify-between sm:inset-x-6 sm:bottom-6">
                 <div>
                   <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
@@ -136,7 +151,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Recommended next */}
+      {/* Recommended next · uses the shared VideoCard so thumbnails come
+          straight from YouTube · same chrome as the library grid */}
       <section className="mt-10 sm:mt-14">
         <SectionRow
           eyebrow="02 · what scott would have you watch next"
@@ -144,40 +160,46 @@ export default function HomePage() {
           titleEm="weakest-dim first"
           right="re-ranks weekly · live in phase 6"
         />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {lessonRail.map((c) => (
-            <Link
-              key={c.id}
-              href={`/library/${c.id}`}
-              className="flex flex-col rounded-xl border border-border/80 bg-card/40 p-5 transition hover:border-brand-gold/40 hover:bg-card/60"
-            >
-              <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-                {c.show} · {c.durationMin} min
-              </div>
-              <div className="mt-3 font-serif text-lg font-semibold leading-tight tracking-tight text-foreground">
-                {c.title}
-              </div>
-              <p className="mt-2 flex-1 max-w-prose text-[13px] leading-relaxed text-muted-foreground">
-                {c.aiSummary.split(". ")[0]}.
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em]">
-                {c.rubricDims.slice(0, 2).map((d) => (
-                  <span
-                    key={d}
-                    className="rounded-sm bg-brand-gold/10 px-1.5 py-0.5 text-brand-gold"
-                  >
-                    {d}
-                  </span>
-                ))}
-              </div>
-            </Link>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {lessonRail.map((c, idx) => (
+            <VideoCard key={c.id} clip={c} idx={idx} />
           ))}
         </div>
       </section>
 
-      {/* Your raise · last analysis */}
+      {/* Long-form · real podcast appearances */}
       <section className="mt-10 sm:mt-14">
-        <SectionRow eyebrow="03 · your raise" title="Latest " titleEm="PitchOS run" />
+        <SectionRow
+          eyebrow="03 · long-form · scott on the road"
+          title="Listen on the commute · "
+          titleEm="real interviews"
+          right={`${PODCAST_EPISODES.length} episode${PODCAST_EPISODES.length === 1 ? "" : "s"} · audio`}
+        />
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {featuredPodcasts.map((ep) => (
+            <PodcastCard key={ep.id} episode={ep} />
+          ))}
+        </div>
+      </section>
+
+      {/* Reference · real PDFs and infographics */}
+      <section className="mt-10 sm:mt-14">
+        <SectionRow
+          eyebrow="04 · reference · pull as you go"
+          title="Templates, term sheets, "
+          titleEm="and the canonical decks"
+          right={`${LIBRARY_RESOURCES.length} resource${LIBRARY_RESOURCES.length === 1 ? "" : "s"}`}
+        />
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {featuredResources.map((r) => (
+            <ResourceCard key={r.id} resource={r} />
+          ))}
+        </div>
+      </section>
+
+      {/* Your raise · last analysis · streams in via Suspense */}
+      <section className="mt-10 sm:mt-14">
+        <SectionRow eyebrow="05 · your raise" title="Latest " titleEm="PitchOS run" />
         <Suspense fallback={<LatestRunSkeleton />}>
           <LatestRun />
         </Suspense>

@@ -1,5 +1,11 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { SAMPLE_CLIPS } from "@/lib/content/sample-clips";
+import { PODCAST_EPISODES } from "@/lib/content/podcast-episodes";
+import { LIBRARY_RESOURCES } from "@/lib/content/resources";
+import { VideoCard } from "@/components/library/VideoCard";
+import { PodcastCard } from "@/components/library/PodcastCard";
+import { ResourceCard } from "@/components/library/ResourceCard";
 
 export default async function DashboardPage() {
   const runs = await db.analysisRun.findMany({
@@ -7,6 +13,12 @@ export default async function DashboardPage() {
     include: { deck: { include: { project: true } }, report: true },
     take: 10,
   });
+
+  // Curriculum row · one of each media type so the dashboard reads as a
+  // workspace, not just a runs ledger.
+  const curatedClip = SAMPLE_CLIPS[0];
+  const curatedPodcast = PODCAST_EPISODES[0];
+  const curatedResource = LIBRARY_RESOURCES[0];
 
   return (
     <main className="mx-auto max-w-5xl px-8 py-10">
@@ -89,6 +101,32 @@ export default async function DashboardPage() {
           ))}
         </div>
       )}
+
+      {/* Curriculum highlights · one of each media type so the dashboard
+          stays a workspace, not a runs ledger */}
+      <section className="mt-12">
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-border/40 pb-3">
+          <div>
+            <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+              06 · curriculum · routed to your stage
+            </div>
+            <h2 className="mt-2 font-serif text-xl font-semibold leading-tight tracking-tight text-foreground sm:text-2xl">
+              Three pulls · one of each medium
+            </h2>
+          </div>
+          <Link
+            href="/library"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold hover:text-brand-gold-2"
+          >
+            Open the full library →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <VideoCard clip={curatedClip} idx={0} />
+          <PodcastCard episode={curatedPodcast} />
+          <ResourceCard resource={curatedResource} />
+        </div>
+      </section>
     </main>
   );
 }
