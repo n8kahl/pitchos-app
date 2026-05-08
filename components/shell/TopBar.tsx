@@ -1,8 +1,8 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { usePalette } from "@/lib/state/palette";
 
 const TITLES: Record<string, string> = {
   "/": "Home",
@@ -25,16 +25,8 @@ function deriveTitle(pathname: string): string {
 
 export function TopBar() {
   const pathname = usePathname();
-  const router = useRouter();
   const title = deriveTitle(pathname);
-  const [searchValue, setSearchValue] = useState("");
-
-  const submitSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = searchValue.trim();
-    router.push(q ? `/library?q=${encodeURIComponent(q)}` : "/library");
-    setSearchValue("");
-  };
+  const { open: openPalette } = usePalette();
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border/60 bg-background/85 px-4 backdrop-blur sm:px-6">
@@ -61,34 +53,32 @@ export function TopBar() {
       </div>
 
       <div className="flex flex-1 justify-center">
-        <form
-          onSubmit={submitSearch}
-          className="hidden w-full max-w-lg items-center gap-2 rounded-md border border-border/80 bg-muted/30 px-3 py-1.5 transition focus-within:border-brand-gold/60 focus-within:bg-muted/50 lg:flex"
+        <button
+          type="button"
+          onClick={openPalette}
+          aria-label="Open command palette"
+          className="hidden w-full max-w-lg items-center gap-2 rounded-md border border-border/80 bg-muted/30 px-3 py-1.5 text-left transition hover:border-brand-gold/40 hover:bg-muted/50 lg:flex"
         >
           <SearchIcon />
-          <input
-            type="search"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Find Scott on… wedge clarity, founder-market fit"
-            aria-label="Search the library"
-            className="flex-1 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none"
-          />
-          <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-            ⏎
+          <span className="flex-1 text-[13px] text-muted-foreground/70">
+            Jump anywhere · ask Scott · find a clip
           </span>
-        </form>
+          <kbd className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+            ⌘K
+          </kbd>
+        </button>
       </div>
 
       <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-        {/* Mobile / tablet search · navigates to library where filters live */}
-        <Link
-          href="/library"
-          aria-label="Search"
+        {/* Mobile / tablet · same palette, hardware-keyboardless tap target */}
+        <button
+          type="button"
+          onClick={openPalette}
+          aria-label="Open command palette"
           className="grid h-9 w-9 place-items-center rounded-md border border-border/60 text-muted-foreground transition hover:border-brand-gold/40 hover:text-foreground lg:hidden"
         >
           <SearchIcon />
-        </Link>
+        </button>
 
         {/* Stage pill · hides on phone, shows from sm */}
         <div className="hidden items-center gap-2 rounded-full border border-brand-green/30 bg-brand-green/5 px-3 py-1 sm:flex">
