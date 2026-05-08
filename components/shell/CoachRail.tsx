@@ -230,8 +230,8 @@ export function CoachRail() {
           onClick={() => open()}
           aria-label="Open Scott AI Coach"
           className={[
-            "fixed bottom-20 right-5 z-40 flex items-center gap-2.5 rounded-full bg-brand-gold px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#0a1410] shadow-[0_8px_24px_rgba(245,200,66,0.25)] transition hover:bg-brand-gold-2 sm:bottom-6 md:right-6",
-            "lg:hidden",
+            "fixed bottom-6 right-6 z-40 flex items-center gap-2.5 rounded-full bg-brand-gold px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#0a1410] shadow-[0_8px_24px_rgba(245,200,66,0.25)] transition hover:bg-brand-gold-2",
+            "hidden md:flex lg:hidden",
             isOpen ? "pointer-events-none opacity-0" : "",
           ].join(" ")}
         >
