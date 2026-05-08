@@ -1,20 +1,23 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { db } from "@/lib/db";
 import { SAMPLE_CLIPS } from "@/lib/content/sample-clips";
 import { PODCAST_EPISODES } from "@/lib/content/podcast-episodes";
 import { LIBRARY_RESOURCES } from "@/lib/content/resources";
-import { AskedRecently } from "@/components/home/AskedRecently";
 import { ContinueWatching } from "@/components/home/ContinueWatching";
 import { LatestRun, LatestRunSkeleton } from "@/components/home/LatestRun";
+import { HomeIntro } from "@/components/home/HomeIntro";
 import { PodcastCard } from "@/components/library/PodcastCard";
 import { ResourceCard } from "@/components/library/ResourceCard";
 import { VideoCard } from "@/components/library/VideoCard";
 import { HorizontalRail } from "@/components/library/HorizontalRail";
 
-export default function HomePage() {
+export default async function HomePage() {
   // Static rails render immediately; the DB-backed "Latest run" card
   // streams in inside Suspense so first paint is never blocked on
-  // analysisRun.findFirst().
+  // analysisRun.findFirst(). hasAnyRun is the lighter count query that
+  // gates the empty-state intro vs the returning-user welcome strip.
+  const hasAnyRun = (await db.analysisRun.count()) > 0;
   const featured = SAMPLE_CLIPS.find((c) => c.id === "vcfp-2025-05-fmf-decides")!;
   const lessonRail = SAMPLE_CLIPS.slice(1, 4);
   const featuredPodcasts = PODCAST_EPISODES.slice(0, 2);
@@ -22,40 +25,8 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
-      {/* Welcome / intent strip + Coach prompts */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">
-        <section className="overflow-hidden rounded-xl border border-border/80 bg-gradient-to-br from-forest via-bg-2 to-bg-2 p-6 sm:p-8">
-          <div className="mb-4 flex flex-wrap items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">
-            <span className="stage-dot-pulse h-1.5 w-1.5 rounded-full bg-brand-gold shadow-[0_0_6px_var(--color-brand-gold)]" />
-            stage 3 of 5 · pitch-ready · sharpening mode
-          </div>
-          <h1 className="font-serif text-3xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            Tighten the wedge. Ship the next pilot. Sharpen for IC.
-          </h1>
-          <p className="mt-3 max-w-xl font-serif text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Three moves move your fundability score the most this week. The
-            Coach runs in <em className="font-medium text-foreground">sharpening mode</em> at
-            stage 3; the clips below are routed to your weakest rubric
-            dimension.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/pitchos"
-              className="inline-flex items-center gap-2 rounded-md bg-brand-gold px-4 py-2.5 text-sm font-bold text-[#0a1410] transition hover:bg-brand-gold-2"
-            >
-              Score a deck →
-            </Link>
-            <Link
-              href="/library"
-              className="inline-flex items-center gap-2 rounded-md border border-border/80 px-4 py-2.5 text-sm font-semibold text-foreground transition hover:border-muted-foreground hover:bg-muted/40"
-            >
-              Open library
-            </Link>
-          </div>
-        </section>
-
-        <AskedRecently />
-      </div>
+      {/* Intro · empty-state for new users · welcome strip for returning */}
+      <HomeIntro hasAnyRun={hasAnyRun} />
 
       {/* Continue watching · only renders if localStorage has entries */}
       <ContinueWatching />

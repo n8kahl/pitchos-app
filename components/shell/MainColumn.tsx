@@ -4,6 +4,7 @@ import { ViewTransition } from "react";
 import { usePathname } from "next/navigation";
 import { useCoach } from "@/lib/state/coach";
 import { TopBar } from "./TopBar";
+import { FounderJourneyStrip } from "./FounderJourneyStrip";
 
 // Reserves the right gutter for the Coach Rail at lg+ in three states:
 //   /coach          → mr-0   (rail hidden; the page IS the Coach)
@@ -35,6 +36,7 @@ export function MainColumn({ children }: { children: React.ReactNode }) {
       ].join(" ")}
     >
       <TopBar />
+      <FounderJourneyStrip />
       <div id="main" className="relative flex-1 pb-20 md:pb-0">
         <ViewTransition>{children}</ViewTransition>
       </div>
