@@ -44,7 +44,7 @@ export function MemoBody({ body }: Props) {
   return (
     <article className="font-prose text-[17px] leading-[1.75] text-foreground/95">
       {paragraphs.map((para, i) => (
-        <p key={i} className="mb-6 max-w-prose">
+        <p key={i} className="mb-6">
           {renderCitations(para, onCite)}
         </p>
       ))}
