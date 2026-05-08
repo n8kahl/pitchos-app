@@ -104,6 +104,59 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
     externalUrl:
       "https://tonydurso.com/podcast/what-investors-look-for-before-you-raise-capital/",
   },
+  // === Emerging Managers Podcast · Scott co-hosts with Tracy Hazzard ===
+  // Apple collection 1808064463. Episode IDs pulled from podcasts.apple.com.
+  {
+    id: "emp-ross-fubini-early-stage-vc",
+    show: "Emerging Managers Pod",
+    host: "Scott Kelly · Tracy Hazzard",
+    episodeTitle: "Winning in Early-Stage VC · Ross Fubini · XYZ Venture Capital",
+    publishedAt: "2025-03",
+    durationMin: 38,
+    rubricDims: ["whyNow", "businessModel", "tractionQuality"],
+    journeyStages: [4, 5],
+    aiSummary:
+      "Ross Fubini on the diligence discipline that decides early-stage outcomes — what the seed-to-A motion actually looks like inside a fund that takes meaningful concentration on small numbers of bets.",
+    provider: "apple",
+    appleCollectionId: "1808064463",
+    appleEpisodeId: "1000756120172",
+    externalUrl:
+      "https://podcasts.apple.com/us/podcast/winning-in-early-stage-vc/id1808064463?i=1000756120172",
+  },
+  {
+    id: "emp-alana-mann-vertical-ai",
+    show: "Emerging Managers Pod",
+    host: "Scott Kelly · Tracy Hazzard",
+    episodeTitle: "Investing in Vertical AI · Alana Mann · Eleven Wall Ventures",
+    publishedAt: "2025-04",
+    durationMin: 41,
+    rubricDims: ["defensibility", "businessModel", "wedgeClarity"],
+    journeyStages: [3, 4],
+    aiSummary:
+      "Alana Mann on the moats that hold up under real partner scrutiny in vertical AI — proprietary data, integration depth, and the difference between a wrapper company and a system-of-record bet.",
+    provider: "apple",
+    appleCollectionId: "1808064463",
+    appleEpisodeId: "1000760441829",
+    externalUrl:
+      "https://podcasts.apple.com/us/podcast/investing-in-vertical-ai/id1808064463?i=1000760441829",
+  },
+  {
+    id: "emp-jai-khanna-storytelling",
+    show: "Emerging Managers Pod",
+    host: "Scott Kelly · Tracy Hazzard",
+    episodeTitle: "Sports Storytelling and Investing · Jai Khanna · Victory Ventures",
+    publishedAt: "2025-04",
+    durationMin: 36,
+    rubricDims: ["founderMarketFit", "deckQuality", "gtmRepeatability"],
+    journeyStages: [2, 3],
+    aiSummary:
+      "Jai Khanna on the founder narratives that survive the partner discount — operator-investor pattern recognition for stories that actually move IC, anchored in the sports and entertainment vertical.",
+    provider: "apple",
+    appleCollectionId: "1808064463",
+    appleEpisodeId: "1000758827509",
+    externalUrl:
+      "https://podcasts.apple.com/us/podcast/sports-storytelling-and-investing/id1808064463?i=1000758827509",
+  },
 ];
 
 export function getEpisodeById(id: string): PodcastEpisode | undefined {

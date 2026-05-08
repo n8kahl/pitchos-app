@@ -188,7 +188,7 @@ The math you want on the slide instead:
 
 The customer story converts. The percent does not[^2]. Save NRR for n ≥ 10.
 
-The single most leveraged change you can make to this deck before the round closes is replacing the headline NRR with a five-logo named pipeline. Scott goes deeper on the same pattern in the BCFS interview[^3].`,
+The single most leveraged change you can make to this deck before the round closes is replacing the headline NRR with a five-logo named pipeline. Scott goes deeper on the same pattern in the BCFS interview[^3], and Ross Fubini at XYZ Venture Capital walks through the same diligence discipline from the partner side on Emerging Managers[^4].`,
     citations: [
       {
         kind: "video",
@@ -209,6 +209,13 @@ The single most leveraged change you can make to this deck before the round clos
         at: "14:30",
         excerpt:
           "Investors discount the metrics that look engineered for the slide. Lead with the customer.",
+      },
+      {
+        kind: "podcast",
+        episodeId: "emp-ross-fubini-early-stage-vc",
+        at: "11:00",
+        excerpt:
+          "Partner-side diligence on early-stage traction · what survives scrutiny when n is small.",
       },
     ],
     followUps: [
