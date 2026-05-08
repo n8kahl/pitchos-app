@@ -85,9 +85,13 @@ export default async function ReportPage({ params }: PageProps) {
     };
   };
 
-  const scoring = (
-    run.report.keyMetrics as { scoring: { components: ScoreComponent[] } }
-  ).scoring.components;
+  // persistReport in lib/ai/orchestrator.ts writes
+  //   keyMetrics: { scoring: report.scoring.components }
+  // so keyMetrics.scoring IS the array. Earlier code expected one
+  // more level of wrapping and crashed on undefined.map.
+  const scoring =
+    (run.report.keyMetrics as { scoring?: ScoreComponent[] } | null)
+      ?.scoring ?? [];
 
   const voicePass =
     memo.voiceMarkers.bannedPhraseHits.length === 0 &&
