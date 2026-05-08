@@ -1,8 +1,11 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { COACH_EXAMPLES, type CoachExchange } from "@/lib/content/coach-exchanges";
+import { CoachCitationCard } from "@/components/coach/CoachCitationCard";
+import { SAMPLE_CLIPS } from "@/lib/content/sample-clips";
+import { PODCAST_EPISODES } from "@/lib/content/podcast-episodes";
+import { LIBRARY_RESOURCES } from "@/lib/content/resources";
 
 type ModeKey = "discovery" | "structuring" | "sharpening";
 
@@ -189,8 +192,9 @@ export default function CoachPage() {
                   <>
                     <div className="max-w-2xl">
                       <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-                        scott · grounded in {exchange.citations.length} clip
-                        {exchange.citations.length === 1 ? "" : "s"}
+                        scott · grounded in {exchange.citations.length} source
+                        {exchange.citations.length === 1 ? "" : "s"}{" "}
+                        <CitationBreakdown exchange={exchange} />
                       </div>
                       <div className="mt-2 max-w-prose whitespace-pre-line rounded-xl rounded-tl-sm border border-border/60 bg-bg-2/80 px-4 py-3.5 font-serif text-[15px] leading-[1.75] text-foreground/90">
                         {exchange.reply.replace(/\[\^\d+\]/g, "")}
@@ -199,23 +203,12 @@ export default function CoachPage() {
 
                     <div className="rounded-xl border border-brand-gold/20 bg-brand-gold/5 p-4">
                       <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-                        cited clips · jump to timestamp
+                        cited sources · click to open the player or viewer
                       </div>
                       <ul className="mt-3 space-y-2">
                         {exchange.citations.map((c, i) => (
                           <li key={i}>
-                            <Link
-                              href={`/library/${c.clipId}?t=${c.at}`}
-                              className="block rounded-md border border-border/60 bg-bg-2/60 px-4 py-3 transition hover:border-brand-gold/40 hover:bg-bg-2"
-                            >
-                              <div className="flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-brand-gold">
-                                <span>play at {c.at}</span>
-                                <span>open clip →</span>
-                              </div>
-                              <p className="mt-1.5 font-serif text-[13.5px] italic leading-snug text-foreground/90">
-                                &ldquo;{c.excerpt}&rdquo;
-                              </p>
-                            </Link>
+                            <CoachCitationCard citation={c} />
                           </li>
                         ))}
                       </ul>
@@ -295,16 +288,98 @@ export default function CoachPage() {
   );
 }
 
+function CitationBreakdown({ exchange }: { exchange: CoachExchange }) {
+  let v = 0;
+  let p = 0;
+  let r = 0;
+  for (const c of exchange.citations) {
+    if (c.kind === "video") v++;
+    else if (c.kind === "podcast") p++;
+    else r++;
+  }
+  const parts: string[] = [];
+  if (v) parts.push(`${v} video${v === 1 ? "" : "s"}`);
+  if (p) parts.push(`${p} podcast${p === 1 ? "" : "s"}`);
+  if (r) parts.push(`${r} pdf${r === 1 ? "" : "s"}`);
+  if (parts.length === 0) return null;
+  return (
+    <span className="ml-1 text-muted-foreground">· {parts.join(" · ")}</span>
+  );
+}
+
 function ScottThinking() {
+  // Scans the corpus across all three media types so the loading state
+  // tells the user what's being searched, not just that something's
+  // happening. Counts are read from the registries directly so the
+  // numbers move with the corpus.
+  const counts = {
+    videos: SAMPLE_CLIPS.length,
+    podcasts: PODCAST_EPISODES.length,
+    resources: LIBRARY_RESOURCES.length,
+  };
+
   return (
     <div className="max-w-2xl">
       <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-        scott · retrieving grounding clips
+        scott · retrieving grounding sources
       </div>
-      <div className="mt-2 flex items-center gap-2 rounded-xl rounded-tl-sm border border-border/60 bg-bg-2/80 px-5 py-5">
-        <span className="typing-dot h-2 w-2 rounded-full bg-brand-gold/80" />
-        <span className="typing-dot h-2 w-2 rounded-full bg-brand-gold/80" />
-        <span className="typing-dot h-2 w-2 rounded-full bg-brand-gold/80" />
+      <div className="mt-2 rounded-xl rounded-tl-sm border border-border/60 bg-bg-2/80 px-5 py-5">
+        <div className="flex items-center gap-2">
+          <span className="typing-dot h-2 w-2 rounded-full bg-brand-gold/80" />
+          <span className="typing-dot h-2 w-2 rounded-full bg-brand-gold/80" />
+          <span className="typing-dot h-2 w-2 rounded-full bg-brand-gold/80" />
+          <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            scanning · {counts.videos} videos · {counts.podcasts} episodes ·{" "}
+            {counts.resources} resources
+          </span>
+        </div>
+        <div className="mt-4 space-y-2">
+          <RetrievalRow label="video corpus" accent="brand-gold" delay="0s" />
+          <RetrievalRow label="podcast corpus" accent="brand-green" delay="0.15s" />
+          <RetrievalRow label="resource corpus" accent="sage" delay="0.3s" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RetrievalRow({
+  label,
+  accent,
+  delay,
+}: {
+  label: string;
+  accent: "brand-gold" | "brand-green" | "sage";
+  delay: string;
+}) {
+  // Tailwind needs full class names at compile time — branch instead of
+  // interpolating.
+  const dotClass =
+    accent === "brand-gold"
+      ? "bg-brand-gold"
+      : accent === "brand-green"
+      ? "bg-brand-green"
+      : "bg-sage";
+  const barClass =
+    accent === "brand-gold"
+      ? "bg-brand-gold/70"
+      : accent === "brand-green"
+      ? "bg-brand-green/70"
+      : "bg-sage/70";
+  return (
+    <div className="flex items-center gap-3">
+      <span
+        className={`stage-dot-pulse h-1.5 w-1.5 shrink-0 rounded-full ${dotClass}`}
+        style={{ animationDelay: delay }}
+      />
+      <span className="w-32 shrink-0 font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
+        {label}
+      </span>
+      <div className="h-1 flex-1 overflow-hidden rounded-full bg-muted/40">
+        <div
+          className={`h-full w-1/3 rounded-full ${barClass} retrieval-bar`}
+          style={{ animationDelay: delay }}
+        />
       </div>
     </div>
   );

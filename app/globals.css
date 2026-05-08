@@ -198,6 +198,18 @@ body::before {
 .typing-dot:nth-child(2) { animation-delay: 0.15s; }
 .typing-dot:nth-child(3) { animation-delay: 0.3s; }
 
+/* === Coach corpus-retrieval loading bar ===
+ * Slides a colored segment across each row to read as parallel RAG
+ * scans across video / podcast / resource corpora. Combined with
+ * stage-dot-pulse on the leading dot. */
+@keyframes retrievalBar {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+.retrieval-bar {
+  animation: retrievalBar 1.6s ease-in-out infinite;
+}
+
 /*
  * === View transitions · chrome anchors ===
  *

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { COACH_EXAMPLES } from "@/lib/content/coach-exchanges";
 import { useCoach } from "@/lib/state/coach";
+import { CoachCitationCard } from "@/components/coach/CoachCitationCard";
 
 const STARTER_PROMPTS = COACH_EXAMPLES.map((e) => e.prompt);
 
@@ -140,7 +140,7 @@ export function CoachRail() {
           </div>
 
           <div className="mt-5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-            scott replies · grounded in {exchange.citations.length} clip
+            scott replies · grounded in {exchange.citations.length} source
             {exchange.citations.length === 1 ? "" : "s"}
           </div>
           <div className="mt-2 max-w-prose whitespace-pre-line font-serif text-[14px] leading-[1.7] text-foreground/90">
@@ -149,24 +149,12 @@ export function CoachRail() {
 
           <div className="mt-6">
             <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-              cited clips · in this platform
+              cited sources · in this platform
             </div>
             <ul className="mt-2 space-y-2">
               {exchange.citations.map((c, i) => (
                 <li key={i}>
-                  <Link
-                    href={`/library/${c.clipId}?t=${c.at}`}
-                    onClick={close}
-                    className="block rounded-md border border-brand-gold/20 bg-brand-gold/5 px-3.5 py-3 transition hover:border-brand-gold/40 hover:bg-brand-gold/10"
-                  >
-                    <div className="flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-brand-gold">
-                      <span>play at {c.at}</span>
-                      <span>→</span>
-                    </div>
-                    <p className="mt-1 font-serif text-[13px] italic leading-snug text-foreground/85">
-                      &ldquo;{c.excerpt}&rdquo;
-                    </p>
-                  </Link>
+                  <CoachCitationCard citation={c} onSelect={close} />
                 </li>
               ))}
             </ul>
