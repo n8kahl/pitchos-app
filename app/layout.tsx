@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
+import { AppShell } from "@/components/shell/AppShell";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,9 +22,9 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "PitchOS · Pitch. Score. Fund.",
+  title: "Black Dog · The Founder Platform",
   description:
-    "Partner-grade pitch intelligence. Encoded judgment from Black Dog VP.",
+    "Pitch. Score. Fund. — 30 years of operator-investor judgment from Scott Kelly, encoded as a learning platform with the partner-grade PitchOS scoring engine.",
 };
 
 export default function RootLayout({
@@ -36,7 +37,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full bg-background">
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }

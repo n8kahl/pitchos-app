@@ -18,20 +18,20 @@ export default async function RunPage({ params }: PageProps) {
   if (!run) notFound();
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col px-6 py-12">
-      <header className="mb-10 flex items-baseline justify-between border-b border-border/50 pb-6">
+    <main className="mx-auto max-w-4xl px-8 py-10">
+      <header className="mb-8 flex items-baseline justify-between border-b border-border/40 pb-6">
         <div>
-          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-gold">
-            analysis · in progress
+          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+            ★ pitchos · analysis in progress
           </div>
           <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-foreground">
             {run.deck.project.companyName}
           </h1>
-          <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             {run.deck.fileName} · {run.rubricVersion} · {run.partnerProfileVersion}
           </p>
         </div>
-        <div className="text-right font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+        <div className="text-right font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
           <div>run id</div>
           <div className="text-foreground">{run.id.slice(-12)}</div>
         </div>
