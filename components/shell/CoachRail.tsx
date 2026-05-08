@@ -2,9 +2,30 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import { COACH_EXAMPLES } from "@/lib/content/coach-exchanges";
+import { COACH_EXAMPLES, type CoachCitation } from "@/lib/content/coach-exchanges";
 import { useCoach } from "@/lib/state/coach";
 import { CoachCitationCard } from "@/components/coach/CoachCitationCard";
+import type { CoachSource } from "@/lib/coach/retrieval";
+
+type LiveResponse = {
+  question: string;
+  text: string;
+  sources: CoachSource[];
+  provider: "mock" | "anthropic";
+};
+
+// Adapter · CoachSource (live retrieval shape) → CoachCitation
+// (prebaked-exchange shape). Lets the existing CoachCitationCard
+// render live sources without a parallel component.
+function sourceToCitation(s: CoachSource): CoachCitation {
+  if (s.kind === "video") {
+    return { kind: "video", clipId: s.id, at: "00:00", excerpt: s.summary };
+  }
+  if (s.kind === "podcast") {
+    return { kind: "podcast", episodeId: s.id, at: "00:00", excerpt: s.summary };
+  }
+  return { kind: "resource", resourceId: s.id, excerpt: s.summary };
+}
 
 type CoachMode = "discovery" | "structuring" | "sharpening";
 
@@ -54,6 +75,7 @@ export function CoachRail() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isThinking, setIsThinking] = useState(false);
   const [submitNote, setSubmitNote] = useState<string | null>(null);
+  const [liveResponse, setLiveResponse] = useState<LiveResponse | null>(null);
 
   async function submitQuestion(e: React.FormEvent) {
     e.preventDefault();
@@ -72,20 +94,36 @@ export function CoachRail() {
         throw new Error("error" in json ? json.error : "Coach call failed");
       }
       if (json.matchedExchangeId) {
-        // Mock provider routed to a prebaked exchange.
+        // Mock provider routed to a prebaked exchange · render the
+        // canonical exchange UI by switching the active exchange.
         open({ exchangeId: json.matchedExchangeId });
+        setLiveResponse(null);
+        if (inputRef.current) inputRef.current.value = "";
+      } else if (typeof json.text === "string" && json.text.length > 0) {
+        // No prebaked match · render the live response block. Same
+        // path the Anthropic provider takes once the key is set.
+        setLiveResponse({
+          question: q,
+          text: json.text,
+          sources: Array.isArray(json.sources) ? json.sources : [],
+          provider: json.provider === "anthropic" ? "anthropic" : "mock",
+        });
         if (inputRef.current) inputRef.current.value = "";
       } else {
-        // No match (or live provider response we don't yet render).
-        setSubmitNote(
-          json.text?.slice(0, 200) ?? "No exchange covered that exactly."
-        );
+        setSubmitNote("No exchange covered that exactly.");
       }
     } catch (err) {
       setSubmitNote(err instanceof Error ? err.message : "Coach call failed");
     } finally {
       setIsThinking(false);
     }
+  }
+
+  function clearLive() {
+    setLiveResponse(null);
+    setSubmitNote(null);
+    if (inputRef.current) inputRef.current.value = "";
+    inputRef.current?.focus();
   }
 
   // Hide the floating CTA on /coach itself — redundant on its own page.
@@ -260,81 +298,139 @@ export function CoachRail() {
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5">
-          {primingPrompt && (
-            <div className="mb-4 rounded-md border border-brand-green/30 bg-brand-green/5 p-3 font-mono text-[10px] uppercase tracking-[0.14em] text-brand-green">
-              context · &ldquo;{primingPrompt}&rdquo;
-            </div>
-          )}
-
-          <div className="rounded-md border border-border/60 bg-card/40 p-4">
-            <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-              you asked
-            </div>
-            <p className="mt-1.5 font-prose text-[14px] leading-snug text-foreground">
-              {exchange.prompt}
-            </p>
-          </div>
-
-          <div className="mt-5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-            scott replies · grounded in {exchange.citations.length} source
-            {exchange.citations.length === 1 ? "" : "s"}
-          </div>
-          <div className="mt-2 max-w-prose whitespace-pre-line font-prose text-[14px] leading-[1.7] text-foreground/90">
-            {exchange.reply.replace(/\[\^\d+\]/g, "")}
-          </div>
-
-          <div className="mt-6">
-            <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-              cited sources · in this platform
-            </div>
-            <ul className="mt-2 space-y-2">
-              {exchange.citations.map((c, i) => (
-                <li key={i}>
-                  <CoachCitationCard citation={c} onSelect={close} />
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mt-6">
-            <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-              follow-up
-            </div>
-            <ul className="mt-2 space-y-1.5">
-              {exchange.followUps.map((f, i) => (
-                <li
-                  key={i}
-                  className="cursor-pointer rounded-md border border-border/60 bg-card/40 px-3 py-2 text-[12.5px] text-foreground/85 transition hover:border-brand-gold/40 hover:bg-card/70 hover:text-foreground"
+          {liveResponse ? (
+            <>
+              {/* Live mode banner · tells the user this answer came
+                  from the running provider rather than a prebaked
+                  exchange. Provider label flips to "anthropic" when
+                  ANTHROPIC_API_KEY is set. */}
+              <div className="mb-4 flex items-center justify-between rounded-md border border-brand-gold/30 bg-brand-gold/5 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                <span>
+                  ★ live · {liveResponse.provider === "anthropic" ? "anthropic sonnet" : "mock retrieval"}
+                </span>
+                <button
+                  type="button"
+                  onClick={clearLive}
+                  className="rounded-sm border border-brand-gold/40 px-1.5 py-0.5 text-[9px] tracking-[0.14em] text-brand-gold transition hover:bg-brand-gold/15"
                 >
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mt-6">
-            <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-              other questions · {currentMode} mode
-            </div>
-            {otherInMode.length === 0 ? (
-              <div className="mt-2 rounded-md border border-dashed border-border px-3 py-2 text-[12px] text-muted-foreground">
-                No other prebaked exchanges in this mode yet. Live RAG ships
-                in platform phase 5.
+                  ask another
+                </button>
               </div>
-            ) : (
-              <ul className="mt-2 space-y-1.5">
-                {otherInMode.map((e) => (
-                  <li
-                    key={e.id}
-                    onClick={() => open({ exchangeId: e.id })}
-                    className="cursor-pointer rounded-md border border-dashed border-border px-3 py-2 text-[12.5px] text-muted-foreground transition hover:border-brand-gold/40 hover:text-foreground"
-                  >
-                    {e.prompt}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+
+              <div className="rounded-md border border-border/60 bg-card/40 p-4">
+                <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                  you asked
+                </div>
+                <p className="mt-1.5 font-prose text-[14px] leading-snug text-foreground">
+                  {liveResponse.question}
+                </p>
+              </div>
+
+              <div className="mt-5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                scott replies · grounded in {liveResponse.sources.length} retrieved source
+                {liveResponse.sources.length === 1 ? "" : "s"}
+              </div>
+              <div className="mt-2 max-w-prose whitespace-pre-line font-prose text-[14px] leading-[1.7] text-foreground/90">
+                {liveResponse.text.replace(/\[\^\d+\]/g, "")}
+              </div>
+
+              {liveResponse.sources.length > 0 && (
+                <div className="mt-6">
+                  <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                    retrieved sources · in this platform
+                  </div>
+                  <ul className="mt-2 space-y-2">
+                    {liveResponse.sources.map((s, i) => (
+                      <li key={i}>
+                        <CoachCitationCard
+                          citation={sourceToCitation(s)}
+                          onSelect={close}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {primingPrompt && (
+                <div className="mb-4 rounded-md border border-brand-green/30 bg-brand-green/5 p-3 font-mono text-[10px] uppercase tracking-[0.14em] text-brand-green">
+                  context · &ldquo;{primingPrompt}&rdquo;
+                </div>
+              )}
+
+              <div className="rounded-md border border-border/60 bg-card/40 p-4">
+                <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                  you asked
+                </div>
+                <p className="mt-1.5 font-prose text-[14px] leading-snug text-foreground">
+                  {exchange.prompt}
+                </p>
+              </div>
+
+              <div className="mt-5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                scott replies · grounded in {exchange.citations.length} source
+                {exchange.citations.length === 1 ? "" : "s"}
+              </div>
+              <div className="mt-2 max-w-prose whitespace-pre-line font-prose text-[14px] leading-[1.7] text-foreground/90">
+                {exchange.reply.replace(/\[\^\d+\]/g, "")}
+              </div>
+
+              <div className="mt-6">
+                <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                  cited sources · in this platform
+                </div>
+                <ul className="mt-2 space-y-2">
+                  {exchange.citations.map((c, i) => (
+                    <li key={i}>
+                      <CoachCitationCard citation={c} onSelect={close} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-6">
+                <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                  follow-up
+                </div>
+                <ul className="mt-2 space-y-1.5">
+                  {exchange.followUps.map((f, i) => (
+                    <li
+                      key={i}
+                      className="cursor-pointer rounded-md border border-border/60 bg-card/40 px-3 py-2 text-[12.5px] text-foreground/85 transition hover:border-brand-gold/40 hover:bg-card/70 hover:text-foreground"
+                    >
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-6">
+                <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                  other questions · {currentMode} mode
+                </div>
+                {otherInMode.length === 0 ? (
+                  <div className="mt-2 rounded-md border border-dashed border-border px-3 py-2 text-[12px] text-muted-foreground">
+                    No other prebaked exchanges in this mode yet. Live RAG ships
+                    in platform phase 5.
+                  </div>
+                ) : (
+                  <ul className="mt-2 space-y-1.5">
+                    {otherInMode.map((e) => (
+                      <li
+                        key={e.id}
+                        onClick={() => open({ exchangeId: e.id })}
+                        className="cursor-pointer rounded-md border border-dashed border-border px-3 py-2 text-[12.5px] text-muted-foreground transition hover:border-brand-gold/40 hover:text-foreground"
+                      >
+                        {e.prompt}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         <form
