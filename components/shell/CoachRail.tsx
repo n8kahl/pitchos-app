@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { COACH_EXAMPLES } from "@/lib/content/coach-exchanges";
 import { useCoach } from "@/lib/state/coach";
@@ -42,6 +42,51 @@ export function CoachRail() {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const isLg = useIsLg();
   const isDocked = isLg && isOpen;
+
+  // Live input state · POST to /api/coach/chat. The mock provider
+  // routes to the closest prebaked exchange via keyword match;
+  // the Anthropic provider replaces the rail content with a live
+  // response when ANTHROPIC_API_KEY is set on the server.
+  //
+  // Input is uncontrolled · defaultValue + key tied to primingPrompt
+  // remounts the field whenever a surface (StageHero, CitationCard,
+  // etc) pushes a new priming prompt. Avoids setState-in-effect.
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [isThinking, setIsThinking] = useState(false);
+  const [submitNote, setSubmitNote] = useState<string | null>(null);
+
+  async function submitQuestion(e: React.FormEvent) {
+    e.preventDefault();
+    const q = (inputRef.current?.value ?? "").trim();
+    if (!q || isThinking) return;
+    setIsThinking(true);
+    setSubmitNote(null);
+    try {
+      const res = await fetch("/api/coach/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ question: q }),
+      });
+      const json = await res.json();
+      if (!res.ok || "error" in json) {
+        throw new Error("error" in json ? json.error : "Coach call failed");
+      }
+      if (json.matchedExchangeId) {
+        // Mock provider routed to a prebaked exchange.
+        open({ exchangeId: json.matchedExchangeId });
+        if (inputRef.current) inputRef.current.value = "";
+      } else {
+        // No match (or live provider response we don't yet render).
+        setSubmitNote(
+          json.text?.slice(0, 200) ?? "No exchange covered that exactly."
+        );
+      }
+    } catch (err) {
+      setSubmitNote(err instanceof Error ? err.message : "Coach call failed");
+    } finally {
+      setIsThinking(false);
+    }
+  }
 
   // Hide the floating CTA on /coach itself — redundant on its own page.
   const hideFloater = pathname === "/coach";
@@ -294,25 +339,40 @@ export function CoachRail() {
 
         <form
           className="border-t border-border/60 bg-bg-3 px-4 py-3"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={submitQuestion}
         >
-          <div className="flex items-center gap-2 rounded-lg border border-border/80 bg-card px-3 py-2 focus-within:border-brand-gold/60">
+          <div
+            className={[
+              "flex items-center gap-2 rounded-lg border bg-card px-3 py-2 transition",
+              isThinking
+                ? "border-brand-gold/60 bg-card/80"
+                : "border-border/80 focus-within:border-brand-gold/60",
+            ].join(" ")}
+          >
             <input
+              ref={inputRef}
+              key={primingPrompt ?? "empty"}
               type="text"
               defaultValue={primingPrompt ?? ""}
-              key={primingPrompt ?? "empty"}
+              disabled={isThinking}
               placeholder="Ask Scott about your deck, your wedge, your why-now…"
-              className="flex-1 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none"
+              className="flex-1 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none disabled:opacity-60"
             />
             <button
               type="submit"
-              className="rounded-md bg-brand-gold px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0a1410] transition hover:bg-brand-gold-2"
+              disabled={isThinking}
+              className="rounded-md bg-brand-gold px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0a1410] transition hover:bg-brand-gold-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              ask →
+              {isThinking ? "thinking…" : "ask →"}
             </button>
           </div>
+          {submitNote && (
+            <div className="mt-2 rounded-md border border-border/60 bg-card/40 px-3 py-2 text-[11.5px] leading-snug text-muted-foreground">
+              {submitNote}
+            </div>
+          )}
           <div className="mt-2 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
-            prototype · pre-baked exchanges. real RAG ships in platform phase 5.
+            keyword-matched retrieval over the corpus · live anthropic streaming when ANTHROPIC_API_KEY is set
           </div>
         </form>
       </aside>
