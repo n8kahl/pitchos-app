@@ -140,8 +140,8 @@ export default function AssessmentPage() {
 
 function Intro({ onStart }: { onStart: () => void }) {
   return (
-    <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
-      <header className="mb-8 border-b border-border/40 pb-6">
+    <main className="mx-auto max-w-3xl px-5 pt-7 pb-4 sm:px-8 sm:pt-9 sm:pb-6">
+      <header className="mb-6 border-b border-border/40 pb-5">
         <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
           04 · founder readiness · journey rubric v1.0
         </div>
@@ -176,11 +176,11 @@ function Intro({ onStart }: { onStart: () => void }) {
         ))}
       </div>
 
-      <div className="mt-8">
+      <div className="mt-6">
         <button
           type="button"
           onClick={onStart}
-          className="inline-flex items-center gap-2 rounded-md bg-brand-gold px-5 py-3 text-sm font-bold text-[#0a1410] transition hover:bg-brand-gold-2"
+          className="inline-flex items-center gap-2 rounded-md bg-brand-gold px-5 py-3 text-sm font-bold text-[#0a1410] transition hover:bg-brand-gold-2 active:scale-95"
         >
           Start the assessment →
         </button>

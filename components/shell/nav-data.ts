@@ -27,8 +27,8 @@ export const NAV_SECTIONS: NavSection[] = [
     items: [
       { href: "/", label: "Home", icon: "◎" },
       { href: "/library", label: "Content library", icon: "▤" },
-      { href: "/coach", label: "AI Coach", icon: "✸", action: "open-coach" },
       { href: "/assessment", label: "Founder readiness", icon: "◫" },
+      { href: "/coach", label: "AI Coach", icon: "✸", action: "open-coach" },
     ],
   },
   {
@@ -57,7 +57,7 @@ export type MobileTab = {
 export const MOBILE_TABS: MobileTab[] = [
   { href: "/", label: "Home", icon: "◎" },
   { href: "/library", label: "Library", icon: "▤" },
-  { href: "/coach", label: "Coach", icon: "✸", action: "open-coach" },
   { href: "/pitchos", label: "PitchOS", icon: "★" },
+  { href: "/coach", label: "Coach", icon: "✸", action: "open-coach" },
   { href: "#more", label: "More", icon: "···", isMore: true },
 ];

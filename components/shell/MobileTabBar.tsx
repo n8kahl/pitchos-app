@@ -56,12 +56,26 @@ export function MobileTabBar() {
                 onClick={() => openCoach()}
                 aria-label="Open Scott AI Coach"
                 aria-expanded={active}
-                className={tabClass(active)}
+                className="flex flex-col items-center justify-center gap-1 py-2 transition"
               >
-                <span className={["text-lg leading-none", active ? "scale-110" : ""].join(" ")}>
-                  {t.icon}
+                <span
+                  className={[
+                    "flex items-center justify-center rounded-full px-3 py-1.5 transition-all duration-200",
+                    active
+                      ? "bg-brand-gold shadow-[0_0_12px_2px_rgba(var(--brand-gold-rgb,180,140,60),0.4)] scale-105"
+                      : "bg-brand-gold/15 hover:bg-brand-gold/25",
+                  ].join(" ")}
+                >
+                  <span className={["text-base leading-none", active ? "text-[#0a0e0c]" : "text-brand-gold"].join(" ")}>
+                    {t.icon}
+                  </span>
                 </span>
-                <span>{t.label}</span>
+                <span className={[
+                  "font-mono text-[10px] uppercase tracking-[0.1em]",
+                  active ? "text-brand-gold" : "text-brand-gold/70",
+                ].join(" ")}>
+                  {t.label}
+                </span>
               </button>
             );
           }
@@ -155,17 +169,35 @@ function MoreDrawer({
               </div>
               <ul className="space-y-1">
                 {section.items.map((item) => {
-                  const active =
-                    item.action === "open-coach"
-                      ? coachIsOpen
-                      : isActive(item.href);
-                  const className = [
-                    "flex w-full items-center gap-3 rounded-md px-3 py-3 text-left text-[14px] transition",
-                    active
-                      ? "bg-brand-gold/10 text-foreground"
-                      : "text-foreground/85 hover:bg-muted/40",
-                  ].join(" ");
-                  const inner = (
+                  const isCoach = item.action === "open-coach";
+                  const active = isCoach ? coachIsOpen : isActive(item.href);
+                  const className = isCoach
+                    ? [
+                        "flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-[14px] transition border",
+                        active
+                          ? "border-brand-gold/60 bg-brand-gold/15 text-foreground"
+                          : "border-brand-gold/25 bg-brand-gold/[0.06] text-foreground hover:bg-brand-gold/12",
+                      ].join(" ")
+                    : [
+                        "flex w-full items-center gap-3 rounded-md px-3 py-3 text-left text-[14px] transition",
+                        active
+                          ? "bg-brand-gold/10 text-foreground"
+                          : "text-foreground/85 hover:bg-muted/40",
+                      ].join(" ");
+                  const inner = isCoach ? (
+                    <>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-gold/20 text-base text-brand-gold">
+                        {item.icon}
+                      </span>
+                      <span className="flex-1">
+                        <span className="block font-semibold text-foreground">{item.label}</span>
+                        <span className="block font-mono text-[10px] uppercase tracking-[0.1em] text-brand-gold/70">
+                          Ask Scott anything
+                        </span>
+                      </span>
+                      <span className="font-mono text-[10px] text-brand-gold">→</span>
+                    </>
+                  ) : (
                     <>
                       <span
                         className={[
