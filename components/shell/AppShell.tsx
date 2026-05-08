@@ -1,5 +1,5 @@
 import { Sidebar } from "./Sidebar";
-import { TopBar } from "./TopBar";
+import { MainColumn } from "./MainColumn";
 import { CoachRail } from "./CoachRail";
 import { MobileTabBar } from "./MobileTabBar";
 import { CoachProvider } from "@/lib/state/coach";
@@ -12,12 +12,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </a>
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="relative flex min-w-0 flex-1 flex-col">
-          <TopBar />
-          <div id="main" className="relative flex-1 pb-20 md:pb-0">
-            {children}
-          </div>
-        </div>
+        <MainColumn>{children}</MainColumn>
         <CoachRail />
       </div>
       <MobileTabBar />

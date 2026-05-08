@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { COACH_EXAMPLES } from "@/lib/content/coach-exchanges";
@@ -8,10 +8,34 @@ import { useCoach } from "@/lib/state/coach";
 
 const STARTER_PROMPTS = COACH_EXAMPLES.map((e) => e.prompt);
 
+// Match Tailwind's `lg` breakpoint. At lg+ the rail docks alongside main
+// content; below lg it stays modal with a backdrop. Uses
+// useSyncExternalStore so the lint rule against setState-in-effect
+// stays happy in React 19.
+const LG_QUERY = "(min-width: 1024px)";
+
+function subscribeMq(listener: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia(LG_QUERY);
+  mq.addEventListener("change", listener);
+  return () => mq.removeEventListener("change", listener);
+}
+
+function getMqSnapshot(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia(LG_QUERY).matches;
+}
+
+function useIsLg(): boolean {
+  return useSyncExternalStore(subscribeMq, getMqSnapshot, () => false);
+}
+
 export function CoachRail() {
   const pathname = usePathname();
   const { isOpen, open, close, activeExchangeId, primingPrompt } = useCoach();
   const dialogRef = useRef<HTMLDivElement | null>(null);
+  const isLg = useIsLg();
+  const isDocked = isLg && isOpen;
 
   // Hide the floating CTA on /coach itself — redundant on its own page.
   const hideFloater = pathname === "/coach";
@@ -56,15 +80,18 @@ export function CoachRail() {
       <aside
         ref={dialogRef}
         role="dialog"
-        aria-modal="true"
+        aria-modal={isDocked ? "false" : "true"}
         aria-label="Scott AI Coach"
         tabIndex={-1}
         className={[
-          // Mobile: bottom sheet (90vh, rounded top)
-          // Desktop: right rail (full height, slides in from right)
+          // Mobile (<sm): bottom sheet (90vh, rounded top), modal
+          // sm-md: right rail, modal with backdrop
+          // lg+: docked right rail, no backdrop, content shifts left
           "fixed z-50 flex flex-col bg-bg-2 shadow-2xl transition-transform duration-300 focus:outline-none",
           "inset-x-0 bottom-0 h-[90vh] max-h-[760px] rounded-t-2xl border-t border-border/60",
           "sm:inset-y-0 sm:right-0 sm:left-auto sm:bottom-auto sm:h-full sm:max-h-none sm:w-[420px] sm:rounded-none sm:border-l sm:border-t-0",
+          // Soften the shadow when docked — the left border carries separation.
+          "lg:shadow-xl",
           isOpen ? "translate-y-0 sm:translate-x-0" : "translate-y-full sm:translate-y-0 sm:translate-x-full",
         ].join(" ")}
       >
@@ -211,7 +238,7 @@ export function CoachRail() {
         <div
           onClick={close}
           aria-hidden
-          className="fixed inset-0 z-40 bg-background/50 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-background/50 backdrop-blur-sm lg:hidden"
         />
       )}
     </>

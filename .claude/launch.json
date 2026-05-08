@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pitchos-dev",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd /Users/natekahl/Code/pitchos-app && npm run dev"],
+      "port": 3000
+    }
+  ]
+}
