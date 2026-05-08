@@ -37,7 +37,15 @@ export function ContinueWatching() {
               className="group flex flex-col overflow-hidden rounded-xl border border-border/80 bg-card/40 transition hover:-translate-y-0.5 hover:border-brand-gold/40"
             >
               <div className="relative aspect-[16/9] bg-gradient-to-br from-forest to-[#0c1812]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(245,200,66,0.12),transparent_60%)]" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://i.ytimg.com/vi/${clip.youtubeId}/mqdefault.jpg`}
+                  alt=""
+                  loading="lazy"
+                  aria-hidden
+                  className="absolute inset-0 h-full w-full object-cover opacity-70 transition group-hover:opacity-90"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <div className="absolute right-3 top-3 rounded-sm bg-black/55 px-2 py-1 font-mono text-[10px] font-semibold tabular-nums text-foreground">
                   {entry.position} · {entry.progressPct}%
                 </div>
