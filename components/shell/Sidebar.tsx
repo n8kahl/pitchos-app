@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_SECTIONS } from "./nav-data";
+import { AccountPopover } from "./AccountPopover";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -104,18 +105,8 @@ export function Sidebar() {
             Score a deck →
           </div>
         </Link>
-        <div className="mt-3 flex items-center gap-3 px-1">
-          <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-forest text-[10px] font-bold text-brand-gold">
-            ◐
-          </div>
-          <div className="min-w-0">
-            <div className="truncate text-[12px] font-semibold text-foreground">
-              Demo seat
-            </div>
-            <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-              founder pro · stage 3
-            </div>
-          </div>
+        <div className="mt-3">
+          <AccountPopover />
         </div>
       </div>
     </aside>

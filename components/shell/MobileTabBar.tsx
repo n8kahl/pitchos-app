@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MOBILE_TABS, NAV_SECTIONS } from "./nav-data";
+import { AccountPopover } from "./AccountPopover";
 
 export function MobileTabBar() {
   const pathname = usePathname();
@@ -174,18 +175,8 @@ function MoreDrawer({
           ))}
         </nav>
 
-        <div className="mt-2 flex items-center gap-3 rounded-lg border border-border/60 bg-card/40 px-4 py-3">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-forest text-[11px] font-bold text-brand-gold">
-            ◐
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-[13px] font-semibold text-foreground">
-              Demo seat
-            </div>
-            <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-              founder pro · stage 3
-            </div>
-          </div>
+        <div className="mt-2 rounded-lg border border-border/60 bg-card/40 px-2 py-2">
+          <AccountPopover variant="drawer" onItemClick={onClose} />
         </div>
       </aside>
     </>
