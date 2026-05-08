@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
-export default function EnterPage() {
+function EnterForm() {
   const router = useRouter();
   const params = useSearchParams();
   const [password, setPassword] = useState("");
@@ -33,6 +33,41 @@ export default function EnterPage() {
   }
 
   return (
+    <form onSubmit={submit} className="space-y-4">
+      <div>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter password"
+          autoFocus
+          required
+          className={[
+            "w-full rounded-md border bg-card/60 px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition",
+            error
+              ? "border-signal-red/60 focus:border-signal-red"
+              : "border-border focus:border-brand-gold/60",
+          ].join(" ")}
+        />
+        {error && (
+          <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-signal-red">
+            Incorrect password
+          </p>
+        )}
+      </div>
+      <button
+        type="submit"
+        disabled={loading || !password}
+        className="w-full rounded-md bg-brand-gold/10 border border-brand-gold/30 px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-gold transition hover:bg-brand-gold/20 disabled:opacity-40"
+      >
+        {loading ? "Verifying…" : "Enter"}
+      </button>
+    </form>
+  );
+}
+
+export default function EnterPage() {
+  return (
     <main className="flex min-h-screen items-center justify-center bg-background px-6">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
@@ -46,37 +81,9 @@ export default function EnterPage() {
             Partner platform · private access
           </p>
         </div>
-
-        <form onSubmit={submit} className="space-y-4">
-          <div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              autoFocus
-              required
-              className={[
-                "w-full rounded-md border bg-card/60 px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition",
-                error
-                  ? "border-signal-red/60 focus:border-signal-red"
-                  : "border-border focus:border-brand-gold/60",
-              ].join(" ")}
-            />
-            {error && (
-              <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-signal-red">
-                Incorrect password
-              </p>
-            )}
-          </div>
-          <button
-            type="submit"
-            disabled={loading || !password}
-            className="w-full rounded-md bg-brand-gold/10 border border-brand-gold/30 px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-gold transition hover:bg-brand-gold/20 disabled:opacity-40"
-          >
-            {loading ? "Verifying…" : "Enter"}
-          </button>
-        </form>
+        <Suspense>
+          <EnterForm />
+        </Suspense>
       </div>
     </main>
   );
