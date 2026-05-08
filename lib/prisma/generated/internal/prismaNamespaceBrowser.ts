@@ -51,7 +51,23 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-
+  Organization: 'Organization',
+  User: 'User',
+  PartnerRubric: 'PartnerRubric',
+  PartnerProfile: 'PartnerProfile',
+  Project: 'Project',
+  Deck: 'Deck',
+  AnalysisRun: 'AnalysisRun',
+  Report: 'Report',
+  SlideReview: 'SlideReview',
+  Recommendation: 'Recommendation',
+  InvestorObjection: 'InvestorObjection',
+  DiligenceItem: 'DiligenceItem',
+  AntiPatternDetection: 'AntiPatternDetection',
+  QaSession: 'QaSession',
+  QaMessage: 'QaMessage',
+  Outcome: 'Outcome',
+  PartnerJudgment: 'PartnerJudgment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -68,4 +84,335 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const OrganizationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  kind: 'kind',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  email: 'email',
+  name: 'name',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PartnerRubricScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  partnerName: 'partnerName',
+  version: 'version',
+  description: 'description',
+  weights: 'weights',
+  stageOverrides: 'stageOverrides',
+  hardFailCriteria: 'hardFailCriteria',
+  antiPatterns: 'antiPatterns',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt'
+} as const
+
+export type PartnerRubricScalarFieldEnum = (typeof PartnerRubricScalarFieldEnum)[keyof typeof PartnerRubricScalarFieldEnum]
+
+
+export const PartnerProfileScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  partnerName: 'partnerName',
+  version: 'version',
+  voiceSamples: 'voiceSamples',
+  tonalMarkers: 'tonalMarkers',
+  bannedPhrases: 'bannedPhrases',
+  signatureOpens: 'signatureOpens',
+  signatureCloses: 'signatureCloses',
+  createdAt: 'createdAt'
+} as const
+
+export type PartnerProfileScalarFieldEnum = (typeof PartnerProfileScalarFieldEnum)[keyof typeof PartnerProfileScalarFieldEnum]
+
+
+export const ProjectScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  ownerId: 'ownerId',
+  companyName: 'companyName',
+  websiteUrl: 'websiteUrl',
+  oneLine: 'oneLine',
+  stage: 'stage',
+  sector: 'sector',
+  businessModel: 'businessModel',
+  targetRound: 'targetRound',
+  targetArchetype: 'targetArchetype',
+  reviewerNotes: 'reviewerNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const DeckScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  organizationId: 'organizationId',
+  fileName: 'fileName',
+  fileType: 'fileType',
+  fileSizeBytes: 'fileSizeBytes',
+  storageKey: 'storageKey',
+  checksum: 'checksum',
+  pageCount: 'pageCount',
+  uploadedAt: 'uploadedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type DeckScalarFieldEnum = (typeof DeckScalarFieldEnum)[keyof typeof DeckScalarFieldEnum]
+
+
+export const AnalysisRunScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  organizationId: 'organizationId',
+  deckId: 'deckId',
+  partnerRubricId: 'partnerRubricId',
+  partnerProfileId: 'partnerProfileId',
+  rubricVersion: 'rubricVersion',
+  partnerProfileVersion: 'partnerProfileVersion',
+  status: 'status',
+  stage: 'stage',
+  progress: 'progress',
+  errorMessage: 'errorMessage',
+  modelProvider: 'modelProvider',
+  modelName: 'modelName',
+  promptVersion: 'promptVersion',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  extractionJson: 'extractionJson',
+  resultJson: 'resultJson',
+  providerMetaJson: 'providerMetaJson'
+} as const
+
+export type AnalysisRunScalarFieldEnum = (typeof AnalysisRunScalarFieldEnum)[keyof typeof AnalysisRunScalarFieldEnum]
+
+
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  fundabilityScore: 'fundabilityScore',
+  meetingLikelihood: 'meetingLikelihood',
+  meetingLikelihoodRationale: 'meetingLikelihoodRationale',
+  executiveSummary: 'executiveSummary',
+  oneMinutePitch: 'oneMinutePitch',
+  whatWouldNeedToBeTrue: 'whatWouldNeedToBeTrue',
+  topStrengths: 'topStrengths',
+  topPassReasons: 'topPassReasons',
+  keyMetrics: 'keyMetrics',
+  riskSummary: 'riskSummary',
+  memoJson: 'memoJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
+export const SlideReviewScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  slideNumber: 'slideNumber',
+  inferredTitle: 'inferredTitle',
+  slidePurpose: 'slidePurpose',
+  clarityScore: 'clarityScore',
+  evidenceScore: 'evidenceScore',
+  investorImpactScore: 'investorImpactScore',
+  whatWorks: 'whatWorks',
+  issues: 'issues',
+  rewriteGuidance: 'rewriteGuidance',
+  suggestedTitle: 'suggestedTitle',
+  evidenceToAdd: 'evidenceToAdd',
+  sourceQuote: 'sourceQuote',
+  expectedScoreDelta: 'expectedScoreDelta',
+  rawJson: 'rawJson'
+} as const
+
+export type SlideReviewScalarFieldEnum = (typeof SlideReviewScalarFieldEnum)[keyof typeof SlideReviewScalarFieldEnum]
+
+
+export const RecommendationScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  title: 'title',
+  problem: 'problem',
+  recommendation: 'recommendation',
+  investorRationale: 'investorRationale',
+  expectedImpact: 'expectedImpact',
+  effort: 'effort',
+  priority: 'priority',
+  expectedScoreDelta: 'expectedScoreDelta',
+  slideNumber: 'slideNumber',
+  exampleCopy: 'exampleCopy',
+  rawJson: 'rawJson'
+} as const
+
+export type RecommendationScalarFieldEnum = (typeof RecommendationScalarFieldEnum)[keyof typeof RecommendationScalarFieldEnum]
+
+
+export const InvestorObjectionScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  antiPatternKey: 'antiPatternKey',
+  title: 'title',
+  severity: 'severity',
+  objection: 'objection',
+  whyItMatters: 'whyItMatters',
+  howToAddress: 'howToAddress',
+  evidenceRequired: 'evidenceRequired',
+  relatedSlide: 'relatedSlide',
+  sourceQuote: 'sourceQuote',
+  rawJson: 'rawJson'
+} as const
+
+export type InvestorObjectionScalarFieldEnum = (typeof InvestorObjectionScalarFieldEnum)[keyof typeof InvestorObjectionScalarFieldEnum]
+
+
+export const DiligenceItemScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  category: 'category',
+  request: 'request',
+  whyItMatters: 'whyItMatters',
+  suggestedEvidence: 'suggestedEvidence',
+  ownerRole: 'ownerRole',
+  priority: 'priority',
+  rawJson: 'rawJson'
+} as const
+
+export type DiligenceItemScalarFieldEnum = (typeof DiligenceItemScalarFieldEnum)[keyof typeof DiligenceItemScalarFieldEnum]
+
+
+export const AntiPatternDetectionScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  antiPatternKey: 'antiPatternKey',
+  severity: 'severity',
+  evidence: 'evidence',
+  slideNumber: 'slideNumber',
+  detectedAt: 'detectedAt'
+} as const
+
+export type AntiPatternDetectionScalarFieldEnum = (typeof AntiPatternDetectionScalarFieldEnum)[keyof typeof AntiPatternDetectionScalarFieldEnum]
+
+
+export const QaSessionScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QaSessionScalarFieldEnum = (typeof QaSessionScalarFieldEnum)[keyof typeof QaSessionScalarFieldEnum]
+
+
+export const QaMessageScalarFieldEnum = {
+  id: 'id',
+  qaSessionId: 'qaSessionId',
+  role: 'role',
+  content: 'content',
+  score: 'score',
+  critique: 'critique',
+  improvedAnswer: 'improvedAnswer',
+  createdAt: 'createdAt'
+} as const
+
+export type QaMessageScalarFieldEnum = (typeof QaMessageScalarFieldEnum)[keyof typeof QaMessageScalarFieldEnum]
+
+
+export const OutcomeScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  organizationId: 'organizationId',
+  kind: 'kind',
+  occurredAt: 'occurredAt',
+  amount: 'amount',
+  investorName: 'investorName',
+  notes: 'notes',
+  selfReportedAt: 'selfReportedAt'
+} as const
+
+export type OutcomeScalarFieldEnum = (typeof OutcomeScalarFieldEnum)[keyof typeof OutcomeScalarFieldEnum]
+
+
+export const PartnerJudgmentScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  organizationId: 'organizationId',
+  judgedByUserId: 'judgedByUserId',
+  label: 'label',
+  rationale: 'rationale',
+  agreedWithAi: 'agreedWithAi',
+  createdAt: 'createdAt'
+} as const
+
+export type PartnerJudgmentScalarFieldEnum = (typeof PartnerJudgmentScalarFieldEnum)[keyof typeof PartnerJudgmentScalarFieldEnum]
+
+
+export const SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

@@ -9,7 +9,143 @@
 * 🟢 You can import this file directly.
 */
 
+export const FundingStage = {
+  IDEA: 'IDEA',
+  PRE_SEED: 'PRE_SEED',
+  SEED: 'SEED',
+  SERIES_A: 'SERIES_A',
+  SERIES_B: 'SERIES_B',
+  GROWTH: 'GROWTH',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type FundingStage = (typeof FundingStage)[keyof typeof FundingStage]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const BusinessModel = {
+  SAAS: 'SAAS',
+  MARKETPLACE: 'MARKETPLACE',
+  CONSUMER: 'CONSUMER',
+  ENTERPRISE: 'ENTERPRISE',
+  FINTECH: 'FINTECH',
+  HEALTHCARE: 'HEALTHCARE',
+  DEEP_TECH: 'DEEP_TECH',
+  AI_INFRA: 'AI_INFRA',
+  SERVICES_ENABLED_SOFTWARE: 'SERVICES_ENABLED_SOFTWARE',
+  OTHER: 'OTHER'
+} as const
+
+export type BusinessModel = (typeof BusinessModel)[keyof typeof BusinessModel]
+
+
+export const InvestorArchetype = {
+  GENERALIST_SEED: 'GENERALIST_SEED',
+  AI_NATIVE_FUND: 'AI_NATIVE_FUND',
+  VERTICAL_THESIS: 'VERTICAL_THESIS',
+  STRATEGIC_INVESTOR: 'STRATEGIC_INVESTOR',
+  ANGEL: 'ANGEL',
+  ACCELERATOR: 'ACCELERATOR'
+} as const
+
+export type InvestorArchetype = (typeof InvestorArchetype)[keyof typeof InvestorArchetype]
+
+
+export const AnalysisStatus = {
+  QUEUED: 'QUEUED',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type AnalysisStatus = (typeof AnalysisStatus)[keyof typeof AnalysisStatus]
+
+
+export const AnalysisStage = {
+  QUEUED: 'QUEUED',
+  VALIDATING_FILE: 'VALIDATING_FILE',
+  EXTRACTING_FACTS: 'EXTRACTING_FACTS',
+  REVIEWING_SLIDES: 'REVIEWING_SLIDES',
+  SCORING_FUNDABILITY: 'SCORING_FUNDABILITY',
+  FINDING_OBJECTIONS: 'FINDING_OBJECTIONS',
+  BUILDING_DILIGENCE: 'BUILDING_DILIGENCE',
+  WRITING_MEMO: 'WRITING_MEMO',
+  BUILDING_ROADMAP: 'BUILDING_ROADMAP',
+  FINALIZING_REPORT: 'FINALIZING_REPORT',
+  CAPTURING_LABELS: 'CAPTURING_LABELS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type AnalysisStage = (typeof AnalysisStage)[keyof typeof AnalysisStage]
+
+
+export const MeetingLikelihood = {
+  STRONG_YES: 'STRONG_YES',
+  YES: 'YES',
+  MAYBE: 'MAYBE',
+  NOT_YET: 'NOT_YET',
+  NO: 'NO'
+} as const
+
+export type MeetingLikelihood = (typeof MeetingLikelihood)[keyof typeof MeetingLikelihood]
+
+
+export const Priority = {
+  P0: 'P0',
+  P1: 'P1',
+  P2: 'P2',
+  P3: 'P3'
+} as const
+
+export type Priority = (typeof Priority)[keyof typeof Priority]
+
+
+export const ImpactLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  VERY_HIGH: 'VERY_HIGH'
+} as const
+
+export type ImpactLevel = (typeof ImpactLevel)[keyof typeof ImpactLevel]
+
+
+export const EffortLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+} as const
+
+export type EffortLevel = (typeof EffortLevel)[keyof typeof EffortLevel]
+
+
+export const OrgKind = {
+  FOUNDER: 'FOUNDER',
+  FUND: 'FUND',
+  ACCELERATOR: 'ACCELERATOR'
+} as const
+
+export type OrgKind = (typeof OrgKind)[keyof typeof OrgKind]
+
+
+export const JudgmentLabel = {
+  YES: 'YES',
+  MAYBE: 'MAYBE',
+  NO_NOT_NOW: 'NO_NOT_NOW',
+  NO_NEVER: 'NO_NEVER'
+} as const
+
+export type JudgmentLabel = (typeof JudgmentLabel)[keyof typeof JudgmentLabel]
+
+
+export const OutcomeKind = {
+  DECK_SENT: 'DECK_SENT',
+  MEETING_TAKEN: 'MEETING_TAKEN',
+  PARTNER_MEETING: 'PARTNER_MEETING',
+  TERM_SHEET: 'TERM_SHEET',
+  PASSED: 'PASSED',
+  ROUND_CLOSED: 'ROUND_CLOSED'
+} as const
+
+export type OutcomeKind = (typeof OutcomeKind)[keyof typeof OutcomeKind]

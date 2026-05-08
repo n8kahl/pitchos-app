@@ -17,4 +17,88 @@ import * as Prisma from './internal/prismaNamespaceBrowser'
 export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
-
+/**
+ * Model Organization
+ * 
+ */
+export type Organization = Prisma.OrganizationModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model PartnerRubric
+ * 
+ */
+export type PartnerRubric = Prisma.PartnerRubricModel
+/**
+ * Model PartnerProfile
+ * 
+ */
+export type PartnerProfile = Prisma.PartnerProfileModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel
+/**
+ * Model Deck
+ * 
+ */
+export type Deck = Prisma.DeckModel
+/**
+ * Model AnalysisRun
+ * 
+ */
+export type AnalysisRun = Prisma.AnalysisRunModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel
+/**
+ * Model SlideReview
+ * 
+ */
+export type SlideReview = Prisma.SlideReviewModel
+/**
+ * Model Recommendation
+ * 
+ */
+export type Recommendation = Prisma.RecommendationModel
+/**
+ * Model InvestorObjection
+ * 
+ */
+export type InvestorObjection = Prisma.InvestorObjectionModel
+/**
+ * Model DiligenceItem
+ * 
+ */
+export type DiligenceItem = Prisma.DiligenceItemModel
+/**
+ * Model AntiPatternDetection
+ * 
+ */
+export type AntiPatternDetection = Prisma.AntiPatternDetectionModel
+/**
+ * Model QaSession
+ * 
+ */
+export type QaSession = Prisma.QaSessionModel
+/**
+ * Model QaMessage
+ * 
+ */
+export type QaMessage = Prisma.QaMessageModel
+/**
+ * Model Outcome
+ * 
+ */
+export type Outcome = Prisma.OutcomeModel
+/**
+ * Model PartnerJudgment
+ * 
+ */
+export type PartnerJudgment = Prisma.PartnerJudgmentModel

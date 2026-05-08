@@ -26,8 +26,20 @@ That folder contains `CLAUDE.md` (the project primer), `04_codex_sdd.md`
 
 ## Current phase
 
-Phase 0 (Bootstrap) — done. Next: Phase 1 (multi-tenant data model + dev
-auth) per SDD §29.
+Phases 0–1 done. Next: Phase 2 (storage + upload) per SDD §29.
+
+- Full Prisma schema in `prisma/schema.prisma` (SDD §12).
+- Seed file at `prisma/seed.ts` writes the BDVP demo org, dev user, and
+  the system-shipped Black Dog VP rubric v1.2 + Scott profile v1.0
+  (organizationId=null = available to all orgs).
+- Dev auth: `getCurrentUser()` in `lib/auth.ts` resolves the seeded
+  user/org via `DEV_USER_EMAIL`. Clerk lands later.
+- Permission helpers: `lib/permissions.ts` (`assertSameOrg`, `withOrg`).
+- Custom ESLint rule `pitchos/require-org-scope` flags Prisma queries on
+  `project | deck | analysisRun | outcome | partnerJudgment` that don't
+  include `organizationId`. Source: `eslint-rules/require-org-scope.mjs`.
+  Opt out per call with
+  `// eslint-disable-next-line pitchos/require-org-scope`.
 
 ## Stack
 

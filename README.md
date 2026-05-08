@@ -31,24 +31,46 @@ npm run dev
 # → http://localhost:3000
 ```
 
-## Phase 0 status
+## Phase status
 
-Bootstrap only. No models, no auth, no orchestrator — those land in
-Phases 1–4 per SDD §29.
+Phases 0–1 done. Next: Phase 2 (storage + upload).
 
-What works in Phase 0:
+What works:
 - `npm run dev` boots a Tailwind-styled landing page
-- `npm run typecheck` passes
-- `npm run lint` passes
-- `lib/env.ts` validates required env vars (Zod) on import
-- `lib/db.ts` exports a Prisma singleton (no models seeded yet)
+- `npm run typecheck`, `npm run lint`, `npm run build` all pass
+- `lib/env.ts` validates env vars (Zod) on import
+- `lib/db.ts` exports a Prisma singleton (pg adapter)
+- Full Prisma schema per SDD §12, including `PartnerRubric`, `PartnerProfile`,
+  `Outcome`, `PartnerJudgment`, `AntiPatternDetection`, multi-tenant scoping
+- `prisma/seed.ts` provisions the BDVP demo org, dev user, Scott rubric v1.2,
+  and Scott voice profile v1.0
+- `lib/auth.ts` exposes `getCurrentUser()` in dev-auth mode
+- `lib/permissions.ts` exposes `assertSameOrg()` and `withOrg()`
+- Custom ESLint rule `pitchos/require-org-scope` enforces multi-tenant
+  scoping on Prisma queries
 
-What's deliberately deferred:
-- Full Prisma schema → Phase 1
-- Dev auth + org scoping ESLint rule → Phase 1
+Deliberately deferred:
 - Storage + upload → Phase 2
 - AI schemas + mock provider → Phase 3
 - Orchestrator → Phase 4
+
+## Provisioning the database
+
+```bash
+# 1 · point DATABASE_URL at a Postgres instance (Neon free tier works)
+$EDITOR .env
+
+# 2 · run the initial migration
+npm run db:migrate
+
+# 3 · seed the dev org + Scott rubric/profile
+npm run db:seed
+```
+
+After seeding, the dev user (`DEV_USER_EMAIL`) lands in the seeded
+"Black Dog VP (Demo)" workspace with `Scott · Black Dog VP / v1.2`
+rubric and `Scott · Black Dog VP / v1.0` voice profile available
+system-wide.
 
 ## Scripts
 

@@ -1,7 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// PitchOS · canonical schema · SDD §12
+// Strategic non-negotiables encoded here:
+//   1. Multi-tenant: organizationId on every project-level table
+//   2. Partner-rubric-driven: PartnerRubric + PartnerProfile + per-run version stamping
+//   3. Anti-pattern catalog traceability: AntiPatternDetection.antiPatternKey
+//   4. Outcome capture from day one for the long-term feedback loop
+//   5. Partner judgment capture for the Phase 9 fine-tuning corpus
 
 generator client {
   provider = "prisma-client"
@@ -10,4 +13,454 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+enum FundingStage {
+  IDEA
+  PRE_SEED
+  SEED
+  SERIES_A
+  SERIES_B
+  GROWTH
+  UNKNOWN
+}
+
+enum BusinessModel {
+  SAAS
+  MARKETPLACE
+  CONSUMER
+  ENTERPRISE
+  FINTECH
+  HEALTHCARE
+  DEEP_TECH
+  AI_INFRA
+  SERVICES_ENABLED_SOFTWARE
+  OTHER
+}
+
+enum InvestorArchetype {
+  GENERALIST_SEED
+  AI_NATIVE_FUND
+  VERTICAL_THESIS
+  STRATEGIC_INVESTOR
+  ANGEL
+  ACCELERATOR
+}
+
+enum AnalysisStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum AnalysisStage {
+  QUEUED
+  VALIDATING_FILE
+  EXTRACTING_FACTS
+  REVIEWING_SLIDES
+  SCORING_FUNDABILITY
+  FINDING_OBJECTIONS
+  BUILDING_DILIGENCE
+  WRITING_MEMO
+  BUILDING_ROADMAP
+  FINALIZING_REPORT
+  CAPTURING_LABELS
+  COMPLETED
+  FAILED
+}
+
+enum MeetingLikelihood {
+  STRONG_YES
+  YES
+  MAYBE
+  NOT_YET
+  NO
+}
+
+enum Priority {
+  P0
+  P1
+  P2
+  P3
+}
+
+enum ImpactLevel {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum EffortLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum OrgKind {
+  FOUNDER
+  FUND
+  ACCELERATOR
+}
+
+enum JudgmentLabel {
+  YES
+  MAYBE
+  NO_NOT_NOW
+  NO_NEVER
+}
+
+enum OutcomeKind {
+  DECK_SENT
+  MEETING_TAKEN
+  PARTNER_MEETING
+  TERM_SHEET
+  PASSED
+  ROUND_CLOSED
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  kind      OrgKind  @default(FOUNDER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users           User[]
+  projects        Project[]
+  partnerRubrics  PartnerRubric[]
+  partnerProfiles PartnerProfile[]
+}
+
+model User {
+  id             String   @id @default(cuid())
+  organizationId String
+  email          String   @unique
+  name           String?
+  role           String   @default("owner")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  projects     Project[]
+
+  @@index([organizationId])
+}
+
+// === STRATEGIC: Partner-rubric-driven scoring ===
+model PartnerRubric {
+  id               String   @id @default(cuid())
+  organizationId   String? // null = system-shipped (Black Dog VP v1.2)
+  partnerName      String
+  version          String
+  description      String?
+  weights          Json
+  stageOverrides   Json
+  hardFailCriteria Json
+  antiPatterns     String[]
+  isDefault        Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  analysisRuns AnalysisRun[]
+
+  @@unique([partnerName, version])
+  @@index([organizationId])
+}
+
+// === STRATEGIC: Partner voice for memo generation ===
+model PartnerProfile {
+  id              String   @id @default(cuid())
+  organizationId  String? // null = system-shipped
+  partnerName     String
+  version         String
+  voiceSamples    String[]
+  tonalMarkers    String[]
+  bannedPhrases   String[]
+  signatureOpens  String[]
+  signatureCloses String[]
+  createdAt       DateTime @default(now())
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  analysisRuns AnalysisRun[]
+
+  @@unique([partnerName, version])
+  @@index([organizationId])
+}
+
+model Project {
+  id              String            @id @default(cuid())
+  organizationId  String
+  ownerId         String
+  companyName     String
+  websiteUrl      String?
+  oneLine         String?
+  stage           FundingStage      @default(UNKNOWN)
+  sector          String?
+  businessModel   BusinessModel     @default(OTHER)
+  targetRound     String?
+  targetArchetype InvestorArchetype @default(GENERALIST_SEED)
+  reviewerNotes   String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner        User          @relation(fields: [ownerId], references: [id])
+  decks        Deck[]
+  analysisRuns AnalysisRun[]
+  outcomes     Outcome[]
+
+  @@index([organizationId])
+  @@index([ownerId])
+}
+
+model Deck {
+  id             String    @id @default(cuid())
+  projectId      String
+  organizationId String // denormalized for fast org-scoped queries
+  fileName       String
+  fileType       String
+  fileSizeBytes  Int
+  storageKey     String
+  checksum       String // SHA-256 — supports re-upload dedup
+  pageCount      Int?
+  uploadedAt     DateTime  @default(now())
+  deletedAt      DateTime?
+
+  project      Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  analysisRuns AnalysisRun[]
+
+  @@index([projectId])
+  @@index([organizationId])
+  @@index([checksum])
+}
+
+model AnalysisRun {
+  id                    String         @id @default(cuid())
+  projectId             String
+  organizationId        String
+  deckId                String
+  // STRATEGIC: every run is rubric+profile-stamped
+  partnerRubricId       String
+  partnerProfileId      String
+  rubricVersion         String
+  partnerProfileVersion String
+  status                AnalysisStatus @default(QUEUED)
+  stage                 AnalysisStage  @default(QUEUED)
+  progress              Int            @default(0)
+  errorMessage          String?
+  modelProvider         String? // "anthropic" | "openai" | "mock"
+  modelName             String?
+  promptVersion         String         @default("v0.2")
+  startedAt             DateTime?
+  completedAt           DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  extractionJson   Json?
+  resultJson       Json?
+  providerMetaJson Json?
+
+  project               Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  deck                  Deck                   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  partnerRubric         PartnerRubric          @relation(fields: [partnerRubricId], references: [id])
+  partnerProfile        PartnerProfile         @relation(fields: [partnerProfileId], references: [id])
+  report                Report?
+  slideReviews          SlideReview[]
+  recommendations       Recommendation[]
+  objections            InvestorObjection[]
+  diligence             DiligenceItem[]
+  qaSessions            QaSession[]
+  judgments             PartnerJudgment[]
+  antiPatternDetections AntiPatternDetection[]
+
+  @@index([projectId])
+  @@index([organizationId])
+  @@index([deckId])
+  @@index([status])
+}
+
+model Report {
+  id                         String            @id @default(cuid())
+  analysisRunId              String            @unique
+  fundabilityScore           Int
+  meetingLikelihood          MeetingLikelihood
+  meetingLikelihoodRationale String
+  executiveSummary           String
+  oneMinutePitch             String
+  // STRATEGIC: surface the "what would need to be true" checklist
+  whatWouldNeedToBeTrue      String[]
+  topStrengths               Json
+  topPassReasons             Json
+  keyMetrics                 Json
+  riskSummary                Json
+  memoJson                   Json
+  createdAt                  DateTime          @default(now())
+  updatedAt                  DateTime          @updatedAt
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+}
+
+model SlideReview {
+  id                  String   @id @default(cuid())
+  analysisRunId       String
+  slideNumber         Int
+  inferredTitle       String?
+  slidePurpose        String?
+  clarityScore        Int
+  evidenceScore       Int
+  investorImpactScore Int
+  whatWorks           String[]
+  issues              String[]
+  rewriteGuidance     String
+  suggestedTitle      String?
+  evidenceToAdd       String[]
+  // STRATEGIC: per-claim citation
+  sourceQuote         String?
+  expectedScoreDelta  Int      @default(0) // if fixed, +N pts
+  rawJson             Json?
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@unique([analysisRunId, slideNumber])
+  @@index([analysisRunId])
+}
+
+model Recommendation {
+  id                 String      @id @default(cuid())
+  analysisRunId      String
+  title              String
+  problem            String
+  recommendation     String
+  investorRationale  String
+  expectedImpact     ImpactLevel
+  effort             EffortLevel
+  priority           Priority
+  // STRATEGIC: explicit point-lift estimate
+  expectedScoreDelta Int         @default(0)
+  slideNumber        Int?
+  exampleCopy        String?
+  rawJson            Json?
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@index([analysisRunId])
+  @@index([priority])
+}
+
+model InvestorObjection {
+  id               String      @id @default(cuid())
+  analysisRunId    String
+  // STRATEGIC: anti-pattern type from the named library
+  antiPatternKey   String? // "feature_not_company", "tam_no_beachhead", etc.
+  title            String
+  severity         ImpactLevel
+  objection        String // partner-voiced quote
+  whyItMatters     String
+  howToAddress     String
+  evidenceRequired String[]
+  relatedSlide     Int?
+  sourceQuote      String?
+  rawJson          Json?
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@index([analysisRunId])
+  @@index([antiPatternKey])
+}
+
+model DiligenceItem {
+  id                String   @id @default(cuid())
+  analysisRunId     String
+  category          String
+  request           String
+  whyItMatters      String
+  suggestedEvidence String
+  ownerRole         String?
+  priority          Priority
+  rawJson           Json?
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@index([analysisRunId])
+}
+
+// STRATEGIC: anti-pattern library — named, repeatable diagnostics
+model AntiPatternDetection {
+  id             String      @id @default(cuid())
+  analysisRunId  String
+  antiPatternKey String // FK to lib/ai/anti-patterns.ts catalog
+  severity       ImpactLevel
+  evidence       String // the slide content that triggered detection
+  slideNumber    Int?
+  detectedAt     DateTime    @default(now())
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@index([analysisRunId])
+  @@index([antiPatternKey])
+}
+
+model QaSession {
+  id            String   @id @default(cuid())
+  analysisRunId String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+  messages    QaMessage[]
+}
+
+model QaMessage {
+  id             String   @id @default(cuid())
+  qaSessionId    String
+  role           String // "investor" | "founder" | "coach"
+  content        String
+  score          Int?
+  critique       String?
+  improvedAnswer String?
+  createdAt      DateTime @default(now())
+
+  qaSession QaSession @relation(fields: [qaSessionId], references: [id], onDelete: Cascade)
+
+  @@index([qaSessionId])
+}
+
+// STRATEGIC: outcome capture for the long-term feedback loop
+model Outcome {
+  id             String      @id @default(cuid())
+  projectId      String
+  organizationId String
+  kind           OutcomeKind
+  occurredAt     DateTime
+  amount         Decimal? // for ROUND_CLOSED
+  investorName   String?
+  notes          String?
+  selfReportedAt DateTime    @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([organizationId])
+  @@index([kind])
+}
+
+// STRATEGIC: partner judgment for fine-tuning loop (Phase 9)
+model PartnerJudgment {
+  id             String        @id @default(cuid())
+  analysisRunId  String
+  organizationId String
+  judgedByUserId String
+  label          JudgmentLabel
+  rationale      String?
+  agreedWithAi   Boolean? // null if AI hadn't taken a position
+  createdAt      DateTime      @default(now())
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@index([analysisRunId])
+  @@index([organizationId])
+  @@index([label])
 }
