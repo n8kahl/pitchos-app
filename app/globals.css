@@ -197,3 +197,50 @@ body::before {
 }
 .typing-dot:nth-child(2) { animation-delay: 0.15s; }
 .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+/*
+ * === View transitions · chrome anchors ===
+ *
+ * Route navigations run through document.startViewTransition. By default
+ * the browser captures the whole viewport and crossfades. Anchoring the
+ * persistent chrome (sidebar, topbar, mobile tabbar, coach rail) keeps
+ * those surfaces still while the main column crossfades between routes —
+ * the difference between "navigating in an app" and "loading a page."
+ *
+ * Each anchored element gets `view-transition-name: <name>` inline so
+ * the browser tracks its identity. We then null out its old/new
+ * animations so it doesn't fade or move with the rest of the snapshot.
+ */
+::view-transition-group(app-sidebar),
+::view-transition-group(app-topbar),
+::view-transition-group(app-mobile-tabbar),
+::view-transition-group(coach-rail) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(app-sidebar),
+::view-transition-old(app-topbar),
+::view-transition-old(app-mobile-tabbar),
+::view-transition-old(coach-rail) {
+  display: none;
+}
+::view-transition-new(app-sidebar),
+::view-transition-new(app-topbar),
+::view-transition-new(app-mobile-tabbar),
+::view-transition-new(coach-rail) {
+  animation: none;
+}
+
+/*
+ * Crossfades and morphs are usually fine for motion-sensitive users,
+ * but we honor the user's reduced-motion preference universally. The
+ * browser still does an instant content swap, just with no animation.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

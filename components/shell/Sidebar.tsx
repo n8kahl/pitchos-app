@@ -15,6 +15,7 @@ export function Sidebar() {
   return (
     <aside
       aria-label="Primary navigation"
+      style={{ viewTransitionName: "app-sidebar" }}
       className="hidden h-screen w-64 shrink-0 flex-col border-r border-border/60 bg-bg-2/60 backdrop-blur md:flex"
     >
       <Link

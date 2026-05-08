@@ -1,5 +1,6 @@
 "use client";
 
+import { ViewTransition } from "react";
 import { useCoach } from "@/lib/state/coach";
 import { TopBar } from "./TopBar";
 
@@ -7,6 +8,11 @@ import { TopBar } from "./TopBar";
 // read the memo and interrogate it at the same time. Below lg the rail
 // stays modal — there isn't enough horizontal room to dock without
 // crushing the main column.
+//
+// The page area is wrapped in <ViewTransition> so route navigations
+// crossfade through document.startViewTransition. The shell chrome is
+// anchored via view-transition-name in globals.css so only the content
+// fades while sidebar / topbar / tabbar stay still.
 export function MainColumn({ children }: { children: React.ReactNode }) {
   const { isOpen } = useCoach();
 
@@ -20,7 +26,7 @@ export function MainColumn({ children }: { children: React.ReactNode }) {
     >
       <TopBar />
       <div id="main" className="relative flex-1 pb-20 md:pb-0">
-        {children}
+        <ViewTransition>{children}</ViewTransition>
       </div>
     </div>
   );

@@ -19,7 +19,10 @@ export function MobileTabBar() {
       <nav
         aria-label="Primary navigation"
         className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border/60 bg-bg-2/95 backdrop-blur md:hidden"
-        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+        style={{
+          paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          viewTransitionName: "app-mobile-tabbar",
+        }}
       >
         {MOBILE_TABS.map((t) => {
           const active = !t.isMore && isActive(t.href);

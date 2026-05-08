@@ -30,7 +30,10 @@ export function TopBar() {
   const { open: openPalette } = usePalette();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border/60 bg-background/85 px-4 backdrop-blur sm:px-6">
+    <header
+      style={{ viewTransitionName: "app-topbar" }}
+      className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border/60 bg-background/85 px-4 backdrop-blur sm:px-6"
+    >
       {/* Mobile-only brand mark · sidebar's brand isn't visible at <md */}
       <Link href="/" className="flex shrink-0 items-center gap-2 md:hidden">
         <div className="grid h-7 w-9 place-items-center rounded-md bg-black">

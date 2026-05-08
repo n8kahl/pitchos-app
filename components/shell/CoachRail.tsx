@@ -83,6 +83,7 @@ export function CoachRail() {
         aria-modal={isDocked ? "false" : "true"}
         aria-label="Scott AI Coach"
         tabIndex={-1}
+        style={{ viewTransitionName: "coach-rail" }}
         className={[
           // Mobile (<sm): bottom sheet (90vh, rounded top), modal
           // sm-md: right rail, modal with backdrop
