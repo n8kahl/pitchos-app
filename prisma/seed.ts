@@ -2,18 +2,22 @@ import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../lib/prisma/generated/client";
 
-// === Scott's PartnerRubric v1.2 — from 10_sample_rubric.md §1 ===
+// === Black Dog VP Fundability Rubric · v1.3 ===
 //
-// Default seed weights for the Black Dog VP rubric, generalist seed lens.
-// Per Scott (10_sample_rubric.md §1.2): "The number isn't sacred. The
-// relative ranking is. If founderMarketFit and wedgeClarity are anywhere
-// outside the top three, the rubric is wrong."
+// Source of truth: 17_unified_rubric.md (synthesis across 10_sample_rubric.md
+// v1.2 + 11_content_platform_strategy.md §3 + 09_anti_patterns_explained.md
+// §3,§5). Zero structural change vs. v1.2 — same 11 dimensions, same weights,
+// same hard-fails. v1.3 adds custom anti-patterns to the data model and
+// citations in the description field.
 
 const BLACK_DOG_VP_RUBRIC = {
   partnerName: "Scott · Black Dog VP",
-  version: "v1.2",
+  version: "v1.3",
   description:
-    "Generalist seed rubric — anti-AI-wrapper, anti-vanity-metrics, founder-market-fit weighted. Source of truth: PitchOS spec doc 10_sample_rubric.md §1.",
+    "Generalist seed rubric — anti-AI-wrapper, anti-vanity-metrics, founder-market-fit weighted. " +
+    "Per 17_unified_rubric.md §0: structurally correct across all six strategy docs reviewed; " +
+    "9 of 11 dimensions have direct content backing in Scott's existing corpus per " +
+    "11_content_platform_strategy.md §3.",
   weights: {
     founderMarketFit: 0.16,
     wedgeClarity: 0.13,
@@ -51,18 +55,49 @@ const BLACK_DOG_VP_RUBRIC = {
     "founder_market_misfit_with_no_compensating_advantage",
     "services_revenue_above_50pct_pitched_as_saas",
   ],
-  // Catalog patterns Scott specifically over-weights. The full 16-pattern
-  // catalog lives in lib/ai/anti-patterns.ts (lands in Phase 3).
-  antiPatterns: [
-    "feature_not_company",
-    "vanity_traction",
-    "regulatory_dependent_why_now",
-    "ai_wrapper_no_moat",
-    "five_products_no_pmf",
+  // Catalog patterns Scott specifically over-/under-weights.
+  // The 16-pattern shared catalog itself lives in lib/ai/anti-patterns.ts (Phase 3).
+  antiPatternsEmphasized: {
+    feature_not_company: 1.5,
+    vanity_traction: 1.4,
+    regulatory_dependent_why_now: 1.5,
+    ai_wrapper_no_moat: 1.3,
+    five_products_no_pmf: 1.3,
+  },
+  antiPatternsDeEmphasized: {
+    premature_growth_metrics: 0.8,
+    deck_quality: 0.7,
+  },
+  // Promoted into the canonical model in v1.3 per 17_unified_rubric.md §7.
+  customAntiPatterns: [
+    {
+      key: "scott_specific_001",
+      name: "services_company_in_software_clothing",
+      severity: "HIGH",
+      detection:
+        "Revenue per FTE under $200K AND pitch deck uses 'platform' or 'SaaS' language.",
+      objection: "This is services revenue dressed up as SaaS.",
+      fix: "Be honest about the mix. Services-enabled software with a glide path to product-led revenue is fundable. Pretending to be SaaS is not.",
+      penalty: 12,
+      category: "businessModel",
+    },
+    {
+      key: "scott_specific_002",
+      name: "founder_distance_from_pain",
+      severity: "VERY_HIGH",
+      detection:
+        "Founder bio shows no exposure to the customer's daily workflow AND the deck describes 'talking to' or 'interviewing' customers rather than living the problem.",
+      objection: "The founder has heard about the problem; they haven't lived it.",
+      fix: "If the founder has lived the problem and didn't put it on the slide, surface it. If they haven't, recruit a co-founder who has.",
+      penalty: 16,
+      category: "founderMarketFit",
+    },
   ],
 } as const;
 
-// === Scott's PartnerProfile v1.0 — from 10_sample_rubric.md §2 ===
+// === Scott's PartnerProfile v1.0 — voice transfer layer ===
+// Unchanged from 10_sample_rubric.md §2. Bumps to v1.1 only when Scott
+// supplies actual recent memo prose to replace the drafted samples.
 
 const SCOTT_PARTNER_PROFILE = {
   partnerName: "Scott · Black Dog VP",
@@ -142,30 +177,6 @@ async function main() {
   });
   const db = new PrismaClient({ adapter });
 
-  // === Org + dev user ===
-  const orgName = process.env.DEV_ORG_NAME ?? "Black Dog VP (Demo)";
-  const orgKind =
-    (process.env.DEV_ORG_KIND as "FOUNDER" | "FUND" | "ACCELERATOR" | undefined) ?? "FUND";
-  const userEmail = process.env.DEV_USER_EMAIL ?? "nate@example.com";
-  const userName = process.env.DEV_USER_NAME ?? "Nate (Demo)";
-
-  let org = await db.organization.findFirst({ where: { name: orgName } });
-  if (!org) {
-    org = await db.organization.create({ data: { name: orgName, kind: orgKind } });
-  }
-
-  await db.user.upsert({
-    where: { email: userEmail },
-    create: {
-      email: userEmail,
-      name: userName,
-      organizationId: org.id,
-      role: "owner",
-    },
-    update: { name: userName, organizationId: org.id },
-  });
-
-  // === System-shipped Black Dog VP rubric (organizationId = null) ===
   await db.partnerRubric.upsert({
     where: {
       partnerName_version: {
@@ -174,14 +185,15 @@ async function main() {
       },
     },
     create: {
-      organizationId: null,
       partnerName: BLACK_DOG_VP_RUBRIC.partnerName,
       version: BLACK_DOG_VP_RUBRIC.version,
       description: BLACK_DOG_VP_RUBRIC.description,
       weights: BLACK_DOG_VP_RUBRIC.weights,
       stageOverrides: BLACK_DOG_VP_RUBRIC.stageOverrides,
       hardFailCriteria: BLACK_DOG_VP_RUBRIC.hardFailCriteria,
-      antiPatterns: [...BLACK_DOG_VP_RUBRIC.antiPatterns],
+      antiPatternsEmphasized: BLACK_DOG_VP_RUBRIC.antiPatternsEmphasized,
+      antiPatternsDeEmphasized: BLACK_DOG_VP_RUBRIC.antiPatternsDeEmphasized,
+      customAntiPatterns: [...BLACK_DOG_VP_RUBRIC.customAntiPatterns],
       isDefault: true,
     },
     update: {
@@ -189,7 +201,9 @@ async function main() {
       weights: BLACK_DOG_VP_RUBRIC.weights,
       stageOverrides: BLACK_DOG_VP_RUBRIC.stageOverrides,
       hardFailCriteria: BLACK_DOG_VP_RUBRIC.hardFailCriteria,
-      antiPatterns: [...BLACK_DOG_VP_RUBRIC.antiPatterns],
+      antiPatternsEmphasized: BLACK_DOG_VP_RUBRIC.antiPatternsEmphasized,
+      antiPatternsDeEmphasized: BLACK_DOG_VP_RUBRIC.antiPatternsDeEmphasized,
+      customAntiPatterns: [...BLACK_DOG_VP_RUBRIC.customAntiPatterns],
       isDefault: true,
     },
   });
@@ -202,7 +216,6 @@ async function main() {
       },
     },
     create: {
-      organizationId: null,
       partnerName: SCOTT_PARTNER_PROFILE.partnerName,
       version: SCOTT_PARTNER_PROFILE.version,
       voiceSamples: [...SCOTT_PARTNER_PROFILE.voiceSamples],
@@ -221,7 +234,7 @@ async function main() {
   });
 
   console.log(
-    `Seeded: org=${org.name} (${org.id}) · user=${userEmail} · rubric=${BLACK_DOG_VP_RUBRIC.partnerName}/${BLACK_DOG_VP_RUBRIC.version} · profile=${SCOTT_PARTNER_PROFILE.partnerName}/${SCOTT_PARTNER_PROFILE.version}`
+    `Seeded: rubric=${BLACK_DOG_VP_RUBRIC.partnerName}/${BLACK_DOG_VP_RUBRIC.version} · profile=${SCOTT_PARTNER_PROFILE.partnerName}/${SCOTT_PARTNER_PROFILE.version}`
   );
 
   await db.$disconnect();

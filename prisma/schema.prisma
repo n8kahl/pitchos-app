@@ -1,10 +1,15 @@
-// PitchOS · canonical schema · SDD §12
-// Strategic non-negotiables encoded here:
-//   1. Multi-tenant: organizationId on every project-level table
-//   2. Partner-rubric-driven: PartnerRubric + PartnerProfile + per-run version stamping
-//   3. Anti-pattern catalog traceability: AntiPatternDetection.antiPatternKey
-//   4. Outcome capture from day one for the long-term feedback loop
-//   5. Partner judgment capture for the Phase 9 fine-tuning corpus
+// PitchOS · prototype schema · single-tenant
+//
+// Sourced from SDD §12 with multi-tenancy stripped per the option-2 demo
+// reshape. The full multi-tenant version is recoverable from the git
+// tag `multitenant-snapshot`.
+//
+// What's gone (relative to the SDD): Organization, User, PartnerJudgment,
+// Outcome models · all organizationId / ownerId scoping · QaSession /
+// QaMessage models (Phase 6, deferred). Strategic IP that stays:
+// PartnerRubric / PartnerProfile (versioned, seeded), the AnalysisRun
+// stack (Report / SlideReview / Recommendation / InvestorObjection /
+// AntiPatternDetection), per-claim sourceQuote citations.
 
 generator client {
   provider = "prisma-client"
@@ -66,7 +71,6 @@ enum AnalysisStage {
   WRITING_MEMO
   BUILDING_ROADMAP
   FINALIZING_REPORT
-  CAPTURING_LABELS
   COMPLETED
   FAILED
 }
@@ -99,81 +103,37 @@ enum EffortLevel {
   HIGH
 }
 
-enum OrgKind {
-  FOUNDER
-  FUND
-  ACCELERATOR
-}
-
-enum JudgmentLabel {
-  YES
-  MAYBE
-  NO_NOT_NOW
-  NO_NEVER
-}
-
-enum OutcomeKind {
-  DECK_SENT
-  MEETING_TAKEN
-  PARTNER_MEETING
-  TERM_SHEET
-  PASSED
-  ROUND_CLOSED
-}
-
-model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  kind      OrgKind  @default(FOUNDER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users           User[]
-  projects        Project[]
-  partnerRubrics  PartnerRubric[]
-  partnerProfiles PartnerProfile[]
-}
-
-model User {
-  id             String   @id @default(cuid())
-  organizationId String
-  email          String   @unique
-  name           String?
-  role           String   @default("owner")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  projects     Project[]
-
-  @@index([organizationId])
-}
-
-// === STRATEGIC: Partner-rubric-driven scoring ===
+// === STRATEGIC: Partner-rubric-driven scoring (v1.3 per 17_unified_rubric.md) ===
 model PartnerRubric {
-  id               String   @id @default(cuid())
-  organizationId   String? // null = system-shipped (Black Dog VP v1.2)
-  partnerName      String
-  version          String
-  description      String?
+  id          String  @id @default(cuid())
+  partnerName String
+  version     String
+  description String?
+
   weights          Json
   stageOverrides   Json
   hardFailCriteria Json
-  antiPatterns     String[]
-  isDefault        Boolean  @default(false)
-  createdAt        DateTime @default(now())
 
-  organization Organization? @relation(fields: [organizationId], references: [id])
+  // Catalog patterns this rubric over-/under-weights (key → multiplier map).
+  // Example: { feature_not_company: 1.5, vanity_traction: 1.4 }
+  antiPatternsEmphasized   Json
+  antiPatternsDeEmphasized Json
+
+  // Patterns specific to this partner that aren't in the shared 16-catalog.
+  // Per 17_unified_rubric.md §7. Array of { key, name, severity, ... }.
+  customAntiPatterns Json
+
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+
   analysisRuns AnalysisRun[]
 
   @@unique([partnerName, version])
-  @@index([organizationId])
 }
 
 // === STRATEGIC: Partner voice for memo generation ===
 model PartnerProfile {
   id              String   @id @default(cuid())
-  organizationId  String? // null = system-shipped
   partnerName     String
   version         String
   voiceSamples    String[]
@@ -183,17 +143,13 @@ model PartnerProfile {
   signatureCloses String[]
   createdAt       DateTime @default(now())
 
-  organization Organization? @relation(fields: [organizationId], references: [id])
   analysisRuns AnalysisRun[]
 
   @@unique([partnerName, version])
-  @@index([organizationId])
 }
 
 model Project {
   id              String            @id @default(cuid())
-  organizationId  String
-  ownerId         String
   companyName     String
   websiteUrl      String?
   oneLine         String?
@@ -206,41 +162,32 @@ model Project {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 
-  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner        User          @relation(fields: [ownerId], references: [id])
   decks        Deck[]
   analysisRuns AnalysisRun[]
-  outcomes     Outcome[]
-
-  @@index([organizationId])
-  @@index([ownerId])
 }
 
 model Deck {
-  id             String    @id @default(cuid())
-  projectId      String
-  organizationId String // denormalized for fast org-scoped queries
-  fileName       String
-  fileType       String
-  fileSizeBytes  Int
-  storageKey     String
-  checksum       String // SHA-256 — supports re-upload dedup
-  pageCount      Int?
-  uploadedAt     DateTime  @default(now())
-  deletedAt      DateTime?
+  id            String    @id @default(cuid())
+  projectId     String
+  fileName      String
+  fileType      String
+  fileSizeBytes Int
+  storageKey    String
+  checksum      String // SHA-256 — supports re-upload dedup
+  pageCount     Int?
+  uploadedAt    DateTime  @default(now())
+  deletedAt     DateTime?
 
   project      Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
   analysisRuns AnalysisRun[]
 
   @@index([projectId])
-  @@index([organizationId])
   @@index([checksum])
 }
 
 model AnalysisRun {
   id                    String         @id @default(cuid())
   projectId             String
-  organizationId        String
   deckId                String
   // STRATEGIC: every run is rubric+profile-stamped
   partnerRubricId       String
@@ -251,7 +198,7 @@ model AnalysisRun {
   stage                 AnalysisStage  @default(QUEUED)
   progress              Int            @default(0)
   errorMessage          String?
-  modelProvider         String? // "anthropic" | "openai" | "mock"
+  modelProvider         String?
   modelName             String?
   promptVersion         String         @default("v0.2")
   startedAt             DateTime?
@@ -272,12 +219,9 @@ model AnalysisRun {
   recommendations       Recommendation[]
   objections            InvestorObjection[]
   diligence             DiligenceItem[]
-  qaSessions            QaSession[]
-  judgments             PartnerJudgment[]
   antiPatternDetections AntiPatternDetection[]
 
   @@index([projectId])
-  @@index([organizationId])
   @@index([deckId])
   @@index([status])
 }
@@ -290,7 +234,6 @@ model Report {
   meetingLikelihoodRationale String
   executiveSummary           String
   oneMinutePitch             String
-  // STRATEGIC: surface the "what would need to be true" checklist
   whatWouldNeedToBeTrue      String[]
   topStrengths               Json
   topPassReasons             Json
@@ -319,7 +262,7 @@ model SlideReview {
   evidenceToAdd       String[]
   // STRATEGIC: per-claim citation
   sourceQuote         String?
-  expectedScoreDelta  Int      @default(0) // if fixed, +N pts
+  expectedScoreDelta  Int      @default(0)
   rawJson             Json?
 
   analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
@@ -338,7 +281,6 @@ model Recommendation {
   expectedImpact     ImpactLevel
   effort             EffortLevel
   priority           Priority
-  // STRATEGIC: explicit point-lift estimate
   expectedScoreDelta Int         @default(0)
   slideNumber        Int?
   exampleCopy        String?
@@ -354,7 +296,7 @@ model InvestorObjection {
   id               String      @id @default(cuid())
   analysisRunId    String
   // STRATEGIC: anti-pattern type from the named library
-  antiPatternKey   String? // "feature_not_company", "tam_no_beachhead", etc.
+  antiPatternKey   String?
   title            String
   severity         ImpactLevel
   objection        String // partner-voiced quote
@@ -393,7 +335,7 @@ model AntiPatternDetection {
   analysisRunId  String
   antiPatternKey String // FK to lib/ai/anti-patterns.ts catalog
   severity       ImpactLevel
-  evidence       String // the slide content that triggered detection
+  evidence       String // verbatim slide content that triggered detection
   slideNumber    Int?
   detectedAt     DateTime    @default(now())
 
@@ -401,66 +343,4 @@ model AntiPatternDetection {
 
   @@index([analysisRunId])
   @@index([antiPatternKey])
-}
-
-model QaSession {
-  id            String   @id @default(cuid())
-  analysisRunId String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
-  messages    QaMessage[]
-}
-
-model QaMessage {
-  id             String   @id @default(cuid())
-  qaSessionId    String
-  role           String // "investor" | "founder" | "coach"
-  content        String
-  score          Int?
-  critique       String?
-  improvedAnswer String?
-  createdAt      DateTime @default(now())
-
-  qaSession QaSession @relation(fields: [qaSessionId], references: [id], onDelete: Cascade)
-
-  @@index([qaSessionId])
-}
-
-// STRATEGIC: outcome capture for the long-term feedback loop
-model Outcome {
-  id             String      @id @default(cuid())
-  projectId      String
-  organizationId String
-  kind           OutcomeKind
-  occurredAt     DateTime
-  amount         Decimal? // for ROUND_CLOSED
-  investorName   String?
-  notes          String?
-  selfReportedAt DateTime    @default(now())
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@index([projectId])
-  @@index([organizationId])
-  @@index([kind])
-}
-
-// STRATEGIC: partner judgment for fine-tuning loop (Phase 9)
-model PartnerJudgment {
-  id             String        @id @default(cuid())
-  analysisRunId  String
-  organizationId String
-  judgedByUserId String
-  label          JudgmentLabel
-  rationale      String?
-  agreedWithAi   Boolean? // null if AI hadn't taken a position
-  createdAt      DateTime      @default(now())
-
-  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
-
-  @@index([analysisRunId])
-  @@index([organizationId])
-  @@index([label])
 }

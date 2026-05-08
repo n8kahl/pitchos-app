@@ -26,8 +26,6 @@ export type AggregateProject = {
 
 export type ProjectMinAggregateOutputType = {
   id: string | null
-  organizationId: string | null
-  ownerId: string | null
   companyName: string | null
   websiteUrl: string | null
   oneLine: string | null
@@ -43,8 +41,6 @@ export type ProjectMinAggregateOutputType = {
 
 export type ProjectMaxAggregateOutputType = {
   id: string | null
-  organizationId: string | null
-  ownerId: string | null
   companyName: string | null
   websiteUrl: string | null
   oneLine: string | null
@@ -60,8 +56,6 @@ export type ProjectMaxAggregateOutputType = {
 
 export type ProjectCountAggregateOutputType = {
   id: number
-  organizationId: number
-  ownerId: number
   companyName: number
   websiteUrl: number
   oneLine: number
@@ -79,8 +73,6 @@ export type ProjectCountAggregateOutputType = {
 
 export type ProjectMinAggregateInputType = {
   id?: true
-  organizationId?: true
-  ownerId?: true
   companyName?: true
   websiteUrl?: true
   oneLine?: true
@@ -96,8 +88,6 @@ export type ProjectMinAggregateInputType = {
 
 export type ProjectMaxAggregateInputType = {
   id?: true
-  organizationId?: true
-  ownerId?: true
   companyName?: true
   websiteUrl?: true
   oneLine?: true
@@ -113,8 +103,6 @@ export type ProjectMaxAggregateInputType = {
 
 export type ProjectCountAggregateInputType = {
   id?: true
-  organizationId?: true
-  ownerId?: true
   companyName?: true
   websiteUrl?: true
   oneLine?: true
@@ -203,8 +191,6 @@ export type ProjectGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ProjectGroupByOutputType = {
   id: string
-  organizationId: string
-  ownerId: string
   companyName: string
   websiteUrl: string | null
   oneLine: string | null
@@ -241,8 +227,6 @@ export type ProjectWhereInput = {
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   id?: Prisma.StringFilter<"Project"> | string
-  organizationId?: Prisma.StringFilter<"Project"> | string
-  ownerId?: Prisma.StringFilter<"Project"> | string
   companyName?: Prisma.StringFilter<"Project"> | string
   websiteUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   oneLine?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -254,17 +238,12 @@ export type ProjectWhereInput = {
   reviewerNotes?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
-  owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   decks?: Prisma.DeckListRelationFilter
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
-  outcomes?: Prisma.OutcomeListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   oneLine?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -276,11 +255,8 @@ export type ProjectOrderByWithRelationInput = {
   reviewerNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  organization?: Prisma.OrganizationOrderByWithRelationInput
-  owner?: Prisma.UserOrderByWithRelationInput
   decks?: Prisma.DeckOrderByRelationAggregateInput
   analysisRuns?: Prisma.AnalysisRunOrderByRelationAggregateInput
-  outcomes?: Prisma.OutcomeOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -288,8 +264,6 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
-  organizationId?: Prisma.StringFilter<"Project"> | string
-  ownerId?: Prisma.StringFilter<"Project"> | string
   companyName?: Prisma.StringFilter<"Project"> | string
   websiteUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   oneLine?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -301,17 +275,12 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   reviewerNotes?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
-  owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   decks?: Prisma.DeckListRelationFilter
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
-  outcomes?: Prisma.OutcomeListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   oneLine?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -333,8 +302,6 @@ export type ProjectScalarWhereWithAggregatesInput = {
   OR?: Prisma.ProjectScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProjectScalarWhereWithAggregatesInput | Prisma.ProjectScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Project"> | string
-  organizationId?: Prisma.StringWithAggregatesFilter<"Project"> | string
-  ownerId?: Prisma.StringWithAggregatesFilter<"Project"> | string
   companyName?: Prisma.StringWithAggregatesFilter<"Project"> | string
   websiteUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   oneLine?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -361,17 +328,12 @@ export type ProjectCreateInput = {
   reviewerNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
-  owner: Prisma.UserCreateNestedOneWithoutProjectsInput
   decks?: Prisma.DeckCreateNestedManyWithoutProjectInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
   id?: string
-  organizationId: string
-  ownerId: string
   companyName: string
   websiteUrl?: string | null
   oneLine?: string | null
@@ -385,7 +347,6 @@ export type ProjectUncheckedCreateInput = {
   updatedAt?: Date | string
   decks?: Prisma.DeckUncheckedCreateNestedManyWithoutProjectInput
   analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -401,17 +362,12 @@ export type ProjectUpdateInput = {
   reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   decks?: Prisma.DeckUpdateManyWithoutProjectNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -425,13 +381,10 @@ export type ProjectUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decks?: Prisma.DeckUncheckedUpdateManyWithoutProjectNestedInput
   analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
   id?: string
-  organizationId: string
-  ownerId: string
   companyName: string
   websiteUrl?: string | null
   oneLine?: string | null
@@ -462,8 +415,6 @@ export type ProjectUpdateManyMutationInput = {
 
 export type ProjectUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -477,20 +428,8 @@ export type ProjectUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ProjectListRelationFilter = {
-  every?: Prisma.ProjectWhereInput
-  some?: Prisma.ProjectWhereInput
-  none?: Prisma.ProjectWhereInput
-}
-
-export type ProjectOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type ProjectCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
   oneLine?: Prisma.SortOrder
@@ -506,8 +445,6 @@ export type ProjectCountOrderByAggregateInput = {
 
 export type ProjectMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
   oneLine?: Prisma.SortOrder
@@ -523,8 +460,6 @@ export type ProjectMaxOrderByAggregateInput = {
 
 export type ProjectMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  ownerId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
   oneLine?: Prisma.SortOrder
@@ -541,90 +476,6 @@ export type ProjectMinOrderByAggregateInput = {
 export type ProjectScalarRelationFilter = {
   is?: Prisma.ProjectWhereInput
   isNot?: Prisma.ProjectWhereInput
-}
-
-export type ProjectCreateNestedManyWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOrganizationInput, Prisma.ProjectUncheckedCreateWithoutOrganizationInput> | Prisma.ProjectCreateWithoutOrganizationInput[] | Prisma.ProjectUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOrganizationInput | Prisma.ProjectCreateOrConnectWithoutOrganizationInput[]
-  createMany?: Prisma.ProjectCreateManyOrganizationInputEnvelope
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-}
-
-export type ProjectUncheckedCreateNestedManyWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOrganizationInput, Prisma.ProjectUncheckedCreateWithoutOrganizationInput> | Prisma.ProjectCreateWithoutOrganizationInput[] | Prisma.ProjectUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOrganizationInput | Prisma.ProjectCreateOrConnectWithoutOrganizationInput[]
-  createMany?: Prisma.ProjectCreateManyOrganizationInputEnvelope
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-}
-
-export type ProjectUpdateManyWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOrganizationInput, Prisma.ProjectUncheckedCreateWithoutOrganizationInput> | Prisma.ProjectCreateWithoutOrganizationInput[] | Prisma.ProjectUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOrganizationInput | Prisma.ProjectCreateOrConnectWithoutOrganizationInput[]
-  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutOrganizationInput | Prisma.ProjectUpsertWithWhereUniqueWithoutOrganizationInput[]
-  createMany?: Prisma.ProjectCreateManyOrganizationInputEnvelope
-  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.ProjectUpdateWithWhereUniqueWithoutOrganizationInput[]
-  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutOrganizationInput | Prisma.ProjectUpdateManyWithWhereWithoutOrganizationInput[]
-  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-}
-
-export type ProjectUncheckedUpdateManyWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOrganizationInput, Prisma.ProjectUncheckedCreateWithoutOrganizationInput> | Prisma.ProjectCreateWithoutOrganizationInput[] | Prisma.ProjectUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOrganizationInput | Prisma.ProjectCreateOrConnectWithoutOrganizationInput[]
-  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutOrganizationInput | Prisma.ProjectUpsertWithWhereUniqueWithoutOrganizationInput[]
-  createMany?: Prisma.ProjectCreateManyOrganizationInputEnvelope
-  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.ProjectUpdateWithWhereUniqueWithoutOrganizationInput[]
-  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutOrganizationInput | Prisma.ProjectUpdateManyWithWhereWithoutOrganizationInput[]
-  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-}
-
-export type ProjectCreateNestedManyWithoutOwnerInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOwnerInput, Prisma.ProjectUncheckedCreateWithoutOwnerInput> | Prisma.ProjectCreateWithoutOwnerInput[] | Prisma.ProjectUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOwnerInput | Prisma.ProjectCreateOrConnectWithoutOwnerInput[]
-  createMany?: Prisma.ProjectCreateManyOwnerInputEnvelope
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-}
-
-export type ProjectUncheckedCreateNestedManyWithoutOwnerInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOwnerInput, Prisma.ProjectUncheckedCreateWithoutOwnerInput> | Prisma.ProjectCreateWithoutOwnerInput[] | Prisma.ProjectUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOwnerInput | Prisma.ProjectCreateOrConnectWithoutOwnerInput[]
-  createMany?: Prisma.ProjectCreateManyOwnerInputEnvelope
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-}
-
-export type ProjectUpdateManyWithoutOwnerNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOwnerInput, Prisma.ProjectUncheckedCreateWithoutOwnerInput> | Prisma.ProjectCreateWithoutOwnerInput[] | Prisma.ProjectUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOwnerInput | Prisma.ProjectCreateOrConnectWithoutOwnerInput[]
-  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutOwnerInput | Prisma.ProjectUpsertWithWhereUniqueWithoutOwnerInput[]
-  createMany?: Prisma.ProjectCreateManyOwnerInputEnvelope
-  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutOwnerInput | Prisma.ProjectUpdateWithWhereUniqueWithoutOwnerInput[]
-  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutOwnerInput | Prisma.ProjectUpdateManyWithWhereWithoutOwnerInput[]
-  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-}
-
-export type ProjectUncheckedUpdateManyWithoutOwnerNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOwnerInput, Prisma.ProjectUncheckedCreateWithoutOwnerInput> | Prisma.ProjectCreateWithoutOwnerInput[] | Prisma.ProjectUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOwnerInput | Prisma.ProjectCreateOrConnectWithoutOwnerInput[]
-  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutOwnerInput | Prisma.ProjectUpsertWithWhereUniqueWithoutOwnerInput[]
-  createMany?: Prisma.ProjectCreateManyOwnerInputEnvelope
-  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutOwnerInput | Prisma.ProjectUpdateWithWhereUniqueWithoutOwnerInput[]
-  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutOwnerInput | Prisma.ProjectUpdateManyWithWhereWithoutOwnerInput[]
-  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
 export type EnumFundingStageFieldUpdateOperationsInput = {
@@ -667,168 +518,6 @@ export type ProjectUpdateOneRequiredWithoutAnalysisRunsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutAnalysisRunsInput, Prisma.ProjectUpdateWithoutAnalysisRunsInput>, Prisma.ProjectUncheckedUpdateWithoutAnalysisRunsInput>
 }
 
-export type ProjectCreateNestedOneWithoutOutcomesInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOutcomesInput, Prisma.ProjectUncheckedCreateWithoutOutcomesInput>
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOutcomesInput
-  connect?: Prisma.ProjectWhereUniqueInput
-}
-
-export type ProjectUpdateOneRequiredWithoutOutcomesNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutOutcomesInput, Prisma.ProjectUncheckedCreateWithoutOutcomesInput>
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutOutcomesInput
-  upsert?: Prisma.ProjectUpsertWithoutOutcomesInput
-  connect?: Prisma.ProjectWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutOutcomesInput, Prisma.ProjectUpdateWithoutOutcomesInput>, Prisma.ProjectUncheckedUpdateWithoutOutcomesInput>
-}
-
-export type ProjectCreateWithoutOrganizationInput = {
-  id?: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  owner: Prisma.UserCreateNestedOneWithoutProjectsInput
-  decks?: Prisma.DeckCreateNestedManyWithoutProjectInput
-  analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeCreateNestedManyWithoutProjectInput
-}
-
-export type ProjectUncheckedCreateWithoutOrganizationInput = {
-  id?: string
-  ownerId: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  decks?: Prisma.DeckUncheckedCreateNestedManyWithoutProjectInput
-  analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeUncheckedCreateNestedManyWithoutProjectInput
-}
-
-export type ProjectCreateOrConnectWithoutOrganizationInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutOrganizationInput, Prisma.ProjectUncheckedCreateWithoutOrganizationInput>
-}
-
-export type ProjectCreateManyOrganizationInputEnvelope = {
-  data: Prisma.ProjectCreateManyOrganizationInput | Prisma.ProjectCreateManyOrganizationInput[]
-  skipDuplicates?: boolean
-}
-
-export type ProjectUpsertWithWhereUniqueWithoutOrganizationInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  update: Prisma.XOR<Prisma.ProjectUpdateWithoutOrganizationInput, Prisma.ProjectUncheckedUpdateWithoutOrganizationInput>
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutOrganizationInput, Prisma.ProjectUncheckedCreateWithoutOrganizationInput>
-}
-
-export type ProjectUpdateWithWhereUniqueWithoutOrganizationInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  data: Prisma.XOR<Prisma.ProjectUpdateWithoutOrganizationInput, Prisma.ProjectUncheckedUpdateWithoutOrganizationInput>
-}
-
-export type ProjectUpdateManyWithWhereWithoutOrganizationInput = {
-  where: Prisma.ProjectScalarWhereInput
-  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutOrganizationInput>
-}
-
-export type ProjectScalarWhereInput = {
-  AND?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-  OR?: Prisma.ProjectScalarWhereInput[]
-  NOT?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-  id?: Prisma.StringFilter<"Project"> | string
-  organizationId?: Prisma.StringFilter<"Project"> | string
-  ownerId?: Prisma.StringFilter<"Project"> | string
-  companyName?: Prisma.StringFilter<"Project"> | string
-  websiteUrl?: Prisma.StringNullableFilter<"Project"> | string | null
-  oneLine?: Prisma.StringNullableFilter<"Project"> | string | null
-  stage?: Prisma.EnumFundingStageFilter<"Project"> | $Enums.FundingStage
-  sector?: Prisma.StringNullableFilter<"Project"> | string | null
-  businessModel?: Prisma.EnumBusinessModelFilter<"Project"> | $Enums.BusinessModel
-  targetRound?: Prisma.StringNullableFilter<"Project"> | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFilter<"Project"> | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.StringNullableFilter<"Project"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
-}
-
-export type ProjectCreateWithoutOwnerInput = {
-  id?: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
-  decks?: Prisma.DeckCreateNestedManyWithoutProjectInput
-  analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeCreateNestedManyWithoutProjectInput
-}
-
-export type ProjectUncheckedCreateWithoutOwnerInput = {
-  id?: string
-  organizationId: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  decks?: Prisma.DeckUncheckedCreateNestedManyWithoutProjectInput
-  analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeUncheckedCreateNestedManyWithoutProjectInput
-}
-
-export type ProjectCreateOrConnectWithoutOwnerInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutOwnerInput, Prisma.ProjectUncheckedCreateWithoutOwnerInput>
-}
-
-export type ProjectCreateManyOwnerInputEnvelope = {
-  data: Prisma.ProjectCreateManyOwnerInput | Prisma.ProjectCreateManyOwnerInput[]
-  skipDuplicates?: boolean
-}
-
-export type ProjectUpsertWithWhereUniqueWithoutOwnerInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  update: Prisma.XOR<Prisma.ProjectUpdateWithoutOwnerInput, Prisma.ProjectUncheckedUpdateWithoutOwnerInput>
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutOwnerInput, Prisma.ProjectUncheckedCreateWithoutOwnerInput>
-}
-
-export type ProjectUpdateWithWhereUniqueWithoutOwnerInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  data: Prisma.XOR<Prisma.ProjectUpdateWithoutOwnerInput, Prisma.ProjectUncheckedUpdateWithoutOwnerInput>
-}
-
-export type ProjectUpdateManyWithWhereWithoutOwnerInput = {
-  where: Prisma.ProjectScalarWhereInput
-  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutOwnerInput>
-}
-
 export type ProjectCreateWithoutDecksInput = {
   id?: string
   companyName: string
@@ -842,16 +531,11 @@ export type ProjectCreateWithoutDecksInput = {
   reviewerNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
-  owner: Prisma.UserCreateNestedOneWithoutProjectsInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutDecksInput = {
   id?: string
-  organizationId: string
-  ownerId: string
   companyName: string
   websiteUrl?: string | null
   oneLine?: string | null
@@ -864,7 +548,6 @@ export type ProjectUncheckedCreateWithoutDecksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutDecksInput = {
@@ -896,16 +579,11 @@ export type ProjectUpdateWithoutDecksInput = {
   reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutDecksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -918,7 +596,6 @@ export type ProjectUncheckedUpdateWithoutDecksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutAnalysisRunsInput = {
@@ -934,16 +611,11 @@ export type ProjectCreateWithoutAnalysisRunsInput = {
   reviewerNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
-  owner: Prisma.UserCreateNestedOneWithoutProjectsInput
   decks?: Prisma.DeckCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutAnalysisRunsInput = {
   id?: string
-  organizationId: string
-  ownerId: string
   companyName: string
   websiteUrl?: string | null
   oneLine?: string | null
@@ -956,7 +628,6 @@ export type ProjectUncheckedCreateWithoutAnalysisRunsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   decks?: Prisma.DeckUncheckedCreateNestedManyWithoutProjectInput
-  outcomes?: Prisma.OutcomeUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutAnalysisRunsInput = {
@@ -988,16 +659,11 @@ export type ProjectUpdateWithoutAnalysisRunsInput = {
   reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   decks?: Prisma.DeckUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutAnalysisRunsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1010,239 +676,6 @@ export type ProjectUncheckedUpdateWithoutAnalysisRunsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decks?: Prisma.DeckUncheckedUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUncheckedUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectCreateWithoutOutcomesInput = {
-  id?: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
-  owner: Prisma.UserCreateNestedOneWithoutProjectsInput
-  decks?: Prisma.DeckCreateNestedManyWithoutProjectInput
-  analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutProjectInput
-}
-
-export type ProjectUncheckedCreateWithoutOutcomesInput = {
-  id?: string
-  organizationId: string
-  ownerId: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  decks?: Prisma.DeckUncheckedCreateNestedManyWithoutProjectInput
-  analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutProjectInput
-}
-
-export type ProjectCreateOrConnectWithoutOutcomesInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutOutcomesInput, Prisma.ProjectUncheckedCreateWithoutOutcomesInput>
-}
-
-export type ProjectUpsertWithoutOutcomesInput = {
-  update: Prisma.XOR<Prisma.ProjectUpdateWithoutOutcomesInput, Prisma.ProjectUncheckedUpdateWithoutOutcomesInput>
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutOutcomesInput, Prisma.ProjectUncheckedCreateWithoutOutcomesInput>
-  where?: Prisma.ProjectWhereInput
-}
-
-export type ProjectUpdateToOneWithWhereWithoutOutcomesInput = {
-  where?: Prisma.ProjectWhereInput
-  data: Prisma.XOR<Prisma.ProjectUpdateWithoutOutcomesInput, Prisma.ProjectUncheckedUpdateWithoutOutcomesInput>
-}
-
-export type ProjectUpdateWithoutOutcomesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
-  decks?: Prisma.DeckUpdateManyWithoutProjectNestedInput
-  analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateWithoutOutcomesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decks?: Prisma.DeckUncheckedUpdateManyWithoutProjectNestedInput
-  analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectCreateManyOrganizationInput = {
-  id?: string
-  ownerId: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type ProjectUpdateWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  owner?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
-  decks?: Prisma.DeckUpdateManyWithoutProjectNestedInput
-  analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decks?: Prisma.DeckUncheckedUpdateManyWithoutProjectNestedInput
-  analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUncheckedUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateManyWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ProjectCreateManyOwnerInput = {
-  id?: string
-  organizationId: string
-  companyName: string
-  websiteUrl?: string | null
-  oneLine?: string | null
-  stage?: $Enums.FundingStage
-  sector?: string | null
-  businessModel?: $Enums.BusinessModel
-  targetRound?: string | null
-  targetArchetype?: $Enums.InvestorArchetype
-  reviewerNotes?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type ProjectUpdateWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
-  decks?: Prisma.DeckUpdateManyWithoutProjectNestedInput
-  analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decks?: Prisma.DeckUncheckedUpdateManyWithoutProjectNestedInput
-  analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutProjectNestedInput
-  outcomes?: Prisma.OutcomeUncheckedUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateManyWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyName?: Prisma.StringFieldUpdateOperationsInput | string
-  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  oneLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stage?: Prisma.EnumFundingStageFieldUpdateOperationsInput | $Enums.FundingStage
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  businessModel?: Prisma.EnumBusinessModelFieldUpdateOperationsInput | $Enums.BusinessModel
-  targetRound?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  targetArchetype?: Prisma.EnumInvestorArchetypeFieldUpdateOperationsInput | $Enums.InvestorArchetype
-  reviewerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1253,13 +686,11 @@ export type ProjectUncheckedUpdateManyWithoutOwnerInput = {
 export type ProjectCountOutputType = {
   decks: number
   analysisRuns: number
-  outcomes: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   decks?: boolean | ProjectCountOutputTypeCountDecksArgs
   analysisRuns?: boolean | ProjectCountOutputTypeCountAnalysisRunsArgs
-  outcomes?: boolean | ProjectCountOutputTypeCountOutcomesArgs
 }
 
 /**
@@ -1286,18 +717,9 @@ export type ProjectCountOutputTypeCountAnalysisRunsArgs<ExtArgs extends runtime.
   where?: Prisma.AnalysisRunWhereInput
 }
 
-/**
- * ProjectCountOutputType without action
- */
-export type ProjectCountOutputTypeCountOutcomesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OutcomeWhereInput
-}
-
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
-  ownerId?: boolean
   companyName?: boolean
   websiteUrl?: boolean
   oneLine?: boolean
@@ -1309,18 +731,13 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   reviewerNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   decks?: boolean | Prisma.Project$decksArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.Project$analysisRunsArgs<ExtArgs>
-  outcomes?: boolean | Prisma.Project$outcomesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
-  ownerId?: boolean
   companyName?: boolean
   websiteUrl?: boolean
   oneLine?: boolean
@@ -1332,14 +749,10 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   reviewerNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
-  ownerId?: boolean
   companyName?: boolean
   websiteUrl?: boolean
   oneLine?: boolean
@@ -1351,14 +764,10 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   reviewerNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
   id?: boolean
-  organizationId?: boolean
-  ownerId?: boolean
   companyName?: boolean
   websiteUrl?: boolean
   oneLine?: boolean
@@ -1372,37 +781,23 @@ export type ProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "ownerId" | "companyName" | "websiteUrl" | "oneLine" | "stage" | "sector" | "businessModel" | "targetRound" | "targetArchetype" | "reviewerNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "websiteUrl" | "oneLine" | "stage" | "sector" | "businessModel" | "targetRound" | "targetArchetype" | "reviewerNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   decks?: boolean | Prisma.Project$decksArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.Project$analysisRunsArgs<ExtArgs>
-  outcomes?: boolean | Prisma.Project$outcomesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
+export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Project"
   objects: {
-    organization: Prisma.$OrganizationPayload<ExtArgs>
-    owner: Prisma.$UserPayload<ExtArgs>
     decks: Prisma.$DeckPayload<ExtArgs>[]
     analysisRuns: Prisma.$AnalysisRunPayload<ExtArgs>[]
-    outcomes: Prisma.$OutcomePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    organizationId: string
-    ownerId: string
     companyName: string
     websiteUrl: string | null
     oneLine: string | null
@@ -1808,11 +1203,8 @@ readonly fields: ProjectFieldRefs;
  */
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   decks<T extends Prisma.Project$decksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$decksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   analysisRuns<T extends Prisma.Project$analysisRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$analysisRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  outcomes<T extends Prisma.Project$outcomesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$outcomesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1843,8 +1235,6 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ProjectFieldRefs {
   readonly id: Prisma.FieldRef<"Project", 'String'>
-  readonly organizationId: Prisma.FieldRef<"Project", 'String'>
-  readonly ownerId: Prisma.FieldRef<"Project", 'String'>
   readonly companyName: Prisma.FieldRef<"Project", 'String'>
   readonly websiteUrl: Prisma.FieldRef<"Project", 'String'>
   readonly oneLine: Prisma.FieldRef<"Project", 'String'>
@@ -2110,10 +1500,6 @@ export type ProjectCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    */
   data: Prisma.ProjectCreateManyInput | Prisma.ProjectCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2184,10 +1570,6 @@ export type ProjectUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many Projects to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2302,30 +1684,6 @@ export type Project$analysisRunsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.AnalysisRunScalarFieldEnum | Prisma.AnalysisRunScalarFieldEnum[]
-}
-
-/**
- * Project.outcomes
- */
-export type Project$outcomesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Outcome
-   */
-  select?: Prisma.OutcomeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Outcome
-   */
-  omit?: Prisma.OutcomeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OutcomeInclude<ExtArgs> | null
-  where?: Prisma.OutcomeWhereInput
-  orderBy?: Prisma.OutcomeOrderByWithRelationInput | Prisma.OutcomeOrderByWithRelationInput[]
-  cursor?: Prisma.OutcomeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.OutcomeScalarFieldEnum | Prisma.OutcomeScalarFieldEnum[]
 }
 
 /**

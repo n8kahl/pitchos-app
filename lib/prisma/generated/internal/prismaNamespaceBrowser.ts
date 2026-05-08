@@ -51,8 +51,6 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Organization: 'Organization',
-  User: 'User',
   PartnerRubric: 'PartnerRubric',
   PartnerProfile: 'PartnerProfile',
   Project: 'Project',
@@ -63,11 +61,7 @@ export const ModelName = {
   Recommendation: 'Recommendation',
   InvestorObjection: 'InvestorObjection',
   DiligenceItem: 'DiligenceItem',
-  AntiPatternDetection: 'AntiPatternDetection',
-  QaSession: 'QaSession',
-  QaMessage: 'QaMessage',
-  Outcome: 'Outcome',
-  PartnerJudgment: 'PartnerJudgment'
+  AntiPatternDetection: 'AntiPatternDetection'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,40 +80,17 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const OrganizationScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  kind: 'kind',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
-
-
-export const UserScalarFieldEnum = {
-  id: 'id',
-  organizationId: 'organizationId',
-  email: 'email',
-  name: 'name',
-  role: 'role',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
 export const PartnerRubricScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
   partnerName: 'partnerName',
   version: 'version',
   description: 'description',
   weights: 'weights',
   stageOverrides: 'stageOverrides',
   hardFailCriteria: 'hardFailCriteria',
-  antiPatterns: 'antiPatterns',
+  antiPatternsEmphasized: 'antiPatternsEmphasized',
+  antiPatternsDeEmphasized: 'antiPatternsDeEmphasized',
+  customAntiPatterns: 'customAntiPatterns',
   isDefault: 'isDefault',
   createdAt: 'createdAt'
 } as const
@@ -129,7 +100,6 @@ export type PartnerRubricScalarFieldEnum = (typeof PartnerRubricScalarFieldEnum)
 
 export const PartnerProfileScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
   partnerName: 'partnerName',
   version: 'version',
   voiceSamples: 'voiceSamples',
@@ -145,8 +115,6 @@ export type PartnerProfileScalarFieldEnum = (typeof PartnerProfileScalarFieldEnu
 
 export const ProjectScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
-  ownerId: 'ownerId',
   companyName: 'companyName',
   websiteUrl: 'websiteUrl',
   oneLine: 'oneLine',
@@ -166,7 +134,6 @@ export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeo
 export const DeckScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
-  organizationId: 'organizationId',
   fileName: 'fileName',
   fileType: 'fileType',
   fileSizeBytes: 'fileSizeBytes',
@@ -183,7 +150,6 @@ export type DeckScalarFieldEnum = (typeof DeckScalarFieldEnum)[keyof typeof Deck
 export const AnalysisRunScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
-  organizationId: 'organizationId',
   deckId: 'deckId',
   partnerRubricId: 'partnerRubricId',
   partnerProfileId: 'partnerProfileId',
@@ -316,59 +282,6 @@ export const AntiPatternDetectionScalarFieldEnum = {
 export type AntiPatternDetectionScalarFieldEnum = (typeof AntiPatternDetectionScalarFieldEnum)[keyof typeof AntiPatternDetectionScalarFieldEnum]
 
 
-export const QaSessionScalarFieldEnum = {
-  id: 'id',
-  analysisRunId: 'analysisRunId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type QaSessionScalarFieldEnum = (typeof QaSessionScalarFieldEnum)[keyof typeof QaSessionScalarFieldEnum]
-
-
-export const QaMessageScalarFieldEnum = {
-  id: 'id',
-  qaSessionId: 'qaSessionId',
-  role: 'role',
-  content: 'content',
-  score: 'score',
-  critique: 'critique',
-  improvedAnswer: 'improvedAnswer',
-  createdAt: 'createdAt'
-} as const
-
-export type QaMessageScalarFieldEnum = (typeof QaMessageScalarFieldEnum)[keyof typeof QaMessageScalarFieldEnum]
-
-
-export const OutcomeScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  organizationId: 'organizationId',
-  kind: 'kind',
-  occurredAt: 'occurredAt',
-  amount: 'amount',
-  investorName: 'investorName',
-  notes: 'notes',
-  selfReportedAt: 'selfReportedAt'
-} as const
-
-export type OutcomeScalarFieldEnum = (typeof OutcomeScalarFieldEnum)[keyof typeof OutcomeScalarFieldEnum]
-
-
-export const PartnerJudgmentScalarFieldEnum = {
-  id: 'id',
-  analysisRunId: 'analysisRunId',
-  organizationId: 'organizationId',
-  judgedByUserId: 'judgedByUserId',
-  label: 'label',
-  rationale: 'rationale',
-  agreedWithAi: 'agreedWithAi',
-  createdAt: 'createdAt'
-} as const
-
-export type PartnerJudgmentScalarFieldEnum = (typeof PartnerJudgmentScalarFieldEnum)[keyof typeof PartnerJudgmentScalarFieldEnum]
-
-
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -400,14 +313,6 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -415,4 +320,12 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

@@ -18,16 +18,6 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model Organization
- * 
- */
-export type Organization = Prisma.OrganizationModel
-/**
- * Model User
- * 
- */
-export type User = Prisma.UserModel
-/**
  * Model PartnerRubric
  * 
  */
@@ -82,23 +72,3 @@ export type DiligenceItem = Prisma.DiligenceItemModel
  * 
  */
 export type AntiPatternDetection = Prisma.AntiPatternDetectionModel
-/**
- * Model QaSession
- * 
- */
-export type QaSession = Prisma.QaSessionModel
-/**
- * Model QaMessage
- * 
- */
-export type QaMessage = Prisma.QaMessageModel
-/**
- * Model Outcome
- * 
- */
-export type Outcome = Prisma.OutcomeModel
-/**
- * Model PartnerJudgment
- * 
- */
-export type PartnerJudgment = Prisma.PartnerJudgmentModel

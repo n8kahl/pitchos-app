@@ -72,7 +72,6 @@ export const AnalysisStage = {
   WRITING_MEMO: 'WRITING_MEMO',
   BUILDING_ROADMAP: 'BUILDING_ROADMAP',
   FINALIZING_REPORT: 'FINALIZING_REPORT',
-  CAPTURING_LABELS: 'CAPTURING_LABELS',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED'
 } as const
@@ -118,34 +117,3 @@ export const EffortLevel = {
 } as const
 
 export type EffortLevel = (typeof EffortLevel)[keyof typeof EffortLevel]
-
-
-export const OrgKind = {
-  FOUNDER: 'FOUNDER',
-  FUND: 'FUND',
-  ACCELERATOR: 'ACCELERATOR'
-} as const
-
-export type OrgKind = (typeof OrgKind)[keyof typeof OrgKind]
-
-
-export const JudgmentLabel = {
-  YES: 'YES',
-  MAYBE: 'MAYBE',
-  NO_NOT_NOW: 'NO_NOT_NOW',
-  NO_NEVER: 'NO_NEVER'
-} as const
-
-export type JudgmentLabel = (typeof JudgmentLabel)[keyof typeof JudgmentLabel]
-
-
-export const OutcomeKind = {
-  DECK_SENT: 'DECK_SENT',
-  MEETING_TAKEN: 'MEETING_TAKEN',
-  PARTNER_MEETING: 'PARTNER_MEETING',
-  TERM_SHEET: 'TERM_SHEET',
-  PASSED: 'PASSED',
-  ROUND_CLOSED: 'ROUND_CLOSED'
-} as const
-
-export type OutcomeKind = (typeof OutcomeKind)[keyof typeof OutcomeKind]

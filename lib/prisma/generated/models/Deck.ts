@@ -39,7 +39,6 @@ export type DeckSumAggregateOutputType = {
 export type DeckMinAggregateOutputType = {
   id: string | null
   projectId: string | null
-  organizationId: string | null
   fileName: string | null
   fileType: string | null
   fileSizeBytes: number | null
@@ -53,7 +52,6 @@ export type DeckMinAggregateOutputType = {
 export type DeckMaxAggregateOutputType = {
   id: string | null
   projectId: string | null
-  organizationId: string | null
   fileName: string | null
   fileType: string | null
   fileSizeBytes: number | null
@@ -67,7 +65,6 @@ export type DeckMaxAggregateOutputType = {
 export type DeckCountAggregateOutputType = {
   id: number
   projectId: number
-  organizationId: number
   fileName: number
   fileType: number
   fileSizeBytes: number
@@ -93,7 +90,6 @@ export type DeckSumAggregateInputType = {
 export type DeckMinAggregateInputType = {
   id?: true
   projectId?: true
-  organizationId?: true
   fileName?: true
   fileType?: true
   fileSizeBytes?: true
@@ -107,7 +103,6 @@ export type DeckMinAggregateInputType = {
 export type DeckMaxAggregateInputType = {
   id?: true
   projectId?: true
-  organizationId?: true
   fileName?: true
   fileType?: true
   fileSizeBytes?: true
@@ -121,7 +116,6 @@ export type DeckMaxAggregateInputType = {
 export type DeckCountAggregateInputType = {
   id?: true
   projectId?: true
-  organizationId?: true
   fileName?: true
   fileType?: true
   fileSizeBytes?: true
@@ -222,7 +216,6 @@ export type DeckGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type DeckGroupByOutputType = {
   id: string
   projectId: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -259,7 +252,6 @@ export type DeckWhereInput = {
   NOT?: Prisma.DeckWhereInput | Prisma.DeckWhereInput[]
   id?: Prisma.StringFilter<"Deck"> | string
   projectId?: Prisma.StringFilter<"Deck"> | string
-  organizationId?: Prisma.StringFilter<"Deck"> | string
   fileName?: Prisma.StringFilter<"Deck"> | string
   fileType?: Prisma.StringFilter<"Deck"> | string
   fileSizeBytes?: Prisma.IntFilter<"Deck"> | number
@@ -275,7 +267,6 @@ export type DeckWhereInput = {
 export type DeckOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSizeBytes?: Prisma.SortOrder
@@ -294,7 +285,6 @@ export type DeckWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DeckWhereInput[]
   NOT?: Prisma.DeckWhereInput | Prisma.DeckWhereInput[]
   projectId?: Prisma.StringFilter<"Deck"> | string
-  organizationId?: Prisma.StringFilter<"Deck"> | string
   fileName?: Prisma.StringFilter<"Deck"> | string
   fileType?: Prisma.StringFilter<"Deck"> | string
   fileSizeBytes?: Prisma.IntFilter<"Deck"> | number
@@ -310,7 +300,6 @@ export type DeckWhereUniqueInput = Prisma.AtLeast<{
 export type DeckOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSizeBytes?: Prisma.SortOrder
@@ -332,7 +321,6 @@ export type DeckScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DeckScalarWhereWithAggregatesInput | Prisma.DeckScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Deck"> | string
   projectId?: Prisma.StringWithAggregatesFilter<"Deck"> | string
-  organizationId?: Prisma.StringWithAggregatesFilter<"Deck"> | string
   fileName?: Prisma.StringWithAggregatesFilter<"Deck"> | string
   fileType?: Prisma.StringWithAggregatesFilter<"Deck"> | string
   fileSizeBytes?: Prisma.IntWithAggregatesFilter<"Deck"> | number
@@ -345,7 +333,6 @@ export type DeckScalarWhereWithAggregatesInput = {
 
 export type DeckCreateInput = {
   id?: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -361,7 +348,6 @@ export type DeckCreateInput = {
 export type DeckUncheckedCreateInput = {
   id?: string
   projectId: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -375,7 +361,6 @@ export type DeckUncheckedCreateInput = {
 
 export type DeckUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -391,7 +376,6 @@ export type DeckUpdateInput = {
 export type DeckUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -406,7 +390,6 @@ export type DeckUncheckedUpdateInput = {
 export type DeckCreateManyInput = {
   id?: string
   projectId: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -419,7 +402,6 @@ export type DeckCreateManyInput = {
 
 export type DeckUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -433,7 +415,6 @@ export type DeckUpdateManyMutationInput = {
 export type DeckUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -457,7 +438,6 @@ export type DeckOrderByRelationAggregateInput = {
 export type DeckCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSizeBytes?: Prisma.SortOrder
@@ -476,7 +456,6 @@ export type DeckAvgOrderByAggregateInput = {
 export type DeckMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSizeBytes?: Prisma.SortOrder
@@ -490,7 +469,6 @@ export type DeckMaxOrderByAggregateInput = {
 export type DeckMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSizeBytes?: Prisma.SortOrder
@@ -589,7 +567,6 @@ export type DeckUpdateOneRequiredWithoutAnalysisRunsNestedInput = {
 
 export type DeckCreateWithoutProjectInput = {
   id?: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -603,7 +580,6 @@ export type DeckCreateWithoutProjectInput = {
 
 export type DeckUncheckedCreateWithoutProjectInput = {
   id?: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -647,7 +623,6 @@ export type DeckScalarWhereInput = {
   NOT?: Prisma.DeckScalarWhereInput | Prisma.DeckScalarWhereInput[]
   id?: Prisma.StringFilter<"Deck"> | string
   projectId?: Prisma.StringFilter<"Deck"> | string
-  organizationId?: Prisma.StringFilter<"Deck"> | string
   fileName?: Prisma.StringFilter<"Deck"> | string
   fileType?: Prisma.StringFilter<"Deck"> | string
   fileSizeBytes?: Prisma.IntFilter<"Deck"> | number
@@ -660,7 +635,6 @@ export type DeckScalarWhereInput = {
 
 export type DeckCreateWithoutAnalysisRunsInput = {
   id?: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -675,7 +649,6 @@ export type DeckCreateWithoutAnalysisRunsInput = {
 export type DeckUncheckedCreateWithoutAnalysisRunsInput = {
   id?: string
   projectId: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -704,7 +677,6 @@ export type DeckUpdateToOneWithWhereWithoutAnalysisRunsInput = {
 
 export type DeckUpdateWithoutAnalysisRunsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -719,7 +691,6 @@ export type DeckUpdateWithoutAnalysisRunsInput = {
 export type DeckUncheckedUpdateWithoutAnalysisRunsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -732,7 +703,6 @@ export type DeckUncheckedUpdateWithoutAnalysisRunsInput = {
 
 export type DeckCreateManyProjectInput = {
   id?: string
-  organizationId: string
   fileName: string
   fileType: string
   fileSizeBytes: number
@@ -745,7 +715,6 @@ export type DeckCreateManyProjectInput = {
 
 export type DeckUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -759,7 +728,6 @@ export type DeckUpdateWithoutProjectInput = {
 
 export type DeckUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -773,7 +741,6 @@ export type DeckUncheckedUpdateWithoutProjectInput = {
 
 export type DeckUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSizeBytes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -818,7 +785,6 @@ export type DeckCountOutputTypeCountAnalysisRunsArgs<ExtArgs extends runtime.Typ
 export type DeckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   fileName?: boolean
   fileType?: boolean
   fileSizeBytes?: boolean
@@ -835,7 +801,6 @@ export type DeckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type DeckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   fileName?: boolean
   fileType?: boolean
   fileSizeBytes?: boolean
@@ -850,7 +815,6 @@ export type DeckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type DeckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   fileName?: boolean
   fileType?: boolean
   fileSizeBytes?: boolean
@@ -865,7 +829,6 @@ export type DeckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type DeckSelectScalar = {
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   fileName?: boolean
   fileType?: boolean
   fileSizeBytes?: boolean
@@ -876,7 +839,7 @@ export type DeckSelectScalar = {
   deletedAt?: boolean
 }
 
-export type DeckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "organizationId" | "fileName" | "fileType" | "fileSizeBytes" | "storageKey" | "checksum" | "pageCount" | "uploadedAt" | "deletedAt", ExtArgs["result"]["deck"]>
+export type DeckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "fileName" | "fileType" | "fileSizeBytes" | "storageKey" | "checksum" | "pageCount" | "uploadedAt" | "deletedAt", ExtArgs["result"]["deck"]>
 export type DeckInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.Deck$analysisRunsArgs<ExtArgs>
@@ -898,7 +861,6 @@ export type $DeckPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     projectId: string
-    organizationId: string
     fileName: string
     fileType: string
     fileSizeBytes: number
@@ -1334,7 +1296,6 @@ export interface Prisma__DeckClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface DeckFieldRefs {
   readonly id: Prisma.FieldRef<"Deck", 'String'>
   readonly projectId: Prisma.FieldRef<"Deck", 'String'>
-  readonly organizationId: Prisma.FieldRef<"Deck", 'String'>
   readonly fileName: Prisma.FieldRef<"Deck", 'String'>
   readonly fileType: Prisma.FieldRef<"Deck", 'String'>
   readonly fileSizeBytes: Prisma.FieldRef<"Deck", 'Int'>

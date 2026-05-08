@@ -26,7 +26,6 @@ export type AggregatePartnerProfile = {
 
 export type PartnerProfileMinAggregateOutputType = {
   id: string | null
-  organizationId: string | null
   partnerName: string | null
   version: string | null
   createdAt: Date | null
@@ -34,7 +33,6 @@ export type PartnerProfileMinAggregateOutputType = {
 
 export type PartnerProfileMaxAggregateOutputType = {
   id: string | null
-  organizationId: string | null
   partnerName: string | null
   version: string | null
   createdAt: Date | null
@@ -42,7 +40,6 @@ export type PartnerProfileMaxAggregateOutputType = {
 
 export type PartnerProfileCountAggregateOutputType = {
   id: number
-  organizationId: number
   partnerName: number
   version: number
   voiceSamples: number
@@ -57,7 +54,6 @@ export type PartnerProfileCountAggregateOutputType = {
 
 export type PartnerProfileMinAggregateInputType = {
   id?: true
-  organizationId?: true
   partnerName?: true
   version?: true
   createdAt?: true
@@ -65,7 +61,6 @@ export type PartnerProfileMinAggregateInputType = {
 
 export type PartnerProfileMaxAggregateInputType = {
   id?: true
-  organizationId?: true
   partnerName?: true
   version?: true
   createdAt?: true
@@ -73,7 +68,6 @@ export type PartnerProfileMaxAggregateInputType = {
 
 export type PartnerProfileCountAggregateInputType = {
   id?: true
-  organizationId?: true
   partnerName?: true
   version?: true
   voiceSamples?: true
@@ -159,7 +153,6 @@ export type PartnerProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type PartnerProfileGroupByOutputType = {
   id: string
-  organizationId: string | null
   partnerName: string
   version: string
   voiceSamples: string[]
@@ -193,7 +186,6 @@ export type PartnerProfileWhereInput = {
   OR?: Prisma.PartnerProfileWhereInput[]
   NOT?: Prisma.PartnerProfileWhereInput | Prisma.PartnerProfileWhereInput[]
   id?: Prisma.StringFilter<"PartnerProfile"> | string
-  organizationId?: Prisma.StringNullableFilter<"PartnerProfile"> | string | null
   partnerName?: Prisma.StringFilter<"PartnerProfile"> | string
   version?: Prisma.StringFilter<"PartnerProfile"> | string
   voiceSamples?: Prisma.StringNullableListFilter<"PartnerProfile">
@@ -202,13 +194,11 @@ export type PartnerProfileWhereInput = {
   signatureOpens?: Prisma.StringNullableListFilter<"PartnerProfile">
   signatureCloses?: Prisma.StringNullableListFilter<"PartnerProfile">
   createdAt?: Prisma.DateTimeFilter<"PartnerProfile"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
 }
 
 export type PartnerProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrderInput | Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   voiceSamples?: Prisma.SortOrder
@@ -217,7 +207,6 @@ export type PartnerProfileOrderByWithRelationInput = {
   signatureOpens?: Prisma.SortOrder
   signatureCloses?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  organization?: Prisma.OrganizationOrderByWithRelationInput
   analysisRuns?: Prisma.AnalysisRunOrderByRelationAggregateInput
 }
 
@@ -227,7 +216,6 @@ export type PartnerProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PartnerProfileWhereInput | Prisma.PartnerProfileWhereInput[]
   OR?: Prisma.PartnerProfileWhereInput[]
   NOT?: Prisma.PartnerProfileWhereInput | Prisma.PartnerProfileWhereInput[]
-  organizationId?: Prisma.StringNullableFilter<"PartnerProfile"> | string | null
   partnerName?: Prisma.StringFilter<"PartnerProfile"> | string
   version?: Prisma.StringFilter<"PartnerProfile"> | string
   voiceSamples?: Prisma.StringNullableListFilter<"PartnerProfile">
@@ -236,13 +224,11 @@ export type PartnerProfileWhereUniqueInput = Prisma.AtLeast<{
   signatureOpens?: Prisma.StringNullableListFilter<"PartnerProfile">
   signatureCloses?: Prisma.StringNullableListFilter<"PartnerProfile">
   createdAt?: Prisma.DateTimeFilter<"PartnerProfile"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
 }, "id" | "partnerName_version">
 
 export type PartnerProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrderInput | Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   voiceSamples?: Prisma.SortOrder
@@ -261,7 +247,6 @@ export type PartnerProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.PartnerProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PartnerProfileScalarWhereWithAggregatesInput | Prisma.PartnerProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PartnerProfile"> | string
-  organizationId?: Prisma.StringNullableWithAggregatesFilter<"PartnerProfile"> | string | null
   partnerName?: Prisma.StringWithAggregatesFilter<"PartnerProfile"> | string
   version?: Prisma.StringWithAggregatesFilter<"PartnerProfile"> | string
   voiceSamples?: Prisma.StringNullableListFilter<"PartnerProfile">
@@ -282,13 +267,11 @@ export type PartnerProfileCreateInput = {
   signatureOpens?: Prisma.PartnerProfileCreatesignatureOpensInput | string[]
   signatureCloses?: Prisma.PartnerProfileCreatesignatureClosesInput | string[]
   createdAt?: Date | string
-  organization?: Prisma.OrganizationCreateNestedOneWithoutPartnerProfilesInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutPartnerProfileInput
 }
 
 export type PartnerProfileUncheckedCreateInput = {
   id?: string
-  organizationId?: string | null
   partnerName: string
   version: string
   voiceSamples?: Prisma.PartnerProfileCreatevoiceSamplesInput | string[]
@@ -310,13 +293,11 @@ export type PartnerProfileUpdateInput = {
   signatureOpens?: Prisma.PartnerProfileUpdatesignatureOpensInput | string[]
   signatureCloses?: Prisma.PartnerProfileUpdatesignatureClosesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneWithoutPartnerProfilesNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutPartnerProfileNestedInput
 }
 
 export type PartnerProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   partnerName?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.StringFieldUpdateOperationsInput | string
   voiceSamples?: Prisma.PartnerProfileUpdatevoiceSamplesInput | string[]
@@ -330,7 +311,6 @@ export type PartnerProfileUncheckedUpdateInput = {
 
 export type PartnerProfileCreateManyInput = {
   id?: string
-  organizationId?: string | null
   partnerName: string
   version: string
   voiceSamples?: Prisma.PartnerProfileCreatevoiceSamplesInput | string[]
@@ -355,7 +335,6 @@ export type PartnerProfileUpdateManyMutationInput = {
 
 export type PartnerProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   partnerName?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.StringFieldUpdateOperationsInput | string
   voiceSamples?: Prisma.PartnerProfileUpdatevoiceSamplesInput | string[]
@@ -366,14 +345,12 @@ export type PartnerProfileUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PartnerProfileListRelationFilter = {
-  every?: Prisma.PartnerProfileWhereInput
-  some?: Prisma.PartnerProfileWhereInput
-  none?: Prisma.PartnerProfileWhereInput
-}
-
-export type PartnerProfileOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type PartnerProfilePartnerNameVersionCompoundUniqueInput = {
@@ -383,7 +360,6 @@ export type PartnerProfilePartnerNameVersionCompoundUniqueInput = {
 
 export type PartnerProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   voiceSamples?: Prisma.SortOrder
@@ -396,7 +372,6 @@ export type PartnerProfileCountOrderByAggregateInput = {
 
 export type PartnerProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -404,7 +379,6 @@ export type PartnerProfileMaxOrderByAggregateInput = {
 
 export type PartnerProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -413,48 +387,6 @@ export type PartnerProfileMinOrderByAggregateInput = {
 export type PartnerProfileScalarRelationFilter = {
   is?: Prisma.PartnerProfileWhereInput
   isNot?: Prisma.PartnerProfileWhereInput
-}
-
-export type PartnerProfileCreateNestedManyWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.PartnerProfileCreateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerProfileCreateWithoutOrganizationInput[] | Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput | Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerProfileCreateManyOrganizationInputEnvelope
-  connect?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-}
-
-export type PartnerProfileUncheckedCreateNestedManyWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.PartnerProfileCreateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerProfileCreateWithoutOrganizationInput[] | Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput | Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerProfileCreateManyOrganizationInputEnvelope
-  connect?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-}
-
-export type PartnerProfileUpdateManyWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.PartnerProfileCreateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerProfileCreateWithoutOrganizationInput[] | Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput | Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput[]
-  upsert?: Prisma.PartnerProfileUpsertWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerProfileUpsertWithWhereUniqueWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerProfileCreateManyOrganizationInputEnvelope
-  set?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  disconnect?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  delete?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  connect?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  update?: Prisma.PartnerProfileUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerProfileUpdateWithWhereUniqueWithoutOrganizationInput[]
-  updateMany?: Prisma.PartnerProfileUpdateManyWithWhereWithoutOrganizationInput | Prisma.PartnerProfileUpdateManyWithWhereWithoutOrganizationInput[]
-  deleteMany?: Prisma.PartnerProfileScalarWhereInput | Prisma.PartnerProfileScalarWhereInput[]
-}
-
-export type PartnerProfileUncheckedUpdateManyWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.PartnerProfileCreateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerProfileCreateWithoutOrganizationInput[] | Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput | Prisma.PartnerProfileCreateOrConnectWithoutOrganizationInput[]
-  upsert?: Prisma.PartnerProfileUpsertWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerProfileUpsertWithWhereUniqueWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerProfileCreateManyOrganizationInputEnvelope
-  set?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  disconnect?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  delete?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  connect?: Prisma.PartnerProfileWhereUniqueInput | Prisma.PartnerProfileWhereUniqueInput[]
-  update?: Prisma.PartnerProfileUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerProfileUpdateWithWhereUniqueWithoutOrganizationInput[]
-  updateMany?: Prisma.PartnerProfileUpdateManyWithWhereWithoutOrganizationInput | Prisma.PartnerProfileUpdateManyWithWhereWithoutOrganizationInput[]
-  deleteMany?: Prisma.PartnerProfileScalarWhereInput | Prisma.PartnerProfileScalarWhereInput[]
 }
 
 export type PartnerProfileCreatevoiceSamplesInput = {
@@ -516,74 +448,6 @@ export type PartnerProfileUpdateOneRequiredWithoutAnalysisRunsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PartnerProfileUpdateToOneWithWhereWithoutAnalysisRunsInput, Prisma.PartnerProfileUpdateWithoutAnalysisRunsInput>, Prisma.PartnerProfileUncheckedUpdateWithoutAnalysisRunsInput>
 }
 
-export type PartnerProfileCreateWithoutOrganizationInput = {
-  id?: string
-  partnerName: string
-  version: string
-  voiceSamples?: Prisma.PartnerProfileCreatevoiceSamplesInput | string[]
-  tonalMarkers?: Prisma.PartnerProfileCreatetonalMarkersInput | string[]
-  bannedPhrases?: Prisma.PartnerProfileCreatebannedPhrasesInput | string[]
-  signatureOpens?: Prisma.PartnerProfileCreatesignatureOpensInput | string[]
-  signatureCloses?: Prisma.PartnerProfileCreatesignatureClosesInput | string[]
-  createdAt?: Date | string
-  analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutPartnerProfileInput
-}
-
-export type PartnerProfileUncheckedCreateWithoutOrganizationInput = {
-  id?: string
-  partnerName: string
-  version: string
-  voiceSamples?: Prisma.PartnerProfileCreatevoiceSamplesInput | string[]
-  tonalMarkers?: Prisma.PartnerProfileCreatetonalMarkersInput | string[]
-  bannedPhrases?: Prisma.PartnerProfileCreatebannedPhrasesInput | string[]
-  signatureOpens?: Prisma.PartnerProfileCreatesignatureOpensInput | string[]
-  signatureCloses?: Prisma.PartnerProfileCreatesignatureClosesInput | string[]
-  createdAt?: Date | string
-  analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutPartnerProfileInput
-}
-
-export type PartnerProfileCreateOrConnectWithoutOrganizationInput = {
-  where: Prisma.PartnerProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.PartnerProfileCreateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput>
-}
-
-export type PartnerProfileCreateManyOrganizationInputEnvelope = {
-  data: Prisma.PartnerProfileCreateManyOrganizationInput | Prisma.PartnerProfileCreateManyOrganizationInput[]
-  skipDuplicates?: boolean
-}
-
-export type PartnerProfileUpsertWithWhereUniqueWithoutOrganizationInput = {
-  where: Prisma.PartnerProfileWhereUniqueInput
-  update: Prisma.XOR<Prisma.PartnerProfileUpdateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedUpdateWithoutOrganizationInput>
-  create: Prisma.XOR<Prisma.PartnerProfileCreateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedCreateWithoutOrganizationInput>
-}
-
-export type PartnerProfileUpdateWithWhereUniqueWithoutOrganizationInput = {
-  where: Prisma.PartnerProfileWhereUniqueInput
-  data: Prisma.XOR<Prisma.PartnerProfileUpdateWithoutOrganizationInput, Prisma.PartnerProfileUncheckedUpdateWithoutOrganizationInput>
-}
-
-export type PartnerProfileUpdateManyWithWhereWithoutOrganizationInput = {
-  where: Prisma.PartnerProfileScalarWhereInput
-  data: Prisma.XOR<Prisma.PartnerProfileUpdateManyMutationInput, Prisma.PartnerProfileUncheckedUpdateManyWithoutOrganizationInput>
-}
-
-export type PartnerProfileScalarWhereInput = {
-  AND?: Prisma.PartnerProfileScalarWhereInput | Prisma.PartnerProfileScalarWhereInput[]
-  OR?: Prisma.PartnerProfileScalarWhereInput[]
-  NOT?: Prisma.PartnerProfileScalarWhereInput | Prisma.PartnerProfileScalarWhereInput[]
-  id?: Prisma.StringFilter<"PartnerProfile"> | string
-  organizationId?: Prisma.StringNullableFilter<"PartnerProfile"> | string | null
-  partnerName?: Prisma.StringFilter<"PartnerProfile"> | string
-  version?: Prisma.StringFilter<"PartnerProfile"> | string
-  voiceSamples?: Prisma.StringNullableListFilter<"PartnerProfile">
-  tonalMarkers?: Prisma.StringNullableListFilter<"PartnerProfile">
-  bannedPhrases?: Prisma.StringNullableListFilter<"PartnerProfile">
-  signatureOpens?: Prisma.StringNullableListFilter<"PartnerProfile">
-  signatureCloses?: Prisma.StringNullableListFilter<"PartnerProfile">
-  createdAt?: Prisma.DateTimeFilter<"PartnerProfile"> | Date | string
-}
-
 export type PartnerProfileCreateWithoutAnalysisRunsInput = {
   id?: string
   partnerName: string
@@ -594,12 +458,10 @@ export type PartnerProfileCreateWithoutAnalysisRunsInput = {
   signatureOpens?: Prisma.PartnerProfileCreatesignatureOpensInput | string[]
   signatureCloses?: Prisma.PartnerProfileCreatesignatureClosesInput | string[]
   createdAt?: Date | string
-  organization?: Prisma.OrganizationCreateNestedOneWithoutPartnerProfilesInput
 }
 
 export type PartnerProfileUncheckedCreateWithoutAnalysisRunsInput = {
   id?: string
-  organizationId?: string | null
   partnerName: string
   version: string
   voiceSamples?: Prisma.PartnerProfileCreatevoiceSamplesInput | string[]
@@ -636,61 +498,9 @@ export type PartnerProfileUpdateWithoutAnalysisRunsInput = {
   signatureOpens?: Prisma.PartnerProfileUpdatesignatureOpensInput | string[]
   signatureCloses?: Prisma.PartnerProfileUpdatesignatureClosesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneWithoutPartnerProfilesNestedInput
 }
 
 export type PartnerProfileUncheckedUpdateWithoutAnalysisRunsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  partnerName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.StringFieldUpdateOperationsInput | string
-  voiceSamples?: Prisma.PartnerProfileUpdatevoiceSamplesInput | string[]
-  tonalMarkers?: Prisma.PartnerProfileUpdatetonalMarkersInput | string[]
-  bannedPhrases?: Prisma.PartnerProfileUpdatebannedPhrasesInput | string[]
-  signatureOpens?: Prisma.PartnerProfileUpdatesignatureOpensInput | string[]
-  signatureCloses?: Prisma.PartnerProfileUpdatesignatureClosesInput | string[]
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PartnerProfileCreateManyOrganizationInput = {
-  id?: string
-  partnerName: string
-  version: string
-  voiceSamples?: Prisma.PartnerProfileCreatevoiceSamplesInput | string[]
-  tonalMarkers?: Prisma.PartnerProfileCreatetonalMarkersInput | string[]
-  bannedPhrases?: Prisma.PartnerProfileCreatebannedPhrasesInput | string[]
-  signatureOpens?: Prisma.PartnerProfileCreatesignatureOpensInput | string[]
-  signatureCloses?: Prisma.PartnerProfileCreatesignatureClosesInput | string[]
-  createdAt?: Date | string
-}
-
-export type PartnerProfileUpdateWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.StringFieldUpdateOperationsInput | string
-  voiceSamples?: Prisma.PartnerProfileUpdatevoiceSamplesInput | string[]
-  tonalMarkers?: Prisma.PartnerProfileUpdatetonalMarkersInput | string[]
-  bannedPhrases?: Prisma.PartnerProfileUpdatebannedPhrasesInput | string[]
-  signatureOpens?: Prisma.PartnerProfileUpdatesignatureOpensInput | string[]
-  signatureCloses?: Prisma.PartnerProfileUpdatesignatureClosesInput | string[]
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutPartnerProfileNestedInput
-}
-
-export type PartnerProfileUncheckedUpdateWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.StringFieldUpdateOperationsInput | string
-  voiceSamples?: Prisma.PartnerProfileUpdatevoiceSamplesInput | string[]
-  tonalMarkers?: Prisma.PartnerProfileUpdatetonalMarkersInput | string[]
-  bannedPhrases?: Prisma.PartnerProfileUpdatebannedPhrasesInput | string[]
-  signatureOpens?: Prisma.PartnerProfileUpdatesignatureOpensInput | string[]
-  signatureCloses?: Prisma.PartnerProfileUpdatesignatureClosesInput | string[]
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutPartnerProfileNestedInput
-}
-
-export type PartnerProfileUncheckedUpdateManyWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   partnerName?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.StringFieldUpdateOperationsInput | string
@@ -735,7 +545,6 @@ export type PartnerProfileCountOutputTypeCountAnalysisRunsArgs<ExtArgs extends r
 
 export type PartnerProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   voiceSamples?: boolean
@@ -744,14 +553,12 @@ export type PartnerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   signatureOpens?: boolean
   signatureCloses?: boolean
   createdAt?: boolean
-  organization?: boolean | Prisma.PartnerProfile$organizationArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.PartnerProfile$analysisRunsArgs<ExtArgs>
   _count?: boolean | Prisma.PartnerProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["partnerProfile"]>
 
 export type PartnerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   voiceSamples?: boolean
@@ -760,12 +567,10 @@ export type PartnerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   signatureOpens?: boolean
   signatureCloses?: boolean
   createdAt?: boolean
-  organization?: boolean | Prisma.PartnerProfile$organizationArgs<ExtArgs>
 }, ExtArgs["result"]["partnerProfile"]>
 
 export type PartnerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   voiceSamples?: boolean
@@ -774,12 +579,10 @@ export type PartnerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   signatureOpens?: boolean
   signatureCloses?: boolean
   createdAt?: boolean
-  organization?: boolean | Prisma.PartnerProfile$organizationArgs<ExtArgs>
 }, ExtArgs["result"]["partnerProfile"]>
 
 export type PartnerProfileSelectScalar = {
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   voiceSamples?: boolean
@@ -790,28 +593,21 @@ export type PartnerProfileSelectScalar = {
   createdAt?: boolean
 }
 
-export type PartnerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "partnerName" | "version" | "voiceSamples" | "tonalMarkers" | "bannedPhrases" | "signatureOpens" | "signatureCloses" | "createdAt", ExtArgs["result"]["partnerProfile"]>
+export type PartnerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "partnerName" | "version" | "voiceSamples" | "tonalMarkers" | "bannedPhrases" | "signatureOpens" | "signatureCloses" | "createdAt", ExtArgs["result"]["partnerProfile"]>
 export type PartnerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.PartnerProfile$organizationArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.PartnerProfile$analysisRunsArgs<ExtArgs>
   _count?: boolean | Prisma.PartnerProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type PartnerProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.PartnerProfile$organizationArgs<ExtArgs>
-}
-export type PartnerProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.PartnerProfile$organizationArgs<ExtArgs>
-}
+export type PartnerProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PartnerProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $PartnerProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PartnerProfile"
   objects: {
-    organization: Prisma.$OrganizationPayload<ExtArgs> | null
     analysisRuns: Prisma.$AnalysisRunPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    organizationId: string | null
     partnerName: string
     version: string
     voiceSamples: string[]
@@ -1214,7 +1010,6 @@ readonly fields: PartnerProfileFieldRefs;
  */
 export interface Prisma__PartnerProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  organization<T extends Prisma.PartnerProfile$organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PartnerProfile$organizationArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   analysisRuns<T extends Prisma.PartnerProfile$analysisRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PartnerProfile$analysisRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1246,7 +1041,6 @@ export interface Prisma__PartnerProfileClient<T, Null = never, ExtArgs extends r
  */
 export interface PartnerProfileFieldRefs {
   readonly id: Prisma.FieldRef<"PartnerProfile", 'String'>
-  readonly organizationId: Prisma.FieldRef<"PartnerProfile", 'String'>
   readonly partnerName: Prisma.FieldRef<"PartnerProfile", 'String'>
   readonly version: Prisma.FieldRef<"PartnerProfile", 'String'>
   readonly voiceSamples: Prisma.FieldRef<"PartnerProfile", 'String[]'>
@@ -1509,10 +1303,6 @@ export type PartnerProfileCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.PartnerProfileCreateManyInput | Prisma.PartnerProfileCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PartnerProfileIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1583,10 +1373,6 @@ export type PartnerProfileUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many PartnerProfiles to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PartnerProfileIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1653,25 +1439,6 @@ export type PartnerProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many PartnerProfiles to delete.
    */
   limit?: number
-}
-
-/**
- * PartnerProfile.organization
- */
-export type PartnerProfile$organizationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Organization
-   */
-  select?: Prisma.OrganizationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Organization
-   */
-  omit?: Prisma.OrganizationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrganizationInclude<ExtArgs> | null
-  where?: Prisma.OrganizationWhereInput
 }
 
 /**

@@ -37,7 +37,6 @@ export type AnalysisRunSumAggregateOutputType = {
 export type AnalysisRunMinAggregateOutputType = {
   id: string | null
   projectId: string | null
-  organizationId: string | null
   deckId: string | null
   partnerRubricId: string | null
   partnerProfileId: string | null
@@ -59,7 +58,6 @@ export type AnalysisRunMinAggregateOutputType = {
 export type AnalysisRunMaxAggregateOutputType = {
   id: string | null
   projectId: string | null
-  organizationId: string | null
   deckId: string | null
   partnerRubricId: string | null
   partnerProfileId: string | null
@@ -81,7 +79,6 @@ export type AnalysisRunMaxAggregateOutputType = {
 export type AnalysisRunCountAggregateOutputType = {
   id: number
   projectId: number
-  organizationId: number
   deckId: number
   partnerRubricId: number
   partnerProfileId: number
@@ -116,7 +113,6 @@ export type AnalysisRunSumAggregateInputType = {
 export type AnalysisRunMinAggregateInputType = {
   id?: true
   projectId?: true
-  organizationId?: true
   deckId?: true
   partnerRubricId?: true
   partnerProfileId?: true
@@ -138,7 +134,6 @@ export type AnalysisRunMinAggregateInputType = {
 export type AnalysisRunMaxAggregateInputType = {
   id?: true
   projectId?: true
-  organizationId?: true
   deckId?: true
   partnerRubricId?: true
   partnerProfileId?: true
@@ -160,7 +155,6 @@ export type AnalysisRunMaxAggregateInputType = {
 export type AnalysisRunCountAggregateInputType = {
   id?: true
   projectId?: true
-  organizationId?: true
   deckId?: true
   partnerRubricId?: true
   partnerProfileId?: true
@@ -272,7 +266,6 @@ export type AnalysisRunGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type AnalysisRunGroupByOutputType = {
   id: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -320,7 +313,6 @@ export type AnalysisRunWhereInput = {
   NOT?: Prisma.AnalysisRunWhereInput | Prisma.AnalysisRunWhereInput[]
   id?: Prisma.StringFilter<"AnalysisRun"> | string
   projectId?: Prisma.StringFilter<"AnalysisRun"> | string
-  organizationId?: Prisma.StringFilter<"AnalysisRun"> | string
   deckId?: Prisma.StringFilter<"AnalysisRun"> | string
   partnerRubricId?: Prisma.StringFilter<"AnalysisRun"> | string
   partnerProfileId?: Prisma.StringFilter<"AnalysisRun"> | string
@@ -349,15 +341,12 @@ export type AnalysisRunWhereInput = {
   recommendations?: Prisma.RecommendationListRelationFilter
   objections?: Prisma.InvestorObjectionListRelationFilter
   diligence?: Prisma.DiligenceItemListRelationFilter
-  qaSessions?: Prisma.QaSessionListRelationFilter
-  judgments?: Prisma.PartnerJudgmentListRelationFilter
   antiPatternDetections?: Prisma.AntiPatternDetectionListRelationFilter
 }
 
 export type AnalysisRunOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   deckId?: Prisma.SortOrder
   partnerRubricId?: Prisma.SortOrder
   partnerProfileId?: Prisma.SortOrder
@@ -386,8 +375,6 @@ export type AnalysisRunOrderByWithRelationInput = {
   recommendations?: Prisma.RecommendationOrderByRelationAggregateInput
   objections?: Prisma.InvestorObjectionOrderByRelationAggregateInput
   diligence?: Prisma.DiligenceItemOrderByRelationAggregateInput
-  qaSessions?: Prisma.QaSessionOrderByRelationAggregateInput
-  judgments?: Prisma.PartnerJudgmentOrderByRelationAggregateInput
   antiPatternDetections?: Prisma.AntiPatternDetectionOrderByRelationAggregateInput
 }
 
@@ -397,7 +384,6 @@ export type AnalysisRunWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AnalysisRunWhereInput[]
   NOT?: Prisma.AnalysisRunWhereInput | Prisma.AnalysisRunWhereInput[]
   projectId?: Prisma.StringFilter<"AnalysisRun"> | string
-  organizationId?: Prisma.StringFilter<"AnalysisRun"> | string
   deckId?: Prisma.StringFilter<"AnalysisRun"> | string
   partnerRubricId?: Prisma.StringFilter<"AnalysisRun"> | string
   partnerProfileId?: Prisma.StringFilter<"AnalysisRun"> | string
@@ -426,15 +412,12 @@ export type AnalysisRunWhereUniqueInput = Prisma.AtLeast<{
   recommendations?: Prisma.RecommendationListRelationFilter
   objections?: Prisma.InvestorObjectionListRelationFilter
   diligence?: Prisma.DiligenceItemListRelationFilter
-  qaSessions?: Prisma.QaSessionListRelationFilter
-  judgments?: Prisma.PartnerJudgmentListRelationFilter
   antiPatternDetections?: Prisma.AntiPatternDetectionListRelationFilter
 }, "id">
 
 export type AnalysisRunOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   deckId?: Prisma.SortOrder
   partnerRubricId?: Prisma.SortOrder
   partnerProfileId?: Prisma.SortOrder
@@ -467,7 +450,6 @@ export type AnalysisRunScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AnalysisRunScalarWhereWithAggregatesInput | Prisma.AnalysisRunScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
   projectId?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
-  organizationId?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
   deckId?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
   partnerRubricId?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
   partnerProfileId?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
@@ -491,7 +473,6 @@ export type AnalysisRunScalarWhereWithAggregatesInput = {
 
 export type AnalysisRunCreateInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -517,15 +498,12 @@ export type AnalysisRunCreateInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -550,14 +528,11 @@ export type AnalysisRunUncheckedCreateInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -583,15 +558,12 @@ export type AnalysisRunUpdateInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -616,15 +588,12 @@ export type AnalysisRunUncheckedUpdateInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateManyInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -648,7 +617,6 @@ export type AnalysisRunCreateManyInput = {
 
 export type AnalysisRunUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -670,7 +638,6 @@ export type AnalysisRunUpdateManyMutationInput = {
 export type AnalysisRunUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -705,7 +672,6 @@ export type AnalysisRunOrderByRelationAggregateInput = {
 export type AnalysisRunCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   deckId?: Prisma.SortOrder
   partnerRubricId?: Prisma.SortOrder
   partnerProfileId?: Prisma.SortOrder
@@ -734,7 +700,6 @@ export type AnalysisRunAvgOrderByAggregateInput = {
 export type AnalysisRunMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   deckId?: Prisma.SortOrder
   partnerRubricId?: Prisma.SortOrder
   partnerProfileId?: Prisma.SortOrder
@@ -756,7 +721,6 @@ export type AnalysisRunMaxOrderByAggregateInput = {
 export type AnalysisRunMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   deckId?: Prisma.SortOrder
   partnerRubricId?: Prisma.SortOrder
   partnerProfileId?: Prisma.SortOrder
@@ -1044,37 +1008,8 @@ export type AnalysisRunUpdateOneRequiredWithoutAntiPatternDetectionsNestedInput 
   update?: Prisma.XOR<Prisma.XOR<Prisma.AnalysisRunUpdateToOneWithWhereWithoutAntiPatternDetectionsInput, Prisma.AnalysisRunUpdateWithoutAntiPatternDetectionsInput>, Prisma.AnalysisRunUncheckedUpdateWithoutAntiPatternDetectionsInput>
 }
 
-export type AnalysisRunCreateNestedOneWithoutQaSessionsInput = {
-  create?: Prisma.XOR<Prisma.AnalysisRunCreateWithoutQaSessionsInput, Prisma.AnalysisRunUncheckedCreateWithoutQaSessionsInput>
-  connectOrCreate?: Prisma.AnalysisRunCreateOrConnectWithoutQaSessionsInput
-  connect?: Prisma.AnalysisRunWhereUniqueInput
-}
-
-export type AnalysisRunUpdateOneRequiredWithoutQaSessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.AnalysisRunCreateWithoutQaSessionsInput, Prisma.AnalysisRunUncheckedCreateWithoutQaSessionsInput>
-  connectOrCreate?: Prisma.AnalysisRunCreateOrConnectWithoutQaSessionsInput
-  upsert?: Prisma.AnalysisRunUpsertWithoutQaSessionsInput
-  connect?: Prisma.AnalysisRunWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AnalysisRunUpdateToOneWithWhereWithoutQaSessionsInput, Prisma.AnalysisRunUpdateWithoutQaSessionsInput>, Prisma.AnalysisRunUncheckedUpdateWithoutQaSessionsInput>
-}
-
-export type AnalysisRunCreateNestedOneWithoutJudgmentsInput = {
-  create?: Prisma.XOR<Prisma.AnalysisRunCreateWithoutJudgmentsInput, Prisma.AnalysisRunUncheckedCreateWithoutJudgmentsInput>
-  connectOrCreate?: Prisma.AnalysisRunCreateOrConnectWithoutJudgmentsInput
-  connect?: Prisma.AnalysisRunWhereUniqueInput
-}
-
-export type AnalysisRunUpdateOneRequiredWithoutJudgmentsNestedInput = {
-  create?: Prisma.XOR<Prisma.AnalysisRunCreateWithoutJudgmentsInput, Prisma.AnalysisRunUncheckedCreateWithoutJudgmentsInput>
-  connectOrCreate?: Prisma.AnalysisRunCreateOrConnectWithoutJudgmentsInput
-  upsert?: Prisma.AnalysisRunUpsertWithoutJudgmentsInput
-  connect?: Prisma.AnalysisRunWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AnalysisRunUpdateToOneWithWhereWithoutJudgmentsInput, Prisma.AnalysisRunUpdateWithoutJudgmentsInput>, Prisma.AnalysisRunUncheckedUpdateWithoutJudgmentsInput>
-}
-
 export type AnalysisRunCreateWithoutPartnerRubricInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1099,15 +1034,12 @@ export type AnalysisRunCreateWithoutPartnerRubricInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutPartnerRubricInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerProfileId: string
   rubricVersion: string
@@ -1131,8 +1063,6 @@ export type AnalysisRunUncheckedCreateWithoutPartnerRubricInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1168,7 +1098,6 @@ export type AnalysisRunScalarWhereInput = {
   NOT?: Prisma.AnalysisRunScalarWhereInput | Prisma.AnalysisRunScalarWhereInput[]
   id?: Prisma.StringFilter<"AnalysisRun"> | string
   projectId?: Prisma.StringFilter<"AnalysisRun"> | string
-  organizationId?: Prisma.StringFilter<"AnalysisRun"> | string
   deckId?: Prisma.StringFilter<"AnalysisRun"> | string
   partnerRubricId?: Prisma.StringFilter<"AnalysisRun"> | string
   partnerProfileId?: Prisma.StringFilter<"AnalysisRun"> | string
@@ -1192,7 +1121,6 @@ export type AnalysisRunScalarWhereInput = {
 
 export type AnalysisRunCreateWithoutPartnerProfileInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1217,15 +1145,12 @@ export type AnalysisRunCreateWithoutPartnerProfileInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutPartnerProfileInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   rubricVersion: string
@@ -1249,8 +1174,6 @@ export type AnalysisRunUncheckedCreateWithoutPartnerProfileInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1282,7 +1205,6 @@ export type AnalysisRunUpdateManyWithWhereWithoutPartnerProfileInput = {
 
 export type AnalysisRunCreateWithoutProjectInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1307,14 +1229,11 @@ export type AnalysisRunCreateWithoutProjectInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutProjectInput = {
   id?: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -1339,8 +1258,6 @@ export type AnalysisRunUncheckedCreateWithoutProjectInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1372,7 +1289,6 @@ export type AnalysisRunUpdateManyWithWhereWithoutProjectInput = {
 
 export type AnalysisRunCreateWithoutDeckInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1397,15 +1313,12 @@ export type AnalysisRunCreateWithoutDeckInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutDeckInput = {
   id?: string
   projectId: string
-  organizationId: string
   partnerRubricId: string
   partnerProfileId: string
   rubricVersion: string
@@ -1429,8 +1342,6 @@ export type AnalysisRunUncheckedCreateWithoutDeckInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1462,7 +1373,6 @@ export type AnalysisRunUpdateManyWithWhereWithoutDeckInput = {
 
 export type AnalysisRunCreateWithoutReportInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1487,15 +1397,12 @@ export type AnalysisRunCreateWithoutReportInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutReportInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -1519,8 +1426,6 @@ export type AnalysisRunUncheckedCreateWithoutReportInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1542,7 +1447,6 @@ export type AnalysisRunUpdateToOneWithWhereWithoutReportInput = {
 
 export type AnalysisRunUpdateWithoutReportInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -1567,15 +1471,12 @@ export type AnalysisRunUpdateWithoutReportInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutReportInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1599,14 +1500,11 @@ export type AnalysisRunUncheckedUpdateWithoutReportInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateWithoutSlideReviewsInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1631,15 +1529,12 @@ export type AnalysisRunCreateWithoutSlideReviewsInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutSlideReviewsInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -1663,8 +1558,6 @@ export type AnalysisRunUncheckedCreateWithoutSlideReviewsInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1686,7 +1579,6 @@ export type AnalysisRunUpdateToOneWithWhereWithoutSlideReviewsInput = {
 
 export type AnalysisRunUpdateWithoutSlideReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -1711,15 +1603,12 @@ export type AnalysisRunUpdateWithoutSlideReviewsInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutSlideReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1743,14 +1632,11 @@ export type AnalysisRunUncheckedUpdateWithoutSlideReviewsInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateWithoutRecommendationsInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1775,15 +1661,12 @@ export type AnalysisRunCreateWithoutRecommendationsInput = {
   slideReviews?: Prisma.SlideReviewCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutRecommendationsInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -1807,8 +1690,6 @@ export type AnalysisRunUncheckedCreateWithoutRecommendationsInput = {
   slideReviews?: Prisma.SlideReviewUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1830,7 +1711,6 @@ export type AnalysisRunUpdateToOneWithWhereWithoutRecommendationsInput = {
 
 export type AnalysisRunUpdateWithoutRecommendationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -1855,15 +1735,12 @@ export type AnalysisRunUpdateWithoutRecommendationsInput = {
   slideReviews?: Prisma.SlideReviewUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutRecommendationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1887,14 +1764,11 @@ export type AnalysisRunUncheckedUpdateWithoutRecommendationsInput = {
   slideReviews?: Prisma.SlideReviewUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateWithoutObjectionsInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -1919,15 +1793,12 @@ export type AnalysisRunCreateWithoutObjectionsInput = {
   slideReviews?: Prisma.SlideReviewCreateNestedManyWithoutAnalysisRunInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutObjectionsInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -1951,8 +1822,6 @@ export type AnalysisRunUncheckedCreateWithoutObjectionsInput = {
   slideReviews?: Prisma.SlideReviewUncheckedCreateNestedManyWithoutAnalysisRunInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -1974,7 +1843,6 @@ export type AnalysisRunUpdateToOneWithWhereWithoutObjectionsInput = {
 
 export type AnalysisRunUpdateWithoutObjectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -1999,15 +1867,12 @@ export type AnalysisRunUpdateWithoutObjectionsInput = {
   slideReviews?: Prisma.SlideReviewUpdateManyWithoutAnalysisRunNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutObjectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2031,14 +1896,11 @@ export type AnalysisRunUncheckedUpdateWithoutObjectionsInput = {
   slideReviews?: Prisma.SlideReviewUncheckedUpdateManyWithoutAnalysisRunNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateWithoutDiligenceInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -2063,15 +1925,12 @@ export type AnalysisRunCreateWithoutDiligenceInput = {
   slideReviews?: Prisma.SlideReviewCreateNestedManyWithoutAnalysisRunInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutDiligenceInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -2095,8 +1954,6 @@ export type AnalysisRunUncheckedCreateWithoutDiligenceInput = {
   slideReviews?: Prisma.SlideReviewUncheckedCreateNestedManyWithoutAnalysisRunInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -2118,7 +1975,6 @@ export type AnalysisRunUpdateToOneWithWhereWithoutDiligenceInput = {
 
 export type AnalysisRunUpdateWithoutDiligenceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -2143,15 +1999,12 @@ export type AnalysisRunUpdateWithoutDiligenceInput = {
   slideReviews?: Prisma.SlideReviewUpdateManyWithoutAnalysisRunNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutDiligenceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2175,14 +2028,11 @@ export type AnalysisRunUncheckedUpdateWithoutDiligenceInput = {
   slideReviews?: Prisma.SlideReviewUncheckedUpdateManyWithoutAnalysisRunNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateWithoutAntiPatternDetectionsInput = {
   id?: string
-  organizationId: string
   rubricVersion: string
   partnerProfileVersion: string
   status?: $Enums.AnalysisStatus
@@ -2208,14 +2058,11 @@ export type AnalysisRunCreateWithoutAntiPatternDetectionsInput = {
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutAntiPatternDetectionsInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -2240,8 +2087,6 @@ export type AnalysisRunUncheckedCreateWithoutAntiPatternDetectionsInput = {
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
   objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
   diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunCreateOrConnectWithoutAntiPatternDetectionsInput = {
@@ -2262,7 +2107,6 @@ export type AnalysisRunUpdateToOneWithWhereWithoutAntiPatternDetectionsInput = {
 
 export type AnalysisRunUpdateWithoutAntiPatternDetectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -2288,14 +2132,11 @@ export type AnalysisRunUpdateWithoutAntiPatternDetectionsInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutAntiPatternDetectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2320,302 +2161,11 @@ export type AnalysisRunUncheckedUpdateWithoutAntiPatternDetectionsInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
-}
-
-export type AnalysisRunCreateWithoutQaSessionsInput = {
-  id?: string
-  organizationId: string
-  rubricVersion: string
-  partnerProfileVersion: string
-  status?: $Enums.AnalysisStatus
-  stage?: $Enums.AnalysisStage
-  progress?: number
-  errorMessage?: string | null
-  modelProvider?: string | null
-  modelName?: string | null
-  promptVersion?: string
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  project: Prisma.ProjectCreateNestedOneWithoutAnalysisRunsInput
-  deck: Prisma.DeckCreateNestedOneWithoutAnalysisRunsInput
-  partnerRubric: Prisma.PartnerRubricCreateNestedOneWithoutAnalysisRunsInput
-  partnerProfile: Prisma.PartnerProfileCreateNestedOneWithoutAnalysisRunsInput
-  report?: Prisma.ReportCreateNestedOneWithoutAnalysisRunInput
-  slideReviews?: Prisma.SlideReviewCreateNestedManyWithoutAnalysisRunInput
-  recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
-  objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
-  diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentCreateNestedManyWithoutAnalysisRunInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
-}
-
-export type AnalysisRunUncheckedCreateWithoutQaSessionsInput = {
-  id?: string
-  projectId: string
-  organizationId: string
-  deckId: string
-  partnerRubricId: string
-  partnerProfileId: string
-  rubricVersion: string
-  partnerProfileVersion: string
-  status?: $Enums.AnalysisStatus
-  stage?: $Enums.AnalysisStage
-  progress?: number
-  errorMessage?: string | null
-  modelProvider?: string | null
-  modelName?: string | null
-  promptVersion?: string
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  report?: Prisma.ReportUncheckedCreateNestedOneWithoutAnalysisRunInput
-  slideReviews?: Prisma.SlideReviewUncheckedCreateNestedManyWithoutAnalysisRunInput
-  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
-  objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  judgments?: Prisma.PartnerJudgmentUncheckedCreateNestedManyWithoutAnalysisRunInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
-}
-
-export type AnalysisRunCreateOrConnectWithoutQaSessionsInput = {
-  where: Prisma.AnalysisRunWhereUniqueInput
-  create: Prisma.XOR<Prisma.AnalysisRunCreateWithoutQaSessionsInput, Prisma.AnalysisRunUncheckedCreateWithoutQaSessionsInput>
-}
-
-export type AnalysisRunUpsertWithoutQaSessionsInput = {
-  update: Prisma.XOR<Prisma.AnalysisRunUpdateWithoutQaSessionsInput, Prisma.AnalysisRunUncheckedUpdateWithoutQaSessionsInput>
-  create: Prisma.XOR<Prisma.AnalysisRunCreateWithoutQaSessionsInput, Prisma.AnalysisRunUncheckedCreateWithoutQaSessionsInput>
-  where?: Prisma.AnalysisRunWhereInput
-}
-
-export type AnalysisRunUpdateToOneWithWhereWithoutQaSessionsInput = {
-  where?: Prisma.AnalysisRunWhereInput
-  data: Prisma.XOR<Prisma.AnalysisRunUpdateWithoutQaSessionsInput, Prisma.AnalysisRunUncheckedUpdateWithoutQaSessionsInput>
-}
-
-export type AnalysisRunUpdateWithoutQaSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
-  stage?: Prisma.EnumAnalysisStageFieldUpdateOperationsInput | $Enums.AnalysisStage
-  progress?: Prisma.IntFieldUpdateOperationsInput | number
-  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promptVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  project?: Prisma.ProjectUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  deck?: Prisma.DeckUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  partnerRubric?: Prisma.PartnerRubricUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  partnerProfile?: Prisma.PartnerProfileUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  report?: Prisma.ReportUpdateOneWithoutAnalysisRunNestedInput
-  slideReviews?: Prisma.SlideReviewUpdateManyWithoutAnalysisRunNestedInput
-  recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
-  objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
-  diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
-}
-
-export type AnalysisRunUncheckedUpdateWithoutQaSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  deckId?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
-  stage?: Prisma.EnumAnalysisStageFieldUpdateOperationsInput | $Enums.AnalysisStage
-  progress?: Prisma.IntFieldUpdateOperationsInput | number
-  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promptVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  report?: Prisma.ReportUncheckedUpdateOneWithoutAnalysisRunNestedInput
-  slideReviews?: Prisma.SlideReviewUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-}
-
-export type AnalysisRunCreateWithoutJudgmentsInput = {
-  id?: string
-  organizationId: string
-  rubricVersion: string
-  partnerProfileVersion: string
-  status?: $Enums.AnalysisStatus
-  stage?: $Enums.AnalysisStage
-  progress?: number
-  errorMessage?: string | null
-  modelProvider?: string | null
-  modelName?: string | null
-  promptVersion?: string
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  project: Prisma.ProjectCreateNestedOneWithoutAnalysisRunsInput
-  deck: Prisma.DeckCreateNestedOneWithoutAnalysisRunsInput
-  partnerRubric: Prisma.PartnerRubricCreateNestedOneWithoutAnalysisRunsInput
-  partnerProfile: Prisma.PartnerProfileCreateNestedOneWithoutAnalysisRunsInput
-  report?: Prisma.ReportCreateNestedOneWithoutAnalysisRunInput
-  slideReviews?: Prisma.SlideReviewCreateNestedManyWithoutAnalysisRunInput
-  recommendations?: Prisma.RecommendationCreateNestedManyWithoutAnalysisRunInput
-  objections?: Prisma.InvestorObjectionCreateNestedManyWithoutAnalysisRunInput
-  diligence?: Prisma.DiligenceItemCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionCreateNestedManyWithoutAnalysisRunInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionCreateNestedManyWithoutAnalysisRunInput
-}
-
-export type AnalysisRunUncheckedCreateWithoutJudgmentsInput = {
-  id?: string
-  projectId: string
-  organizationId: string
-  deckId: string
-  partnerRubricId: string
-  partnerProfileId: string
-  rubricVersion: string
-  partnerProfileVersion: string
-  status?: $Enums.AnalysisStatus
-  stage?: $Enums.AnalysisStage
-  progress?: number
-  errorMessage?: string | null
-  modelProvider?: string | null
-  modelName?: string | null
-  promptVersion?: string
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  report?: Prisma.ReportUncheckedCreateNestedOneWithoutAnalysisRunInput
-  slideReviews?: Prisma.SlideReviewUncheckedCreateNestedManyWithoutAnalysisRunInput
-  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutAnalysisRunInput
-  objections?: Prisma.InvestorObjectionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  diligence?: Prisma.DiligenceItemUncheckedCreateNestedManyWithoutAnalysisRunInput
-  qaSessions?: Prisma.QaSessionUncheckedCreateNestedManyWithoutAnalysisRunInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedCreateNestedManyWithoutAnalysisRunInput
-}
-
-export type AnalysisRunCreateOrConnectWithoutJudgmentsInput = {
-  where: Prisma.AnalysisRunWhereUniqueInput
-  create: Prisma.XOR<Prisma.AnalysisRunCreateWithoutJudgmentsInput, Prisma.AnalysisRunUncheckedCreateWithoutJudgmentsInput>
-}
-
-export type AnalysisRunUpsertWithoutJudgmentsInput = {
-  update: Prisma.XOR<Prisma.AnalysisRunUpdateWithoutJudgmentsInput, Prisma.AnalysisRunUncheckedUpdateWithoutJudgmentsInput>
-  create: Prisma.XOR<Prisma.AnalysisRunCreateWithoutJudgmentsInput, Prisma.AnalysisRunUncheckedCreateWithoutJudgmentsInput>
-  where?: Prisma.AnalysisRunWhereInput
-}
-
-export type AnalysisRunUpdateToOneWithWhereWithoutJudgmentsInput = {
-  where?: Prisma.AnalysisRunWhereInput
-  data: Prisma.XOR<Prisma.AnalysisRunUpdateWithoutJudgmentsInput, Prisma.AnalysisRunUncheckedUpdateWithoutJudgmentsInput>
-}
-
-export type AnalysisRunUpdateWithoutJudgmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
-  stage?: Prisma.EnumAnalysisStageFieldUpdateOperationsInput | $Enums.AnalysisStage
-  progress?: Prisma.IntFieldUpdateOperationsInput | number
-  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promptVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  project?: Prisma.ProjectUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  deck?: Prisma.DeckUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  partnerRubric?: Prisma.PartnerRubricUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  partnerProfile?: Prisma.PartnerProfileUpdateOneRequiredWithoutAnalysisRunsNestedInput
-  report?: Prisma.ReportUpdateOneWithoutAnalysisRunNestedInput
-  slideReviews?: Prisma.SlideReviewUpdateManyWithoutAnalysisRunNestedInput
-  recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
-  objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
-  diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
-}
-
-export type AnalysisRunUncheckedUpdateWithoutJudgmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  deckId?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
-  stage?: Prisma.EnumAnalysisStageFieldUpdateOperationsInput | $Enums.AnalysisStage
-  progress?: Prisma.IntFieldUpdateOperationsInput | number
-  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promptVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  extractionJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resultJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  providerMetaJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  report?: Prisma.ReportUncheckedUpdateOneWithoutAnalysisRunNestedInput
-  slideReviews?: Prisma.SlideReviewUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateManyPartnerRubricInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerProfileId: string
   rubricVersion: string
@@ -2638,7 +2188,6 @@ export type AnalysisRunCreateManyPartnerRubricInput = {
 
 export type AnalysisRunUpdateWithoutPartnerRubricInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -2663,15 +2212,12 @@ export type AnalysisRunUpdateWithoutPartnerRubricInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutPartnerRubricInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2695,15 +2241,12 @@ export type AnalysisRunUncheckedUpdateWithoutPartnerRubricInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateManyWithoutPartnerRubricInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2727,7 +2270,6 @@ export type AnalysisRunUncheckedUpdateManyWithoutPartnerRubricInput = {
 export type AnalysisRunCreateManyPartnerProfileInput = {
   id?: string
   projectId: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   rubricVersion: string
@@ -2750,7 +2292,6 @@ export type AnalysisRunCreateManyPartnerProfileInput = {
 
 export type AnalysisRunUpdateWithoutPartnerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -2775,15 +2316,12 @@ export type AnalysisRunUpdateWithoutPartnerProfileInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutPartnerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2807,15 +2345,12 @@ export type AnalysisRunUncheckedUpdateWithoutPartnerProfileInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateManyWithoutPartnerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2838,7 +2373,6 @@ export type AnalysisRunUncheckedUpdateManyWithoutPartnerProfileInput = {
 
 export type AnalysisRunCreateManyProjectInput = {
   id?: string
-  organizationId: string
   deckId: string
   partnerRubricId: string
   partnerProfileId: string
@@ -2862,7 +2396,6 @@ export type AnalysisRunCreateManyProjectInput = {
 
 export type AnalysisRunUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -2887,14 +2420,11 @@ export type AnalysisRunUpdateWithoutProjectInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2919,14 +2449,11 @@ export type AnalysisRunUncheckedUpdateWithoutProjectInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   deckId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2951,7 +2478,6 @@ export type AnalysisRunUncheckedUpdateManyWithoutProjectInput = {
 export type AnalysisRunCreateManyDeckInput = {
   id?: string
   projectId: string
-  organizationId: string
   partnerRubricId: string
   partnerProfileId: string
   rubricVersion: string
@@ -2974,7 +2500,6 @@ export type AnalysisRunCreateManyDeckInput = {
 
 export type AnalysisRunUpdateWithoutDeckInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
@@ -2999,15 +2524,12 @@ export type AnalysisRunUpdateWithoutDeckInput = {
   recommendations?: Prisma.RecommendationUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutDeckInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3031,15 +2553,12 @@ export type AnalysisRunUncheckedUpdateWithoutDeckInput = {
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutAnalysisRunNestedInput
   objections?: Prisma.InvestorObjectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
   diligence?: Prisma.DiligenceItemUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  qaSessions?: Prisma.QaSessionUncheckedUpdateManyWithoutAnalysisRunNestedInput
-  judgments?: Prisma.PartnerJudgmentUncheckedUpdateManyWithoutAnalysisRunNestedInput
   antiPatternDetections?: Prisma.AntiPatternDetectionUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateManyWithoutDeckInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerRubricId?: Prisma.StringFieldUpdateOperationsInput | string
   partnerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   rubricVersion?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3070,8 +2589,6 @@ export type AnalysisRunCountOutputType = {
   recommendations: number
   objections: number
   diligence: number
-  qaSessions: number
-  judgments: number
   antiPatternDetections: number
 }
 
@@ -3080,8 +2597,6 @@ export type AnalysisRunCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   recommendations?: boolean | AnalysisRunCountOutputTypeCountRecommendationsArgs
   objections?: boolean | AnalysisRunCountOutputTypeCountObjectionsArgs
   diligence?: boolean | AnalysisRunCountOutputTypeCountDiligenceArgs
-  qaSessions?: boolean | AnalysisRunCountOutputTypeCountQaSessionsArgs
-  judgments?: boolean | AnalysisRunCountOutputTypeCountJudgmentsArgs
   antiPatternDetections?: boolean | AnalysisRunCountOutputTypeCountAntiPatternDetectionsArgs
 }
 
@@ -3126,20 +2641,6 @@ export type AnalysisRunCountOutputTypeCountDiligenceArgs<ExtArgs extends runtime
 /**
  * AnalysisRunCountOutputType without action
  */
-export type AnalysisRunCountOutputTypeCountQaSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QaSessionWhereInput
-}
-
-/**
- * AnalysisRunCountOutputType without action
- */
-export type AnalysisRunCountOutputTypeCountJudgmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PartnerJudgmentWhereInput
-}
-
-/**
- * AnalysisRunCountOutputType without action
- */
 export type AnalysisRunCountOutputTypeCountAntiPatternDetectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AntiPatternDetectionWhereInput
 }
@@ -3148,7 +2649,6 @@ export type AnalysisRunCountOutputTypeCountAntiPatternDetectionsArgs<ExtArgs ext
 export type AnalysisRunSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   deckId?: boolean
   partnerRubricId?: boolean
   partnerProfileId?: boolean
@@ -3177,8 +2677,6 @@ export type AnalysisRunSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   recommendations?: boolean | Prisma.AnalysisRun$recommendationsArgs<ExtArgs>
   objections?: boolean | Prisma.AnalysisRun$objectionsArgs<ExtArgs>
   diligence?: boolean | Prisma.AnalysisRun$diligenceArgs<ExtArgs>
-  qaSessions?: boolean | Prisma.AnalysisRun$qaSessionsArgs<ExtArgs>
-  judgments?: boolean | Prisma.AnalysisRun$judgmentsArgs<ExtArgs>
   antiPatternDetections?: boolean | Prisma.AnalysisRun$antiPatternDetectionsArgs<ExtArgs>
   _count?: boolean | Prisma.AnalysisRunCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["analysisRun"]>
@@ -3186,7 +2684,6 @@ export type AnalysisRunSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type AnalysisRunSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   deckId?: boolean
   partnerRubricId?: boolean
   partnerProfileId?: boolean
@@ -3215,7 +2712,6 @@ export type AnalysisRunSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type AnalysisRunSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   deckId?: boolean
   partnerRubricId?: boolean
   partnerProfileId?: boolean
@@ -3244,7 +2740,6 @@ export type AnalysisRunSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type AnalysisRunSelectScalar = {
   id?: boolean
   projectId?: boolean
-  organizationId?: boolean
   deckId?: boolean
   partnerRubricId?: boolean
   partnerProfileId?: boolean
@@ -3266,7 +2761,7 @@ export type AnalysisRunSelectScalar = {
   providerMetaJson?: boolean
 }
 
-export type AnalysisRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "organizationId" | "deckId" | "partnerRubricId" | "partnerProfileId" | "rubricVersion" | "partnerProfileVersion" | "status" | "stage" | "progress" | "errorMessage" | "modelProvider" | "modelName" | "promptVersion" | "startedAt" | "completedAt" | "createdAt" | "updatedAt" | "extractionJson" | "resultJson" | "providerMetaJson", ExtArgs["result"]["analysisRun"]>
+export type AnalysisRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "deckId" | "partnerRubricId" | "partnerProfileId" | "rubricVersion" | "partnerProfileVersion" | "status" | "stage" | "progress" | "errorMessage" | "modelProvider" | "modelName" | "promptVersion" | "startedAt" | "completedAt" | "createdAt" | "updatedAt" | "extractionJson" | "resultJson" | "providerMetaJson", ExtArgs["result"]["analysisRun"]>
 export type AnalysisRunInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   deck?: boolean | Prisma.DeckDefaultArgs<ExtArgs>
@@ -3277,8 +2772,6 @@ export type AnalysisRunInclude<ExtArgs extends runtime.Types.Extensions.Internal
   recommendations?: boolean | Prisma.AnalysisRun$recommendationsArgs<ExtArgs>
   objections?: boolean | Prisma.AnalysisRun$objectionsArgs<ExtArgs>
   diligence?: boolean | Prisma.AnalysisRun$diligenceArgs<ExtArgs>
-  qaSessions?: boolean | Prisma.AnalysisRun$qaSessionsArgs<ExtArgs>
-  judgments?: boolean | Prisma.AnalysisRun$judgmentsArgs<ExtArgs>
   antiPatternDetections?: boolean | Prisma.AnalysisRun$antiPatternDetectionsArgs<ExtArgs>
   _count?: boolean | Prisma.AnalysisRunCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -3307,14 +2800,11 @@ export type $AnalysisRunPayload<ExtArgs extends runtime.Types.Extensions.Interna
     recommendations: Prisma.$RecommendationPayload<ExtArgs>[]
     objections: Prisma.$InvestorObjectionPayload<ExtArgs>[]
     diligence: Prisma.$DiligenceItemPayload<ExtArgs>[]
-    qaSessions: Prisma.$QaSessionPayload<ExtArgs>[]
-    judgments: Prisma.$PartnerJudgmentPayload<ExtArgs>[]
     antiPatternDetections: Prisma.$AntiPatternDetectionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     projectId: string
-    organizationId: string
     deckId: string
     partnerRubricId: string
     partnerProfileId: string
@@ -3737,8 +3227,6 @@ export interface Prisma__AnalysisRunClient<T, Null = never, ExtArgs extends runt
   recommendations<T extends Prisma.AnalysisRun$recommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$recommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   objections<T extends Prisma.AnalysisRun$objectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$objectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestorObjectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   diligence<T extends Prisma.AnalysisRun$diligenceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$diligenceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DiligenceItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  qaSessions<T extends Prisma.AnalysisRun$qaSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$qaSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QaSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  judgments<T extends Prisma.AnalysisRun$judgmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$judgmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerJudgmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   antiPatternDetections<T extends Prisma.AnalysisRun$antiPatternDetectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$antiPatternDetectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AntiPatternDetectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3771,7 +3259,6 @@ export interface Prisma__AnalysisRunClient<T, Null = never, ExtArgs extends runt
 export interface AnalysisRunFieldRefs {
   readonly id: Prisma.FieldRef<"AnalysisRun", 'String'>
   readonly projectId: Prisma.FieldRef<"AnalysisRun", 'String'>
-  readonly organizationId: Prisma.FieldRef<"AnalysisRun", 'String'>
   readonly deckId: Prisma.FieldRef<"AnalysisRun", 'String'>
   readonly partnerRubricId: Prisma.FieldRef<"AnalysisRun", 'String'>
   readonly partnerProfileId: Prisma.FieldRef<"AnalysisRun", 'String'>
@@ -4304,54 +3791,6 @@ export type AnalysisRun$diligenceArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DiligenceItemScalarFieldEnum | Prisma.DiligenceItemScalarFieldEnum[]
-}
-
-/**
- * AnalysisRun.qaSessions
- */
-export type AnalysisRun$qaSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the QaSession
-   */
-  select?: Prisma.QaSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the QaSession
-   */
-  omit?: Prisma.QaSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.QaSessionInclude<ExtArgs> | null
-  where?: Prisma.QaSessionWhereInput
-  orderBy?: Prisma.QaSessionOrderByWithRelationInput | Prisma.QaSessionOrderByWithRelationInput[]
-  cursor?: Prisma.QaSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.QaSessionScalarFieldEnum | Prisma.QaSessionScalarFieldEnum[]
-}
-
-/**
- * AnalysisRun.judgments
- */
-export type AnalysisRun$judgmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PartnerJudgment
-   */
-  select?: Prisma.PartnerJudgmentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PartnerJudgment
-   */
-  omit?: Prisma.PartnerJudgmentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PartnerJudgmentInclude<ExtArgs> | null
-  where?: Prisma.PartnerJudgmentWhereInput
-  orderBy?: Prisma.PartnerJudgmentOrderByWithRelationInput | Prisma.PartnerJudgmentOrderByWithRelationInput[]
-  cursor?: Prisma.PartnerJudgmentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PartnerJudgmentScalarFieldEnum | Prisma.PartnerJudgmentScalarFieldEnum[]
 }
 
 /**

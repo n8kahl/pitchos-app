@@ -26,7 +26,6 @@ export type AggregatePartnerRubric = {
 
 export type PartnerRubricMinAggregateOutputType = {
   id: string | null
-  organizationId: string | null
   partnerName: string | null
   version: string | null
   description: string | null
@@ -36,7 +35,6 @@ export type PartnerRubricMinAggregateOutputType = {
 
 export type PartnerRubricMaxAggregateOutputType = {
   id: string | null
-  organizationId: string | null
   partnerName: string | null
   version: string | null
   description: string | null
@@ -46,14 +44,15 @@ export type PartnerRubricMaxAggregateOutputType = {
 
 export type PartnerRubricCountAggregateOutputType = {
   id: number
-  organizationId: number
   partnerName: number
   version: number
   description: number
   weights: number
   stageOverrides: number
   hardFailCriteria: number
-  antiPatterns: number
+  antiPatternsEmphasized: number
+  antiPatternsDeEmphasized: number
+  customAntiPatterns: number
   isDefault: number
   createdAt: number
   _all: number
@@ -62,7 +61,6 @@ export type PartnerRubricCountAggregateOutputType = {
 
 export type PartnerRubricMinAggregateInputType = {
   id?: true
-  organizationId?: true
   partnerName?: true
   version?: true
   description?: true
@@ -72,7 +70,6 @@ export type PartnerRubricMinAggregateInputType = {
 
 export type PartnerRubricMaxAggregateInputType = {
   id?: true
-  organizationId?: true
   partnerName?: true
   version?: true
   description?: true
@@ -82,14 +79,15 @@ export type PartnerRubricMaxAggregateInputType = {
 
 export type PartnerRubricCountAggregateInputType = {
   id?: true
-  organizationId?: true
   partnerName?: true
   version?: true
   description?: true
   weights?: true
   stageOverrides?: true
   hardFailCriteria?: true
-  antiPatterns?: true
+  antiPatternsEmphasized?: true
+  antiPatternsDeEmphasized?: true
+  customAntiPatterns?: true
   isDefault?: true
   createdAt?: true
   _all?: true
@@ -169,14 +167,15 @@ export type PartnerRubricGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type PartnerRubricGroupByOutputType = {
   id: string
-  organizationId: string | null
   partnerName: string
   version: string
   description: string | null
   weights: runtime.JsonValue
   stageOverrides: runtime.JsonValue
   hardFailCriteria: runtime.JsonValue
-  antiPatterns: string[]
+  antiPatternsEmphasized: runtime.JsonValue
+  antiPatternsDeEmphasized: runtime.JsonValue
+  customAntiPatterns: runtime.JsonValue
   isDefault: boolean
   createdAt: Date
   _count: PartnerRubricCountAggregateOutputType | null
@@ -204,33 +203,33 @@ export type PartnerRubricWhereInput = {
   OR?: Prisma.PartnerRubricWhereInput[]
   NOT?: Prisma.PartnerRubricWhereInput | Prisma.PartnerRubricWhereInput[]
   id?: Prisma.StringFilter<"PartnerRubric"> | string
-  organizationId?: Prisma.StringNullableFilter<"PartnerRubric"> | string | null
   partnerName?: Prisma.StringFilter<"PartnerRubric"> | string
   version?: Prisma.StringFilter<"PartnerRubric"> | string
   description?: Prisma.StringNullableFilter<"PartnerRubric"> | string | null
   weights?: Prisma.JsonFilter<"PartnerRubric">
   stageOverrides?: Prisma.JsonFilter<"PartnerRubric">
   hardFailCriteria?: Prisma.JsonFilter<"PartnerRubric">
-  antiPatterns?: Prisma.StringNullableListFilter<"PartnerRubric">
+  antiPatternsEmphasized?: Prisma.JsonFilter<"PartnerRubric">
+  antiPatternsDeEmphasized?: Prisma.JsonFilter<"PartnerRubric">
+  customAntiPatterns?: Prisma.JsonFilter<"PartnerRubric">
   isDefault?: Prisma.BoolFilter<"PartnerRubric"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PartnerRubric"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
 }
 
 export type PartnerRubricOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrderInput | Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   weights?: Prisma.SortOrder
   stageOverrides?: Prisma.SortOrder
   hardFailCriteria?: Prisma.SortOrder
-  antiPatterns?: Prisma.SortOrder
+  antiPatternsEmphasized?: Prisma.SortOrder
+  antiPatternsDeEmphasized?: Prisma.SortOrder
+  customAntiPatterns?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  organization?: Prisma.OrganizationOrderByWithRelationInput
   analysisRuns?: Prisma.AnalysisRunOrderByRelationAggregateInput
 }
 
@@ -240,30 +239,31 @@ export type PartnerRubricWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PartnerRubricWhereInput | Prisma.PartnerRubricWhereInput[]
   OR?: Prisma.PartnerRubricWhereInput[]
   NOT?: Prisma.PartnerRubricWhereInput | Prisma.PartnerRubricWhereInput[]
-  organizationId?: Prisma.StringNullableFilter<"PartnerRubric"> | string | null
   partnerName?: Prisma.StringFilter<"PartnerRubric"> | string
   version?: Prisma.StringFilter<"PartnerRubric"> | string
   description?: Prisma.StringNullableFilter<"PartnerRubric"> | string | null
   weights?: Prisma.JsonFilter<"PartnerRubric">
   stageOverrides?: Prisma.JsonFilter<"PartnerRubric">
   hardFailCriteria?: Prisma.JsonFilter<"PartnerRubric">
-  antiPatterns?: Prisma.StringNullableListFilter<"PartnerRubric">
+  antiPatternsEmphasized?: Prisma.JsonFilter<"PartnerRubric">
+  antiPatternsDeEmphasized?: Prisma.JsonFilter<"PartnerRubric">
+  customAntiPatterns?: Prisma.JsonFilter<"PartnerRubric">
   isDefault?: Prisma.BoolFilter<"PartnerRubric"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PartnerRubric"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
 }, "id" | "partnerName_version">
 
 export type PartnerRubricOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrderInput | Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   weights?: Prisma.SortOrder
   stageOverrides?: Prisma.SortOrder
   hardFailCriteria?: Prisma.SortOrder
-  antiPatterns?: Prisma.SortOrder
+  antiPatternsEmphasized?: Prisma.SortOrder
+  antiPatternsDeEmphasized?: Prisma.SortOrder
+  customAntiPatterns?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.PartnerRubricCountOrderByAggregateInput
@@ -276,14 +276,15 @@ export type PartnerRubricScalarWhereWithAggregatesInput = {
   OR?: Prisma.PartnerRubricScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PartnerRubricScalarWhereWithAggregatesInput | Prisma.PartnerRubricScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PartnerRubric"> | string
-  organizationId?: Prisma.StringNullableWithAggregatesFilter<"PartnerRubric"> | string | null
   partnerName?: Prisma.StringWithAggregatesFilter<"PartnerRubric"> | string
   version?: Prisma.StringWithAggregatesFilter<"PartnerRubric"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"PartnerRubric"> | string | null
   weights?: Prisma.JsonWithAggregatesFilter<"PartnerRubric">
   stageOverrides?: Prisma.JsonWithAggregatesFilter<"PartnerRubric">
   hardFailCriteria?: Prisma.JsonWithAggregatesFilter<"PartnerRubric">
-  antiPatterns?: Prisma.StringNullableListFilter<"PartnerRubric">
+  antiPatternsEmphasized?: Prisma.JsonWithAggregatesFilter<"PartnerRubric">
+  antiPatternsDeEmphasized?: Prisma.JsonWithAggregatesFilter<"PartnerRubric">
+  customAntiPatterns?: Prisma.JsonWithAggregatesFilter<"PartnerRubric">
   isDefault?: Prisma.BoolWithAggregatesFilter<"PartnerRubric"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PartnerRubric"> | Date | string
 }
@@ -296,23 +297,25 @@ export type PartnerRubricCreateInput = {
   weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
+  antiPatternsEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: boolean
   createdAt?: Date | string
-  organization?: Prisma.OrganizationCreateNestedOneWithoutPartnerRubricsInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutPartnerRubricInput
 }
 
 export type PartnerRubricUncheckedCreateInput = {
   id?: string
-  organizationId?: string | null
   partnerName: string
   version: string
   description?: string | null
   weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
+  antiPatternsEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: boolean
   createdAt?: Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutPartnerRubricInput
@@ -326,23 +329,25 @@ export type PartnerRubricUpdateInput = {
   weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
+  antiPatternsEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneWithoutPartnerRubricsNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutPartnerRubricNestedInput
 }
 
 export type PartnerRubricUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   partnerName?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
+  antiPatternsEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutPartnerRubricNestedInput
@@ -350,14 +355,15 @@ export type PartnerRubricUncheckedUpdateInput = {
 
 export type PartnerRubricCreateManyInput = {
   id?: string
-  organizationId?: string | null
   partnerName: string
   version: string
   description?: string | null
   weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
+  antiPatternsEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: boolean
   createdAt?: Date | string
 }
@@ -370,41 +376,26 @@ export type PartnerRubricUpdateManyMutationInput = {
   weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
+  antiPatternsEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PartnerRubricUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   partnerName?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
+  antiPatternsEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PartnerRubricListRelationFilter = {
-  every?: Prisma.PartnerRubricWhereInput
-  some?: Prisma.PartnerRubricWhereInput
-  none?: Prisma.PartnerRubricWhereInput
-}
-
-export type PartnerRubricOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
 }
 
 export type PartnerRubricPartnerNameVersionCompoundUniqueInput = {
@@ -414,21 +405,21 @@ export type PartnerRubricPartnerNameVersionCompoundUniqueInput = {
 
 export type PartnerRubricCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   description?: Prisma.SortOrder
   weights?: Prisma.SortOrder
   stageOverrides?: Prisma.SortOrder
   hardFailCriteria?: Prisma.SortOrder
-  antiPatterns?: Prisma.SortOrder
+  antiPatternsEmphasized?: Prisma.SortOrder
+  antiPatternsDeEmphasized?: Prisma.SortOrder
+  customAntiPatterns?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type PartnerRubricMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -438,7 +429,6 @@ export type PartnerRubricMaxOrderByAggregateInput = {
 
 export type PartnerRubricMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
   partnerName?: Prisma.SortOrder
   version?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -451,59 +441,20 @@ export type PartnerRubricScalarRelationFilter = {
   isNot?: Prisma.PartnerRubricWhereInput
 }
 
-export type PartnerRubricCreateNestedManyWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.PartnerRubricCreateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerRubricCreateWithoutOrganizationInput[] | Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput | Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerRubricCreateManyOrganizationInputEnvelope
-  connect?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
+export type StringFieldUpdateOperationsInput = {
+  set?: string
 }
 
-export type PartnerRubricUncheckedCreateNestedManyWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.PartnerRubricCreateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerRubricCreateWithoutOrganizationInput[] | Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput | Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerRubricCreateManyOrganizationInputEnvelope
-  connect?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-}
-
-export type PartnerRubricUpdateManyWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.PartnerRubricCreateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerRubricCreateWithoutOrganizationInput[] | Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput | Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput[]
-  upsert?: Prisma.PartnerRubricUpsertWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerRubricUpsertWithWhereUniqueWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerRubricCreateManyOrganizationInputEnvelope
-  set?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  disconnect?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  delete?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  connect?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  update?: Prisma.PartnerRubricUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerRubricUpdateWithWhereUniqueWithoutOrganizationInput[]
-  updateMany?: Prisma.PartnerRubricUpdateManyWithWhereWithoutOrganizationInput | Prisma.PartnerRubricUpdateManyWithWhereWithoutOrganizationInput[]
-  deleteMany?: Prisma.PartnerRubricScalarWhereInput | Prisma.PartnerRubricScalarWhereInput[]
-}
-
-export type PartnerRubricUncheckedUpdateManyWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.PartnerRubricCreateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput> | Prisma.PartnerRubricCreateWithoutOrganizationInput[] | Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput[]
-  connectOrCreate?: Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput | Prisma.PartnerRubricCreateOrConnectWithoutOrganizationInput[]
-  upsert?: Prisma.PartnerRubricUpsertWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerRubricUpsertWithWhereUniqueWithoutOrganizationInput[]
-  createMany?: Prisma.PartnerRubricCreateManyOrganizationInputEnvelope
-  set?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  disconnect?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  delete?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  connect?: Prisma.PartnerRubricWhereUniqueInput | Prisma.PartnerRubricWhereUniqueInput[]
-  update?: Prisma.PartnerRubricUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.PartnerRubricUpdateWithWhereUniqueWithoutOrganizationInput[]
-  updateMany?: Prisma.PartnerRubricUpdateManyWithWhereWithoutOrganizationInput | Prisma.PartnerRubricUpdateManyWithWhereWithoutOrganizationInput[]
-  deleteMany?: Prisma.PartnerRubricScalarWhereInput | Prisma.PartnerRubricScalarWhereInput[]
-}
-
-export type PartnerRubricCreateantiPatternsInput = {
-  set: string[]
-}
-
-export type PartnerRubricUpdateantiPatternsInput = {
-  set?: string[]
-  push?: string | string[]
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type PartnerRubricCreateNestedOneWithoutAnalysisRunsInput = {
@@ -520,77 +471,6 @@ export type PartnerRubricUpdateOneRequiredWithoutAnalysisRunsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PartnerRubricUpdateToOneWithWhereWithoutAnalysisRunsInput, Prisma.PartnerRubricUpdateWithoutAnalysisRunsInput>, Prisma.PartnerRubricUncheckedUpdateWithoutAnalysisRunsInput>
 }
 
-export type PartnerRubricCreateWithoutOrganizationInput = {
-  id?: string
-  partnerName: string
-  version: string
-  description?: string | null
-  weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
-  isDefault?: boolean
-  createdAt?: Date | string
-  analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutPartnerRubricInput
-}
-
-export type PartnerRubricUncheckedCreateWithoutOrganizationInput = {
-  id?: string
-  partnerName: string
-  version: string
-  description?: string | null
-  weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
-  isDefault?: boolean
-  createdAt?: Date | string
-  analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutPartnerRubricInput
-}
-
-export type PartnerRubricCreateOrConnectWithoutOrganizationInput = {
-  where: Prisma.PartnerRubricWhereUniqueInput
-  create: Prisma.XOR<Prisma.PartnerRubricCreateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput>
-}
-
-export type PartnerRubricCreateManyOrganizationInputEnvelope = {
-  data: Prisma.PartnerRubricCreateManyOrganizationInput | Prisma.PartnerRubricCreateManyOrganizationInput[]
-  skipDuplicates?: boolean
-}
-
-export type PartnerRubricUpsertWithWhereUniqueWithoutOrganizationInput = {
-  where: Prisma.PartnerRubricWhereUniqueInput
-  update: Prisma.XOR<Prisma.PartnerRubricUpdateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedUpdateWithoutOrganizationInput>
-  create: Prisma.XOR<Prisma.PartnerRubricCreateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedCreateWithoutOrganizationInput>
-}
-
-export type PartnerRubricUpdateWithWhereUniqueWithoutOrganizationInput = {
-  where: Prisma.PartnerRubricWhereUniqueInput
-  data: Prisma.XOR<Prisma.PartnerRubricUpdateWithoutOrganizationInput, Prisma.PartnerRubricUncheckedUpdateWithoutOrganizationInput>
-}
-
-export type PartnerRubricUpdateManyWithWhereWithoutOrganizationInput = {
-  where: Prisma.PartnerRubricScalarWhereInput
-  data: Prisma.XOR<Prisma.PartnerRubricUpdateManyMutationInput, Prisma.PartnerRubricUncheckedUpdateManyWithoutOrganizationInput>
-}
-
-export type PartnerRubricScalarWhereInput = {
-  AND?: Prisma.PartnerRubricScalarWhereInput | Prisma.PartnerRubricScalarWhereInput[]
-  OR?: Prisma.PartnerRubricScalarWhereInput[]
-  NOT?: Prisma.PartnerRubricScalarWhereInput | Prisma.PartnerRubricScalarWhereInput[]
-  id?: Prisma.StringFilter<"PartnerRubric"> | string
-  organizationId?: Prisma.StringNullableFilter<"PartnerRubric"> | string | null
-  partnerName?: Prisma.StringFilter<"PartnerRubric"> | string
-  version?: Prisma.StringFilter<"PartnerRubric"> | string
-  description?: Prisma.StringNullableFilter<"PartnerRubric"> | string | null
-  weights?: Prisma.JsonFilter<"PartnerRubric">
-  stageOverrides?: Prisma.JsonFilter<"PartnerRubric">
-  hardFailCriteria?: Prisma.JsonFilter<"PartnerRubric">
-  antiPatterns?: Prisma.StringNullableListFilter<"PartnerRubric">
-  isDefault?: Prisma.BoolFilter<"PartnerRubric"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"PartnerRubric"> | Date | string
-}
-
 export type PartnerRubricCreateWithoutAnalysisRunsInput = {
   id?: string
   partnerName: string
@@ -599,22 +479,24 @@ export type PartnerRubricCreateWithoutAnalysisRunsInput = {
   weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
+  antiPatternsEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: boolean
   createdAt?: Date | string
-  organization?: Prisma.OrganizationCreateNestedOneWithoutPartnerRubricsInput
 }
 
 export type PartnerRubricUncheckedCreateWithoutAnalysisRunsInput = {
   id?: string
-  organizationId?: string | null
   partnerName: string
   version: string
   description?: string | null
   weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
+  antiPatternsEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: boolean
   createdAt?: Date | string
 }
@@ -643,76 +525,24 @@ export type PartnerRubricUpdateWithoutAnalysisRunsInput = {
   weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
+  antiPatternsEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneWithoutPartnerRubricsNestedInput
 }
 
 export type PartnerRubricUncheckedUpdateWithoutAnalysisRunsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   partnerName?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PartnerRubricCreateManyOrganizationInput = {
-  id?: string
-  partnerName: string
-  version: string
-  description?: string | null
-  weights: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  stageOverrides: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  hardFailCriteria: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricCreateantiPatternsInput | string[]
-  isDefault?: boolean
-  createdAt?: Date | string
-}
-
-export type PartnerRubricUpdateWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutPartnerRubricNestedInput
-}
-
-export type PartnerRubricUncheckedUpdateWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutPartnerRubricNestedInput
-}
-
-export type PartnerRubricUncheckedUpdateManyWithoutOrganizationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  partnerName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weights?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  stageOverrides?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  hardFailCriteria?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  antiPatterns?: Prisma.PartnerRubricUpdateantiPatternsInput | string[]
+  antiPatternsEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  antiPatternsDeEmphasized?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  customAntiPatterns?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -750,94 +580,90 @@ export type PartnerRubricCountOutputTypeCountAnalysisRunsArgs<ExtArgs extends ru
 
 export type PartnerRubricSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   description?: boolean
   weights?: boolean
   stageOverrides?: boolean
   hardFailCriteria?: boolean
-  antiPatterns?: boolean
+  antiPatternsEmphasized?: boolean
+  antiPatternsDeEmphasized?: boolean
+  customAntiPatterns?: boolean
   isDefault?: boolean
   createdAt?: boolean
-  organization?: boolean | Prisma.PartnerRubric$organizationArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.PartnerRubric$analysisRunsArgs<ExtArgs>
   _count?: boolean | Prisma.PartnerRubricCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["partnerRubric"]>
 
 export type PartnerRubricSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   description?: boolean
   weights?: boolean
   stageOverrides?: boolean
   hardFailCriteria?: boolean
-  antiPatterns?: boolean
+  antiPatternsEmphasized?: boolean
+  antiPatternsDeEmphasized?: boolean
+  customAntiPatterns?: boolean
   isDefault?: boolean
   createdAt?: boolean
-  organization?: boolean | Prisma.PartnerRubric$organizationArgs<ExtArgs>
 }, ExtArgs["result"]["partnerRubric"]>
 
 export type PartnerRubricSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   description?: boolean
   weights?: boolean
   stageOverrides?: boolean
   hardFailCriteria?: boolean
-  antiPatterns?: boolean
+  antiPatternsEmphasized?: boolean
+  antiPatternsDeEmphasized?: boolean
+  customAntiPatterns?: boolean
   isDefault?: boolean
   createdAt?: boolean
-  organization?: boolean | Prisma.PartnerRubric$organizationArgs<ExtArgs>
 }, ExtArgs["result"]["partnerRubric"]>
 
 export type PartnerRubricSelectScalar = {
   id?: boolean
-  organizationId?: boolean
   partnerName?: boolean
   version?: boolean
   description?: boolean
   weights?: boolean
   stageOverrides?: boolean
   hardFailCriteria?: boolean
-  antiPatterns?: boolean
+  antiPatternsEmphasized?: boolean
+  antiPatternsDeEmphasized?: boolean
+  customAntiPatterns?: boolean
   isDefault?: boolean
   createdAt?: boolean
 }
 
-export type PartnerRubricOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "partnerName" | "version" | "description" | "weights" | "stageOverrides" | "hardFailCriteria" | "antiPatterns" | "isDefault" | "createdAt", ExtArgs["result"]["partnerRubric"]>
+export type PartnerRubricOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "partnerName" | "version" | "description" | "weights" | "stageOverrides" | "hardFailCriteria" | "antiPatternsEmphasized" | "antiPatternsDeEmphasized" | "customAntiPatterns" | "isDefault" | "createdAt", ExtArgs["result"]["partnerRubric"]>
 export type PartnerRubricInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.PartnerRubric$organizationArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.PartnerRubric$analysisRunsArgs<ExtArgs>
   _count?: boolean | Prisma.PartnerRubricCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type PartnerRubricIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.PartnerRubric$organizationArgs<ExtArgs>
-}
-export type PartnerRubricIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.PartnerRubric$organizationArgs<ExtArgs>
-}
+export type PartnerRubricIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PartnerRubricIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $PartnerRubricPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PartnerRubric"
   objects: {
-    organization: Prisma.$OrganizationPayload<ExtArgs> | null
     analysisRuns: Prisma.$AnalysisRunPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    organizationId: string | null
     partnerName: string
     version: string
     description: string | null
     weights: runtime.JsonValue
     stageOverrides: runtime.JsonValue
     hardFailCriteria: runtime.JsonValue
-    antiPatterns: string[]
+    antiPatternsEmphasized: runtime.JsonValue
+    antiPatternsDeEmphasized: runtime.JsonValue
+    customAntiPatterns: runtime.JsonValue
     isDefault: boolean
     createdAt: Date
   }, ExtArgs["result"]["partnerRubric"]>
@@ -1234,7 +1060,6 @@ readonly fields: PartnerRubricFieldRefs;
  */
 export interface Prisma__PartnerRubricClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  organization<T extends Prisma.PartnerRubric$organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PartnerRubric$organizationArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   analysisRuns<T extends Prisma.PartnerRubric$analysisRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PartnerRubric$analysisRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1266,14 +1091,15 @@ export interface Prisma__PartnerRubricClient<T, Null = never, ExtArgs extends ru
  */
 export interface PartnerRubricFieldRefs {
   readonly id: Prisma.FieldRef<"PartnerRubric", 'String'>
-  readonly organizationId: Prisma.FieldRef<"PartnerRubric", 'String'>
   readonly partnerName: Prisma.FieldRef<"PartnerRubric", 'String'>
   readonly version: Prisma.FieldRef<"PartnerRubric", 'String'>
   readonly description: Prisma.FieldRef<"PartnerRubric", 'String'>
   readonly weights: Prisma.FieldRef<"PartnerRubric", 'Json'>
   readonly stageOverrides: Prisma.FieldRef<"PartnerRubric", 'Json'>
   readonly hardFailCriteria: Prisma.FieldRef<"PartnerRubric", 'Json'>
-  readonly antiPatterns: Prisma.FieldRef<"PartnerRubric", 'String[]'>
+  readonly antiPatternsEmphasized: Prisma.FieldRef<"PartnerRubric", 'Json'>
+  readonly antiPatternsDeEmphasized: Prisma.FieldRef<"PartnerRubric", 'Json'>
+  readonly customAntiPatterns: Prisma.FieldRef<"PartnerRubric", 'Json'>
   readonly isDefault: Prisma.FieldRef<"PartnerRubric", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"PartnerRubric", 'DateTime'>
 }
@@ -1530,10 +1356,6 @@ export type PartnerRubricCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.PartnerRubricCreateManyInput | Prisma.PartnerRubricCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PartnerRubricIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1604,10 +1426,6 @@ export type PartnerRubricUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many PartnerRubrics to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PartnerRubricIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1674,25 +1492,6 @@ export type PartnerRubricDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many PartnerRubrics to delete.
    */
   limit?: number
-}
-
-/**
- * PartnerRubric.organization
- */
-export type PartnerRubric$organizationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Organization
-   */
-  select?: Prisma.OrganizationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Organization
-   */
-  omit?: Prisma.OrganizationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrganizationInclude<ExtArgs> | null
-  where?: Prisma.OrganizationWhereInput
 }
 
 /**
