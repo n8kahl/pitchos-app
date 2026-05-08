@@ -2,6 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { SAMPLE_CLIPS } from "@/lib/content/sample-clips";
 import { AskedRecently } from "@/components/home/AskedRecently";
+import { ContinueWatching } from "@/components/home/ContinueWatching";
 
 export default async function HomePage() {
   // Most recent run · home is the workspace, not a marketing page.
@@ -49,6 +50,9 @@ export default async function HomePage() {
 
         <AskedRecently />
       </div>
+
+      {/* Continue watching · only renders if localStorage has entries */}
+      <ContinueWatching />
 
       {/* Today's read · featured clip */}
       <section className="mt-10 sm:mt-12">

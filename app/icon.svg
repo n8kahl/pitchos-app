@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#0a1410"/>
+  <text x="16" y="14" font-family="Georgia, serif" font-size="9" font-weight="800" text-anchor="middle" fill="#F5C842">BD</text>
+  <text x="16" y="24" font-family="ui-monospace, monospace" font-size="6" font-weight="800" letter-spacing="0.5" text-anchor="middle" fill="#3CA94A">VP</text>
+</svg>

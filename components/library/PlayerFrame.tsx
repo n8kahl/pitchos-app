@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { recordVisit } from "@/lib/state/watch-history";
 
 type Props = {
+  clipId: string;
   durationMin: number;
   initialT?: string;
-  // Optional callback when user requests Ask-Coach about this clip
-  onAskCoach?: () => void;
 };
 
 /**
@@ -17,14 +17,17 @@ type Props = {
  *   - When ?t= is present (or changes), the frame **pulses gold** and
  *     shows a "Seeking to HH:MM" toast that fades after 1.4s
  */
-export function PlayerFrame({ durationMin, initialT }: Props) {
+export function PlayerFrame({ clipId, durationMin, initialT }: Props) {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [seekToast, setSeekToast] = useState<string | null>(null);
   const [t, setT] = useState<string | undefined>(initialT);
 
-  // Listen to URL param changes via History API. Next's <Link href="?t=">
-  // calls router.push which fires a popstate-equivalent — we just listen
-  // to the hashchange and pop events as a belt-and-suspenders.
+  // Record visit on mount + whenever ?t= changes.
+  useEffect(() => {
+    recordVisit(clipId, durationMin, t);
+  }, [clipId, durationMin, t]);
+
+  // Listen to URL param changes via History API.
   useEffect(() => {
     const sync = () => {
       const url = new URL(window.location.href);

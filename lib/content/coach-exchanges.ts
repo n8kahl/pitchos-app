@@ -22,6 +22,78 @@ export interface CoachExchange {
 }
 
 export const COACH_EXAMPLES: CoachExchange[] = [
+  // === DISCOVERY MODE · stage 1 founders ===
+  {
+    id: "do-i-have-an-icp",
+    prompt: "I think I have a problem worth solving — how do I know I have an ICP?",
+    mode: "discovery",
+    reply: `If the question feels like a guess, **you don't have one yet**. An ICP is not "small businesses in the US" — it's a buyer specific enough that you could list ten of them by name without checking anything[^1].
+
+Three tests Scott applies:
+
+1. **Title and budget owner.** "VP of Operations at a 3PL with 50–500 employees." Specific enough that the buyer self-identifies in the first sentence.
+2. **Frequency of pain.** Does the buyer hit this problem weekly, monthly, or quarterly? Anything quarterly or less is a hard sell at seed.
+3. **Quantifiable cost.** $1.2M–$3.2M in audit write-offs. 18 hours per week. 12% of revenue. Numbers force the buyer to engage[^2].
+
+If you can't answer all three, the right next move is **20 customer interviews** before you write another slide.`,
+    citations: [
+      {
+        clipId: "ssg-2025-01-bottom-up-tam",
+        at: "00:00",
+        excerpt: "ICP × buyer count × ACV. Three lines that beat any TAM headline.",
+      },
+      {
+        clipId: "vcfp-2025-05-fmf-decides",
+        at: "00:00",
+        excerpt: "Founder-market fit is the highest-weighted dimension — and the one most decks underweight.",
+      },
+    ],
+    followUps: [
+      "What does a good customer-interview script look like?",
+      "How many interviews before I'm ready to draft a deck?",
+      "What's the difference between an ICP and a beachhead?",
+    ],
+  },
+  {
+    id: "structuring-deck-from-scratch",
+    prompt: "I have one paying pilot. How do I structure my first real deck?",
+    mode: "structuring",
+    reply: `**Twelve slides, in this order**, and not one more:
+
+1. Cover · company name + 1-line + ask
+2. Problem · quantified · who · how often · what it costs them
+3. Market · bottom-up · ICP × buyer count × ACV[^1]
+4. Wedge · the 24-month arc to system-of-record[^2]
+5. Why now · structural · not regulatory
+6. Solution · what you do · screenshot · not feature list
+7. Traction · named customer · expansion · multi-year
+8. Business model · ACV · contract length · gross margin
+9. GTM · founder-led now · what the next two hires unlock
+10. Defensibility · proprietary data + integration depth + workflow lock
+11. Team · founder-market fit story · GTM advisor named
+12. Use of funds · tied to a specific milestone · 18-month runway · ask
+
+Scott's pattern: every slide answers the partner's reflexive question for that section. **If a slide doesn't answer a question, it doesn't ship.**
+
+After you have v1, get a PitchOS run on it before you send it anywhere.`,
+    citations: [
+      {
+        clipId: "ssg-2025-01-bottom-up-tam",
+        at: "04:00",
+        excerpt: "ICP × buyer count × ACV. Three lines that beat any TAM headline.",
+      },
+      {
+        clipId: "vcfp-2025-05-fmf-decides",
+        at: "21:00",
+        excerpt: "Wedge → workflow ownership → SoR · the four-stage arc.",
+      },
+    ],
+    followUps: [
+      "What goes in the appendix vs. the main deck?",
+      "How long should each section be in the partner-meeting reading?",
+      "When does the financial model become required?",
+    ],
+  },
   {
     id: "wedge-narrative",
     prompt: "How do I tell my wedge story without sounding generic?",
