@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-const SECTIONS = [
-  { id: "verdict", label: "Verdict" },
+export const REPORT_SECTIONS = [
+  { id: "verdict", label: "★ Verdict" },
   { id: "s01", label: "01 Memo" },
   { id: "s02", label: "02 Bull/Bear" },
   { id: "s03", label: "03 Scores" },
@@ -17,26 +17,24 @@ const SECTIONS = [
 
 export function ReportNav() {
   const [active, setActive] = useState("verdict");
-  const pillRef = useRef<HTMLButtonElement | null>(null);
 
+  // On mount: hide every panel except the first
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        }
-      },
-      { threshold: 0.15, rootMargin: "-72px 0px -55% 0px" }
-    );
-    for (const s of SECTIONS) {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
+    showPanel("verdict");
   }, []);
 
-  function scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  function showPanel(id: string) {
+    for (const s of REPORT_SECTIONS) {
+      const el = document.getElementById(`panel-${s.id}`);
+      if (!el) continue;
+      el.style.display = s.id === id ? "" : "none";
+    }
+    setActive(id);
+    // Scroll to top of report area so the panel starts visible
+    document.getElementById("report-panels")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   }
 
   return (
@@ -45,13 +43,12 @@ export function ReportNav() {
       className="sticky top-0 z-20 -mx-6 overflow-x-auto border-b border-border/60 bg-background/95 backdrop-blur-md sm:-mx-8"
     >
       <ul className="flex min-w-max items-center gap-0.5 px-4 py-1.5 sm:px-6">
-        {SECTIONS.map((s) => {
+        {REPORT_SECTIONS.map((s) => {
           const isActive = active === s.id;
           return (
             <li key={s.id}>
               <button
-                ref={isActive ? pillRef : null}
-                onClick={() => scrollTo(s.id)}
+                onClick={() => showPanel(s.id)}
                 className={[
                   "whitespace-nowrap rounded-sm px-2.5 py-1.5 font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] transition",
                   isActive
