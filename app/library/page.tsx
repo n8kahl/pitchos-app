@@ -9,6 +9,7 @@ import type { RubricCategory } from "@/lib/ai/anti-patterns";
 import { VideoCard } from "@/components/library/VideoCard";
 import { PodcastCard } from "@/components/library/PodcastCard";
 import { ResourceCard } from "@/components/library/ResourceCard";
+import { HorizontalRail } from "@/components/library/HorizontalRail";
 
 const RUBRIC_LABELS: Record<RubricCategory, string> = {
   founderMarketFit: "founder-market fit",
@@ -441,11 +442,11 @@ function LibraryView() {
               eyebrow={`${filteredEpisodes.length} podcast episode${filteredEpisodes.length === 1 ? "" : "s"} · audio`}
               title="Long-form interviews"
             >
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              <HorizontalRail ariaLabel="Podcast episodes">
                 {filteredEpisodes.map((e) => (
                   <PodcastCard key={e.id} episode={e} />
                 ))}
-              </div>
+              </HorizontalRail>
             </Section>
           )}
 
@@ -454,11 +455,11 @@ function LibraryView() {
               eyebrow={`${filteredResources.length} resource${filteredResources.length === 1 ? "" : "s"} · pdfs and infographics`}
               title="Reference material"
             >
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              <HorizontalRail ariaLabel="Resources">
                 {filteredResources.map((r) => (
                   <ResourceCard key={r.id} resource={r} />
                 ))}
-              </div>
+              </HorizontalRail>
             </Section>
           )}
         </div>
