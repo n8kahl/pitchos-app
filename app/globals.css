@@ -232,6 +232,18 @@ body::before {
 }
 
 /*
+ * Sidebar active-row indicator. Only one element on the page carries
+ * `view-transition-name: sidebar-active` at a time (the gold rail on
+ * the active nav item). When the route changes the rail moves to a
+ * different row in the DOM and the browser morphs its position. Sized
+ * to feel snappy without overrunning the click feedback.
+ */
+::view-transition-group(sidebar-active) {
+  animation-duration: 240ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/*
  * Crossfades and morphs are usually fine for motion-sensitive users,
  * but we honor the user's reduced-motion preference universally. The
  * browser still does an instant content swap, just with no animation.

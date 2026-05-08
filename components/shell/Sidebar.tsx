@@ -52,12 +52,23 @@ export function Sidebar() {
                     <Link
                       href={item.href}
                       className={[
-                        "group flex items-center gap-3 rounded-md px-3 py-2.5 text-[13px] transition",
+                        "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[13px] transition",
                         active
-                          ? "bg-brand-gold/10 text-foreground shadow-[inset_2px_0_0_var(--color-brand-gold)]"
+                          ? "bg-brand-gold/10 text-foreground"
                           : "text-foreground/75 hover:bg-muted/40 hover:text-foreground",
                       ].join(" ")}
                     >
+                      {/* The gold rail morphs from the previous active item
+                          to this one via view-transition-name, so when a
+                          route changes the indicator slides between rows
+                          rather than disappearing and reappearing. */}
+                      {active && (
+                        <span
+                          aria-hidden
+                          style={{ viewTransitionName: "sidebar-active" }}
+                          className="pointer-events-none absolute inset-y-0 left-0 w-[2px] rounded-r bg-brand-gold"
+                        />
+                      )}
                       <span
                         className={[
                           "flex h-5 w-5 shrink-0 items-center justify-center text-base",
