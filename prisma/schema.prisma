@@ -17,14 +17,12 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  // Runtime · pooled (pgbouncer) connection from Neon.
-  url       = env("DATABASE_URL")
-  // Migrations · unpooled connection. Required because
-  // `prisma migrate deploy` uses prepared statements that pgbouncer
-  // in transaction mode does not support. Neon's Vercel integration
-  // populates DATABASE_URL_UNPOOLED automatically on the project.
-  directUrl = env("DATABASE_URL_UNPOOLED")
+  provider = "postgresql"
+  // Connection URLs live in prisma.config.ts per Prisma 7 +
+  // driver-adapter pattern. Runtime (lib/db.ts) reads DATABASE_URL
+  // through PrismaPg; Migrate reads prisma.config.ts datasource.url
+  // (DATABASE_URL_UNPOOLED on Neon, since pgbouncer transaction mode
+  // does not support the prepared statements migrate deploy uses).
 }
 
 enum FundingStage {
