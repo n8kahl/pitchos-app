@@ -3,8 +3,6 @@
 import Link from "next/link";
 import {
   getStage,
-  JOURNEY_STAGES,
-  type JourneyStage,
   type JourneyStageNumber,
 } from "@/lib/content/journey-stages";
 import { useCoach } from "@/lib/state/coach";
@@ -13,6 +11,11 @@ import { useCoach } from "@/lib/state/coach";
 // set. Tells the user what the phase is, what to do at it, and gives
 // them a one-click path to the matching Coach exchange. The library
 // grid below shows the filtered content tagged for the same stage.
+//
+// Note: this hero deliberately does NOT render the five-stage pager.
+// The persistent FounderJourneyStrip at the top of every page already
+// shows the journey map · repeating it inside the hero is double
+// navigation that confuses what each surface is for.
 
 type Props = {
   stage: JourneyStageNumber;
@@ -24,9 +27,7 @@ export function StageHero({ stage }: Props) {
 
   return (
     <section className="mb-8 overflow-hidden rounded-xl border border-brand-gold/30 bg-gradient-to-br from-forest via-bg-2 to-bg-2 p-6 sm:p-8">
-      <StagePager active={stage} />
-
-      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div>
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold">
             stage {stage} of 5 · {data.label.toLowerCase()}
@@ -79,62 +80,5 @@ export function StageHero({ stage }: Props) {
         </aside>
       </div>
     </section>
-  );
-}
-
-function StagePager({ active }: { active: JourneyStageNumber }) {
-  return (
-    <div className="flex items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-      {JOURNEY_STAGES.map((s, i) => (
-        <PagerStage key={s.key} stage={s} active={s.n === active} index={i} />
-      ))}
-    </div>
-  );
-}
-
-function PagerStage({
-  stage,
-  active,
-  index,
-}: {
-  stage: JourneyStage;
-  active: boolean;
-  index: number;
-}) {
-  return (
-    <>
-      <Link
-        href={`/library?stage=${stage.n}`}
-        aria-current={active ? "step" : undefined}
-        className={[
-          "group flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition",
-          active
-            ? "bg-brand-gold/15 ring-1 ring-brand-gold/50"
-            : "hover:bg-muted/30",
-        ].join(" ")}
-      >
-        <span
-          className={[
-            "grid h-5 w-5 place-items-center rounded-full font-mono text-[10px] font-bold tabular-nums",
-            active
-              ? "bg-brand-gold text-[#0a1410]"
-              : "border border-border bg-transparent text-muted-foreground group-hover:text-foreground",
-          ].join(" ")}
-        >
-          {stage.n}
-        </span>
-        <span
-          className={[
-            "font-mono text-[10px] font-bold uppercase tracking-[0.14em] transition",
-            active ? "text-brand-gold" : "text-muted-foreground group-hover:text-foreground",
-          ].join(" ")}
-        >
-          {stage.label}
-        </span>
-      </Link>
-      {index < JOURNEY_STAGES.length - 1 && (
-        <span aria-hidden className="h-px w-3 shrink-0 bg-border/60 sm:w-5" />
-      )}
-    </>
   );
 }
