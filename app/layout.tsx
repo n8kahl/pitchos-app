@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/shell/AppShell";
@@ -24,6 +24,13 @@ const sourceSerif = Source_Serif_4({
 const SITE_NAME = "Black Dog · The Founder Platform";
 const SITE_DESC =
   "Pitch. Score. Fund. — 30 years of operator-investor judgment from Scott Kelly, encoded as a learning platform with the partner-grade PitchOS scoring engine.";
+
+// Browser chrome theming · matches the app shell so the URL bar reads
+// as part of the surface, not pasted on top.
+export const viewport: Viewport = {
+  themeColor: "#0a1410",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://platform.blackdogvp.local"),
