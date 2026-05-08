@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import {
   JOURNEY_STAGES,
   getStage,
-  type JourneyStageNumber,
 } from "@/lib/content/journey-stages";
+import { useJourneyStage, useHasAssessment } from "@/lib/state/journey";
 
 // Persistent founder-journey strip · sits below the TopBar and shows
 // the five-stage map every founder is on, with the current stage
@@ -15,10 +15,11 @@ import {
 // what to do at the current stage so the platform stops feeling
 // open-ended.
 //
-// Stage state is hardcoded to 3 for now — same as the existing chrome
-// pill — pending real derivation from the user's run history. Surfaces
-// where the strip would compete with vertical chrome (clip / podcast /
-// resource detail pages) opt out via the HIDDEN_PREFIXES list.
+// Stage state derives from the assessment result in localStorage via
+// useJourneyStage(). When the user hasn't taken the assessment yet,
+// the strip falls back to stage 3 and shows a "Take the assessment"
+// nudge in place of the next-move hint. Detail routes (clip, podcast,
+// resource, runs, report) opt out via HIDDEN_PREFIXES.
 
 // Hide on clip / podcast / resource detail pages — they have their own
 // breadcrumb and the strip would compete for the same vertical space.
@@ -26,11 +27,11 @@ const HIDDEN_PREFIXES = ["/library/", "/runs/", "/report/"];
 
 export function FounderJourneyStrip() {
   const pathname = usePathname();
+  const currentStage = useJourneyStage();
+  const hasAssessment = useHasAssessment();
   const hidden = HIDDEN_PREFIXES.some((p) => pathname.startsWith(p));
   if (hidden) return null;
 
-  // TODO: derive from real run history once stage detection lands.
-  const currentStage: JourneyStageNumber = 3;
   const next = getStage(currentStage);
 
   return (
@@ -100,13 +101,28 @@ export function FounderJourneyStrip() {
           })}
         </ol>
 
-        {/* Next move · the actionable hint */}
-        <div className="hidden shrink-0 items-center gap-2 border-l border-border/60 pl-3 lg:flex">
-          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-            next ·
-          </span>
-          <span className="text-[12px] text-foreground/85">{next.shortHint}</span>
-        </div>
+        {/* Next move · the actionable hint · or a take-the-assessment
+            nudge when the user hasn't established a stage yet */}
+        {hasAssessment ? (
+          <div className="hidden shrink-0 items-center gap-2 border-l border-border/60 pl-3 lg:flex">
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+              next ·
+            </span>
+            <span className="text-[12px] text-foreground/85">{next.shortHint}</span>
+          </div>
+        ) : (
+          <Link
+            href="/assessment"
+            className="hidden shrink-0 items-center gap-2 rounded-full border border-brand-gold/40 bg-brand-gold/10 px-3 py-1 transition hover:border-brand-gold/70 hover:bg-brand-gold/15 lg:flex"
+          >
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+              ★ pin your stage
+            </span>
+            <span className="text-[12px] text-foreground/85">
+              Take the readiness assessment →
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );

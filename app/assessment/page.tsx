@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ASSESSMENT_QUESTIONS,
   READINESS_DIMS,
@@ -10,6 +10,7 @@ import {
   type ReadinessDim,
 } from "@/lib/content/assessment";
 import { getClipById, SHOW_LABELS } from "@/lib/content/sample-clips";
+import { saveJourney, clearJourney } from "@/lib/state/journey";
 
 type Mode = "intro" | "quiz" | "result";
 
@@ -195,7 +196,18 @@ function Result({
   answers: AnswerMap;
   onRetake: () => void;
 }) {
-  const result = scoreAssessment(answers);
+  const result = useMemo(() => scoreAssessment(answers), [answers]);
+  // Persist the stage so the FounderJourneyStrip and any other surface
+  // can derive the user's place on the journey from one source of truth.
+  useEffect(() => {
+    saveJourney(result);
+  }, [result]);
+
+  function handleRetake() {
+    clearJourney();
+    onRetake();
+  }
+
   const weakestLabel = READINESS_DIMS[result.weakestDim].label;
   const weakClipIds = ASSESSMENT_QUESTIONS.filter(
     (q) => q.dim === result.weakestDim
@@ -327,7 +339,7 @@ function Result({
           </Link>
           <button
             type="button"
-            onClick={onRetake}
+            onClick={handleRetake}
             className="inline-flex items-center gap-2 rounded-md border border-border/60 px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:border-muted-foreground hover:text-foreground"
           >
             Re-take
