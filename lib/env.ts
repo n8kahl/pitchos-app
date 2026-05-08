@@ -3,7 +3,12 @@ import { z } from "zod";
 const envSchema = z.object({
   // App
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
+  // Optional. Vercel env vars set as blank strings would otherwise fail
+  // the .url() validator — coerce "" → undefined before validating.
+  NEXT_PUBLIC_APP_URL: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().url().optional()
+  ),
 
   // Database
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),

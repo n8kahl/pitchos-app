@@ -7,6 +7,9 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
+    // Prisma 7 moved the seed command from package.json to here.
+    // tsx is in devDependencies and available at build time.
+    seed: "tsx ./prisma/seed.ts",
   },
   datasource: {
     url: process.env["DATABASE_URL"],
