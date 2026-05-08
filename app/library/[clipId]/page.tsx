@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getClipById, SAMPLE_CLIPS, SHOW_LABELS } from "@/lib/content/sample-clips";
+import { PlayerFrame } from "@/components/library/PlayerFrame";
+import { AskCoachButton } from "@/components/library/AskCoachButton";
 
 type PageProps = {
   params: Promise<{ clipId: string }>;
@@ -50,7 +52,7 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
               <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
                 {SHOW_LABELS[clip.show]} · {clip.publishedAt}
               </div>
-              <h1 className="mt-2 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-foreground">
+              <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
                 {clip.title}
               </h1>
             </div>
@@ -59,33 +61,7 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
             </div>
           </div>
 
-          {/* Embedded player placeholder · Phase 6 swaps for R2-hosted MP4 */}
-          <div className="relative aspect-video overflow-hidden rounded-xl border border-border/80 bg-gradient-to-br from-forest to-[#0c1812]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(60,169,74,0.14),transparent_60%),radial-gradient(circle_at_75%_70%,rgba(245,200,66,0.10),transparent_60%)]" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-              <button className="grid h-20 w-20 place-items-center rounded-full bg-brand-gold text-[#0a1410] transition hover:scale-105">
-                <svg viewBox="0 0 24 24" className="h-9 w-9" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </button>
-              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                {t ? `seek to ${t} on play` : "embedded player · phase 6 wires R2 + WebVTT"}
-              </div>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-black/60 to-transparent px-5 py-3">
-              <span className="font-mono text-[10px] tabular-nums text-foreground/85">
-                {t ?? "00:00"}
-              </span>
-              <div className="flex-1">
-                <div className="h-1 overflow-hidden rounded-full bg-white/15">
-                  <div className="h-full w-[18%] rounded-full bg-brand-gold" />
-                </div>
-              </div>
-              <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
-                {String(clip.durationMin).padStart(2, "0")}:00
-              </span>
-            </div>
-          </div>
+          <PlayerFrame durationMin={clip.durationMin} initialT={t} />
 
           {/* AI summary */}
           <div className="mt-6 rounded-xl border border-brand-gold/20 bg-brand-gold/5 p-5">
@@ -210,9 +186,12 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
               </span>
               .
             </p>
-            <button className="mt-4 inline-flex items-center gap-2 rounded-md border border-brand-gold/40 bg-brand-gold/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-brand-gold transition hover:bg-brand-gold/10">
-              ✸ open coach →
-            </button>
+            <AskCoachButton
+              className="mt-4"
+              primingPrompt={`About "${clip.title}" — `}
+            >
+              ✸ ask coach about this clip →
+            </AskCoachButton>
           </div>
 
           {related.length > 0 && (

@@ -24,7 +24,7 @@ export default async function RunPage({ params }: PageProps) {
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
             ★ pitchos · analysis in progress
           </div>
-          <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-foreground">
+          <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl tracking-tight text-foreground">
             {run.deck.project.companyName}
           </h1>
           <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">

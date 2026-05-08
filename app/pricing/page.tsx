@@ -68,7 +68,7 @@ const TIERS = [
       "Series A readiness path",
     ],
     cta: "Stay on after close",
-    href: "#",
+    href: "/dashboard",
   },
   {
     name: "Fund Manager",
@@ -82,7 +82,7 @@ const TIERS = [
       "Multi-tenant fund workspace",
     ],
     cta: "Apply",
-    href: "#",
+    href: "/coach",
   },
 ];
 
@@ -93,7 +93,7 @@ export default function PricingPage() {
         <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
           06 · pricing & tiers
         </div>
-        <h1 className="mt-2 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-foreground">
+        <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
           A tier for every stage of the lifecycle.
         </h1>
         <p className="mt-3 max-w-2xl font-serif text-[15px] leading-relaxed text-muted-foreground">
@@ -123,7 +123,7 @@ export default function PricingPage() {
             <div className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
               {t.name}
             </div>
-            <div className="mt-3 font-serif text-4xl font-semibold leading-none tracking-tight text-foreground">
+            <div className="mt-3 font-serif text-3xl font-semibold sm:text-4xl leading-none tracking-tight text-foreground">
               {t.price}
               <span className="ml-0.5 font-mono text-sm font-medium text-muted-foreground">
                 /mo

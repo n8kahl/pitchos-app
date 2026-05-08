@@ -2,41 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-type NavItem = {
-  href: string;
-  label: string;
-  icon: string;
-  badge?: string;
-};
-
-type NavSection = {
-  label: string;
-  items: NavItem[];
-};
-
-const SECTIONS: NavSection[] = [
-  {
-    label: "Discover",
-    items: [
-      { href: "/", label: "Home", icon: "◎" },
-      { href: "/library", label: "Content library", icon: "▤" },
-      { href: "/coach", label: "AI Coach", icon: "✸" },
-      { href: "/assessment", label: "Founder readiness", icon: "◫" },
-    ],
-  },
-  {
-    label: "Your fundraise",
-    items: [
-      { href: "/dashboard", label: "Dashboard", icon: "◉" },
-      { href: "/pitchos", label: "PitchOS Premium", icon: "★", badge: "premium" },
-    ],
-  },
-  {
-    label: "Account",
-    items: [{ href: "/pricing", label: "Pricing & tiers", icon: "❑" }],
-  },
-];
+import { NAV_SECTIONS } from "./nav-data";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -47,12 +13,20 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-border/60 bg-bg-2/60 backdrop-blur md:flex">
-      <Link href="/" className="flex items-center gap-3 border-b border-border/60 px-5 py-5">
+    <aside
+      aria-label="Primary navigation"
+      className="hidden h-screen w-64 shrink-0 flex-col border-r border-border/60 bg-bg-2/60 backdrop-blur md:flex"
+    >
+      <Link
+        href="/"
+        className="flex items-center gap-3 border-b border-border/60 px-5 py-5"
+      >
         <div className="grid h-9 w-11 place-items-center rounded-md bg-black">
           <div className="font-serif text-[10px] font-bold leading-none text-brand-gold">
             BD
-            <div className="mt-0.5 font-mono text-[6px] font-bold tracking-[0.1em] text-brand-green">VP</div>
+            <div className="mt-0.5 font-mono text-[6px] font-bold tracking-[0.1em] text-brand-green">
+              VP
+            </div>
           </div>
         </div>
         <div className="font-serif text-[13px] font-semibold leading-tight">
@@ -64,7 +38,7 @@ export function Sidebar() {
       </Link>
 
       <nav className="flex-1 overflow-y-auto px-3 py-5">
-        {SECTIONS.map((section) => (
+        {NAV_SECTIONS.map((section) => (
           <div key={section.label} className="mb-7 last:mb-0">
             <div className="px-3 pb-2 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
               {section.label}
@@ -77,7 +51,7 @@ export function Sidebar() {
                     <Link
                       href={item.href}
                       className={[
-                        "group flex items-center gap-3 rounded-md px-3 py-2 text-[13px] transition",
+                        "group flex items-center gap-3 rounded-md px-3 py-2.5 text-[13px] transition",
                         active
                           ? "bg-brand-gold/10 text-foreground shadow-[inset_2px_0_0_var(--color-brand-gold)]"
                           : "text-foreground/75 hover:bg-muted/40 hover:text-foreground",
@@ -119,13 +93,15 @@ export function Sidebar() {
           </div>
         </Link>
         <div className="mt-3 flex items-center gap-3 px-1">
-          <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-forest text-[11px] font-bold text-brand-gold">
-            N
+          <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-forest text-[10px] font-bold text-brand-gold">
+            ◐
           </div>
           <div className="min-w-0">
-            <div className="truncate text-[12px] font-semibold text-foreground">Nate</div>
+            <div className="truncate text-[12px] font-semibold text-foreground">
+              Demo seat
+            </div>
             <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-              founder pro
+              founder pro · stage 3
             </div>
           </div>
         </div>

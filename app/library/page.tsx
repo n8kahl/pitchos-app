@@ -22,7 +22,7 @@ export default function LibraryPage() {
         <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
           02 · content library · scott&rsquo;s curriculum
         </div>
-        <h1 className="mt-2 font-serif text-4xl font-semibold leading-tight tracking-tight text-foreground">
+        <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-tight tracking-tight text-foreground">
           {SAMPLE_CLIPS.length} clips · auto-tagged by rubric dimension
         </h1>
         <p className="mt-3 max-w-2xl font-serif text-[15px] leading-relaxed text-muted-foreground">

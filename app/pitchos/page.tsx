@@ -7,7 +7,7 @@ export default function PitchOSPage() {
         <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
           ★ pitchos premium · the deep-grade exam
         </div>
-        <h1 className="mt-2 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-foreground">
+        <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
           The partner memo your deck deserves —
           <span className="text-brand-gold"> before</span> you send it.
         </h1>

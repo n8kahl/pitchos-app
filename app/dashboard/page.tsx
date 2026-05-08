@@ -14,7 +14,7 @@ export default async function DashboardPage() {
         <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
           05 · your fundraise · dashboard
         </div>
-        <h1 className="mt-2 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-foreground">
+        <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
           Every PitchOS run, every memo, in one place.
         </h1>
         <p className="mt-3 max-w-2xl font-serif text-[15px] leading-relaxed text-muted-foreground">
