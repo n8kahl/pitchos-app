@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getClipById, SAMPLE_CLIPS, SHOW_LABELS } from "@/lib/content/sample-clips";
 import { PlayerFrame } from "@/components/library/PlayerFrame";
 import { AskCoachButton } from "@/components/library/AskCoachButton";
+import { TranscriptPanel } from "@/components/library/TranscriptPanel";
 
 type PageProps = {
   params: Promise<{ clipId: string }>;
@@ -78,6 +79,9 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
               {clip.aiSummary}
             </p>
           </div>
+
+          {/* Transcript · collapsed by default · click to expand */}
+          <TranscriptPanel clip={clip} />
 
           {/* Chapters */}
           <section className="mt-10">

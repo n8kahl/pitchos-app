@@ -54,7 +54,7 @@ export default async function ResourcePage({ params, searchParams }: PageProps) 
               : "single page · infographic"}
           </div>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex flex-wrap shrink-0 items-center gap-2">
           <a
             href={resource.fileUrl}
             download={filename}
@@ -70,6 +70,12 @@ export default async function ResourcePage({ params, searchParams }: PageProps) 
           >
             Open in new tab →
           </a>
+          <Link
+            href={`/library/resources/${resource.id}/podcast?generate=1`}
+            className="rounded-md border border-brand-green/30 bg-brand-green/5 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-green transition hover:border-brand-green/60 hover:bg-brand-green/10"
+          >
+            ★ Generate podcast →
+          </Link>
         </div>
       </header>
 

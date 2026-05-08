@@ -71,20 +71,26 @@ export function ResourceCard({ resource }: { resource: LibraryResource }) {
             </span>
           ))}
         </div>
-        <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-4">
+        <div className="mt-4 grid grid-cols-2 gap-2 border-t border-border/60 pt-4">
           <Link
             href={`/library/resources/${resource.id}`}
-            className="flex-1 rounded-md bg-brand-gold px-3 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0a1410] transition hover:bg-brand-gold-2"
+            className="rounded-md bg-brand-gold px-3 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0a1410] transition hover:bg-brand-gold-2"
           >
             View →
           </Link>
           <a
             href={resource.fileUrl}
             download={filename}
-            className="flex-1 rounded-md border border-border/80 px-3 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-foreground/85 transition hover:border-brand-gold/40 hover:text-foreground"
+            className="rounded-md border border-border/80 px-3 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-foreground/85 transition hover:border-brand-gold/40 hover:text-foreground"
           >
             Download
           </a>
+          <Link
+            href={`/library/resources/${resource.id}/podcast?generate=1`}
+            className="col-span-2 rounded-md border border-brand-green/30 bg-brand-green/5 px-3 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-green transition hover:border-brand-green/60 hover:bg-brand-green/10"
+          >
+            ★ Generate podcast →
+          </Link>
         </div>
       </div>
     </div>
