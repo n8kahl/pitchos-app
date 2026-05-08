@@ -18,6 +18,7 @@ import { MemoBody } from "@/components/report/MemoBody";
 import { SlideTeardown } from "@/components/report/SlideTeardown";
 import { InvestorLens } from "@/components/report/InvestorLens";
 import { QARehearsal } from "@/components/report/QARehearsal";
+import { ReportNav } from "@/components/report/ReportNav";
 import { AskCoachButton } from "@/components/library/AskCoachButton";
 
 type PageProps = {
@@ -96,7 +97,12 @@ export default async function ReportPage({ params }: PageProps) {
     (run.report.keyMetrics as { scoring?: ScoreComponent[] } | null)
       ?.scoring ?? [];
 
-  const extractedSlides =
+  const extractedSlides: Array<{
+    slideNumber: number;
+    inferredTitle: string;
+    purpose: string;
+    rawText: string;
+  }> =
     (run.extractionJson as {
       slides?: Array<{
         slideNumber: number;
@@ -104,7 +110,17 @@ export default async function ReportPage({ params }: PageProps) {
         purpose: string;
         rawText: string;
       }>;
-    } | null)?.slides ?? [];
+    } | null)?.slides ??
+    run.slideReviews.map((r) => ({
+      slideNumber: r.slideNumber,
+      inferredTitle: r.suggestedTitle ?? r.inferredTitle,
+      purpose: inferPurposeFromTitle(
+        r.suggestedTitle ?? r.inferredTitle,
+        r.slideNumber,
+        run.slideReviews.length
+      ),
+      rawText: [r.sourceQuote, r.rewriteGuidance].filter(Boolean).join(". "),
+    }));
 
   const voicePass =
     memo.voiceMarkers.bannedPhraseHits.length === 0 &&
@@ -175,8 +191,10 @@ export default async function ReportPage({ params }: PageProps) {
         </div>
       </header>
 
+      <ReportNav />
+
       {/* === VERDICT · the TL;DR · most prominent thing on the page === */}
-      <section className="mt-10">
+      <section id="verdict" className="mt-10 scroll-mt-16">
         <div className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-gradient-to-br from-brand-gold/10 via-card to-card p-7 sm:p-9">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-gold via-brand-green to-brand-gold" />
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
@@ -204,7 +222,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 01 · Memo body · with interactive [slide N] citations === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s01" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow num="01" label="partner memo · sharpening voice" />
         <h2 className="sr-only">Memo body</h2>
         <div className="mt-5">
@@ -213,7 +231,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 02 · Bull / bear === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s02" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow num="02" label="bull / bear · agent disagreement" />
         <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           The two cases
@@ -239,7 +257,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 03 · Scorecard === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s03" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow num="03" label={`scorecard · ${run.rubricVersion}`} />
         <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           Sub-scores · 11 dimensions
@@ -280,7 +298,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 04 · Anti-pattern objections === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s04" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow
           num="04"
           label="named objections · catalog-anchored"
@@ -328,7 +346,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 05 · Slide-by-slide teardown · rail + detail · citation jump targets === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s05" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow
           num="05"
           label="slide-by-slide teardown · click [slide N] in the memo or any thumb"
@@ -344,7 +362,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 06 · What would need to be true === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s06" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow num="06" label="what would need to be true" />
         <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           What turns this into a yes
@@ -373,7 +391,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 07 · Diligence === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s07" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow num="07" label="diligence · before IC" />
         <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           What we&rsquo;d want before IC
@@ -404,7 +422,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 08 · Investor lens · same deck through different archetypes === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s08" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow
           num="08"
           label="investor lens simulator · same deck, different archetype"
@@ -422,7 +440,7 @@ export default async function ReportPage({ params }: PageProps) {
       </section>
 
       {/* === 09 · Q&A rehearsal · partner-voiced questions, click to expand === */}
-      <section className="mt-12 sm:mt-16">
+      <section id="s09" className="mt-12 scroll-mt-14 sm:mt-16">
         <SectionEyebrow
           num="09"
           label="q&a rehearsal · the questions a partner will ask in the room"
@@ -460,6 +478,30 @@ export default async function ReportPage({ params }: PageProps) {
       </footer>
     </main>
   );
+}
+
+function inferPurposeFromTitle(
+  title: string,
+  slideNum: number,
+  total: number
+): string {
+  const t = title.toLowerCase();
+  if (slideNum === 1) return "title";
+  if (t.includes("team") || t.includes("founder")) return "team";
+  if (t.includes("market") || t.includes("tam") || t.includes("size")) return "market";
+  if (t.includes("traction") || t.includes("growth") || t.includes("revenue") || t.includes("arr")) return "traction";
+  if (t.includes("ask") || t.includes("raise") || t.includes("round")) return "ask";
+  if (t.includes("problem") || t.includes("pain") || t.includes("challenge")) return "problem";
+  if (t.includes("solution") || t.includes("product") || t.includes("platform")) return "solution";
+  if (t.includes("business model") || t.includes("monetiz") || t.includes("pricing")) return "business_model";
+  if (t.includes("why now") || t.includes("timing") || t.includes("tailwind")) return "why_now";
+  if (t.includes("competition") || t.includes("competitive") || t.includes("landscape")) return "competition";
+  if (t.includes("defensib") || t.includes("moat")) return "defensibility";
+  if (t.includes("gtm") || t.includes("go-to-market") || t.includes("sales")) return "gtm";
+  if (t.includes("use of fund") || t.includes("allocation")) return "use_of_funds";
+  if (t.includes("wedge") || t.includes("beachhead")) return "wedge";
+  if (slideNum >= total - 1) return "ask";
+  return "problem";
 }
 
 function SectionEyebrow({ num, label }: { num: string; label: string }) {
