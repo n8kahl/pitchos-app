@@ -40,7 +40,7 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
     publishedAt: "2025-10",
     durationMin: 34,
     rubricDims: ["founderMarketFit", "wedgeClarity", "tractionQuality"],
-    journeyStages: [2, 3, 4],
+    journeyStages: [1, 2, 3, 4],
     aiSummary:
       "Scott on the founder-side discipline that compounds across every raise — clarity, evidence, and the wedge story that survives partner skepticism. Same operator framework that drives the PitchOS rubric.",
     provider: "apple",
@@ -58,7 +58,7 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
     publishedAt: "2025-09",
     durationMin: 42,
     rubricDims: ["founderMarketFit", "deckQuality"],
-    journeyStages: [2, 3],
+    journeyStages: [1, 2, 3],
     aiSummary:
       "The Do's and Don'ts of approaching investors. Scott on the credentials line, the why-now sentence, and the single most common reason a partner closes the deck before slide three.",
     provider: "spotify",
@@ -77,7 +77,7 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
     publishedAt: "2025-12",
     durationMin: 48,
     rubricDims: ["whyNow", "defensibility", "tractionQuality"],
-    journeyStages: [2, 3, 4],
+    journeyStages: [1, 2, 3, 4],
     aiSummary:
       "What founders need to know about raising capital, leveraging AI without becoming an AI-wrapper, and building companies that last across a vintage. Scott's structural why-now framework applied to the 2026 environment.",
     provider: "apple",
@@ -131,7 +131,7 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
     publishedAt: "2025-04",
     durationMin: 41,
     rubricDims: ["defensibility", "businessModel", "wedgeClarity"],
-    journeyStages: [3, 4],
+    journeyStages: [3, 4, 5],
     aiSummary:
       "Alana Mann on the moats that hold up under real partner scrutiny in vertical AI — proprietary data, integration depth, and the difference between a wrapper company and a system-of-record bet.",
     provider: "apple",

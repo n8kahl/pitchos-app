@@ -251,6 +251,78 @@ export const SAMPLE_CLIPS: SampleClip[] = [
     youtubeId: "fnDHKY0JkVw",
     videoSrc: null,
   },
+  {
+    id: "early-stage-secrets-13a",
+    show: "Smart Startup Growth",
+    title: "Early-stage startup success · part one",
+    durationMin: 33,
+    publishedAt: "2024-07",
+    rubricDims: ["founderMarketFit", "tractionQuality", "wedgeClarity"],
+    journeyStages: [1, 2, 3],
+    aiSummary:
+      "Companion to part two. Scott walks through the operator pattern recognition that distinguishes which founders raise without burning relationships — discipline before deck, customer evidence before scale, and the discipline of saying no to the wrong investors.",
+    keyMoments: [
+      {
+        at: "12:30",
+        quote:
+          "Founders who get the round done first are the ones who say no to investors who would have said yes.",
+      },
+    ],
+    chapters: [
+      { at: "00:00", title: "Why most pre-seed founders raise wrong", summary: "Pattern across thirty years of operator-investor reads." },
+      { at: "12:00", title: "The discipline of saying no", summary: "Investor-fit math: who you let onto the cap table changes everything downstream." },
+    ],
+    youtubeId: "dBsqGMXKQ6E",
+    videoSrc: null,
+  },
+  {
+    id: "stop-raising-build-real-company",
+    show: "BDVP Fireside",
+    title: "Stop raising money — build something that actually sells",
+    durationMin: 28,
+    publishedAt: "2025-12",
+    rubricDims: ["tractionQuality", "businessModel", "founderMarketFit"],
+    journeyStages: [1, 2, 3],
+    aiSummary:
+      "Operator-first framing. Scott on the pattern that separates founders who build durable companies from founders who fund-raise their way into structurally weak businesses. Build the thing customers pay for first; raise to accelerate, not to discover.",
+    keyMoments: [
+      {
+        at: "06:18",
+        quote:
+          "If you can't sell it without raising for it, the round is propping up a problem rather than solving one.",
+      },
+    ],
+    chapters: [
+      { at: "00:00", title: "Operators vs. fundraisers", summary: "Two patterns that look identical at seed and diverge at Series A." },
+      { at: "06:00", title: "Build the thing customers pay for", summary: "Why pre-revenue rounds are the hardest sell — and the most consequential to get right." },
+    ],
+    youtubeId: "u3md8tmXV1I",
+    videoSrc: null,
+  },
+  {
+    id: "pitch-deck-advice-panel",
+    show: "VC Fast Pitch",
+    title: "Pitch deck advice from VCs and angel investors",
+    durationMin: 19,
+    publishedAt: "2021-06",
+    rubricDims: ["deckQuality", "founderMarketFit", "wedgeClarity"],
+    journeyStages: [2, 3],
+    aiSummary:
+      "Multi-investor panel on what trips up most decks at first read. Recurring pattern: clarity beats quantity, every slide must answer one reflexive question, and the team line either lands in the first credentials sentence or it doesn't.",
+    keyMoments: [
+      {
+        at: "04:45",
+        quote:
+          "The decks that get partner meetings are the ones where I close the file and remember exactly what the company does.",
+      },
+    ],
+    chapters: [
+      { at: "00:00", title: "What partners read for in 90 seconds", summary: "The single-sentence test most decks fail." },
+      { at: "04:30", title: "Clarity over completeness", summary: "Why the twelve-slide rule exists and where founders break it." },
+    ],
+    youtubeId: "3Ndqlro0W4k",
+    videoSrc: null,
+  },
 ];
 
 export function getClipById(id: string): SampleClip | undefined {
