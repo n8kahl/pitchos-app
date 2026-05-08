@@ -59,14 +59,26 @@ export function CoachRail() {
     return () => document.removeEventListener("keydown", onKey);
   }, [isOpen, close]);
 
+  // The rail has three states across breakpoints:
+  //   <lg + closed → no rail visible (floater is the affordance)
+  //   <lg + open   → modal bottom-sheet / right-rail with backdrop
+  //   lg+ + on /coach → rail hidden (the page IS the Coach)
+  //   lg+ + closed → 48px collapsed gold strip on the right (always reachable)
+  //   lg+ + open   → full 420px docked rail, content shifts left
+  const onCoachPage = pathname === "/coach";
+  const showCollapsedStrip = isLg && !isOpen && !onCoachPage;
+  const hideRailEntirely = isLg && onCoachPage;
+
   return (
     <>
+      {/* Floater · phone/tablet only · the lg+ collapsed strip replaces it on desktop */}
       {!hideFloater && (
         <button
           onClick={() => open()}
           aria-label="Open Scott AI Coach"
           className={[
             "fixed bottom-20 right-5 z-40 flex items-center gap-2.5 rounded-full bg-brand-gold px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#0a1410] shadow-[0_8px_24px_rgba(245,200,66,0.25)] transition hover:bg-brand-gold-2 sm:bottom-6 md:right-6",
+            "lg:hidden",
             isOpen ? "pointer-events-none opacity-0" : "",
           ].join(" ")}
         >
@@ -74,6 +86,40 @@ export function CoachRail() {
             ✸
           </span>
           Ask the Coach
+        </button>
+      )}
+
+      {/* Collapsed strip · the always-reachable Coach affordance at lg+.
+          Click anywhere on the strip to expand the rail. */}
+      {showCollapsedStrip && (
+        <button
+          type="button"
+          onClick={() => open()}
+          aria-label="Open Scott AI Coach"
+          style={{ viewTransitionName: "coach-rail-strip" }}
+          className="group fixed inset-y-0 right-0 z-40 hidden w-12 flex-col items-center justify-between border-l border-brand-gold/30 bg-bg-2/95 py-5 transition hover:bg-bg-3 lg:flex"
+        >
+          {/* Top · Scott avatar · ready dot */}
+          <span className="relative grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-gold to-brand-green text-[12px] font-bold text-[#0a1410]">
+            S
+            <span className="stage-dot-pulse absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-brand-green ring-2 ring-bg-2" />
+          </span>
+
+          {/* Middle · vertical label */}
+          <span
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-muted-foreground transition group-hover:text-brand-gold"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            ask the coach
+          </span>
+
+          {/* Bottom · expand chevron */}
+          <span
+            aria-hidden
+            className="grid h-7 w-7 place-items-center rounded-full border border-brand-gold/40 bg-brand-gold/10 text-[12px] font-bold text-brand-gold transition group-hover:bg-brand-gold/20"
+          >
+            ◀
+          </span>
         </button>
       )}
 
@@ -93,6 +139,8 @@ export function CoachRail() {
           "sm:inset-y-0 sm:right-0 sm:left-auto sm:bottom-auto sm:h-full sm:max-h-none sm:w-[420px] sm:rounded-none sm:border-l sm:border-t-0",
           // Soften the shadow when docked — the left border carries separation.
           "lg:shadow-xl",
+          // Hide entirely on /coach at lg+ · the page IS the Coach there.
+          hideRailEntirely ? "lg:hidden" : "",
           isOpen ? "translate-y-0 sm:translate-x-0" : "translate-y-full sm:translate-y-0 sm:translate-x-full",
         ].join(" ")}
       >
