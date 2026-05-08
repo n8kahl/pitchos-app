@@ -7,6 +7,24 @@ import { usePalette } from "@/lib/state/palette";
 import { useCoach } from "@/lib/state/coach";
 import { NAV_SECTIONS } from "./nav-data";
 import { COACH_EXAMPLES } from "@/lib/content/coach-exchanges";
+import type { RubricCategory } from "@/lib/ai/anti-patterns";
+
+// The 11 partner-rubric dimensions that drive every memo. Mirrors the
+// label table in app/library/page.tsx — kept in sync intentionally; if
+// the rubric ever expands, both spots want the new entry.
+const LIBRARY_DIMS: Array<{ key: RubricCategory; label: string }> = [
+  { key: "founderMarketFit", label: "founder-market fit" },
+  { key: "wedgeClarity", label: "wedge clarity" },
+  { key: "tractionQuality", label: "traction quality" },
+  { key: "problemUrgency", label: "problem urgency" },
+  { key: "gtmRepeatability", label: "GTM repeatability" },
+  { key: "marketSizingLogic", label: "market sizing" },
+  { key: "whyNow", label: "why now" },
+  { key: "businessModel", label: "business model" },
+  { key: "defensibility", label: "defensibility" },
+  { key: "deckQuality", label: "deck quality" },
+  { key: "riskSurface", label: "risk surface" },
+];
 
 // ⌘K command palette · the go-anywhere / run-anything surface that
 // makes the chrome feel like an app rather than a doc site. v1 covers
@@ -109,6 +127,25 @@ export function CommandPalette() {
                   </Command.Item>
                 ))
               )}
+            </Command.Group>
+
+            <Command.Group heading="Library · by dimension" className={HEADING}>
+              {LIBRARY_DIMS.map((dim) => (
+                <Command.Item
+                  key={dim.key}
+                  value={`library dimension ${dim.label} ${dim.key}`}
+                  onSelect={() => go(`/library?dim=${dim.key}`)}
+                  className={ITEM_BASE}
+                >
+                  <span className="grid h-5 w-5 place-items-center text-base text-muted-foreground transition data-[selected=true]:text-brand-gold">
+                    ▤
+                  </span>
+                  <span className="flex-1 truncate">{dim.label}</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
+                    library
+                  </span>
+                </Command.Item>
+              ))}
             </Command.Group>
 
             <Command.Group heading="Ask Scott" className={HEADING}>

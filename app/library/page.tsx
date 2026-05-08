@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SAMPLE_CLIPS, SHOW_LABELS, type SampleClip } from "@/lib/content/sample-clips";
 import type { RubricCategory } from "@/lib/ai/anti-patterns";
 import { WatchedBadge } from "@/components/library/WatchedBadge";
@@ -81,14 +81,54 @@ export default function LibraryPage() {
 }
 
 function LibraryView() {
+  // Filter state lives in the URL so deep-linking and back/forward work
+  // like an app — the palette can route to /library?dim=wedgeClarity
+  // and the chips light up correctly. router.replace + scroll: false
+  // keeps the URL synchronized without polluting browser history.
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const initialQ = searchParams.get("q") ?? "";
 
-  const [query, setQuery] = useState(initialQ);
-  const [activeDim, setActiveDim] = useState<RubricCategory | null>(null);
-  const [activeShow, setActiveShow] = useState<SampleClip["show"] | null>(null);
-  const [activeStage, setActiveStage] = useState<number | null>(null);
-  const [sort, setSort] = useState<SortKey>("newest");
+  const query = searchParams.get("q") ?? "";
+  const activeDim = (searchParams.get("dim") as RubricCategory | null) ?? null;
+  const activeShow = (searchParams.get("show") as SampleClip["show"] | null) ?? null;
+  const stageRaw = searchParams.get("stage");
+  const activeStage = stageRaw ? Number(stageRaw) : null;
+  const sort = (searchParams.get("sort") as SortKey) ?? "newest";
+
+  const setParam = useCallback(
+    (updates: Record<string, string | null>) => {
+      const next = new URLSearchParams(searchParams.toString());
+      for (const [key, value] of Object.entries(updates)) {
+        if (value === null || value === "") next.delete(key);
+        else next.set(key, value);
+      }
+      const qs = next.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [router, pathname, searchParams]
+  );
+
+  const setQuery = useCallback(
+    (q: string) => setParam({ q: q || null }),
+    [setParam]
+  );
+  const setActiveDim = useCallback(
+    (d: RubricCategory | null) => setParam({ dim: d }),
+    [setParam]
+  );
+  const setActiveShow = useCallback(
+    (s: SampleClip["show"] | null) => setParam({ show: s }),
+    [setParam]
+  );
+  const setActiveStage = useCallback(
+    (s: number | null) => setParam({ stage: s ? String(s) : null }),
+    [setParam]
+  );
+  const setSort = useCallback(
+    (s: SortKey) => setParam({ sort: s === "newest" ? null : s }),
+    [setParam]
+  );
 
   const filtered = useMemo(() => {
     let list = [...SAMPLE_CLIPS];
@@ -267,12 +307,9 @@ function LibraryView() {
         </span>
         {filterCount > 0 && (
           <button
-            onClick={() => {
-              setActiveDim(null);
-              setActiveShow(null);
-              setActiveStage(null);
-              setQuery("");
-            }}
+            onClick={() =>
+              setParam({ q: null, dim: null, show: null, stage: null })
+            }
             className="text-brand-gold hover:text-brand-gold-2"
           >
             clear all
