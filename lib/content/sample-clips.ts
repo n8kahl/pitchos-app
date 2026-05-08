@@ -37,7 +37,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
     durationMin: 47,
     publishedAt: "2025-05",
     rubricDims: ["founderMarketFit", "wedgeClarity"],
-    journeyStages: [2, 3, 4],
+    journeyStages: [1, 2, 3, 4],
     aiSummary:
       "Scott breaks down three decks where the team won the deal before slide one — and three where it lost the deal at slide thirteen. The pattern: 'why this team specifically' is either answered in the first credentials line or it isn't, and the rest of the deck cannot recover from a missing answer.",
     keyMoments: [
@@ -210,7 +210,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
     durationMin: 16,
     publishedAt: "2025-01",
     rubricDims: ["marketSizingLogic"],
-    journeyStages: [2, 3],
+    journeyStages: [1, 2, 3],
     aiSummary:
       "Why $12B TAM with no segmentation gets discounted on first read. Scott on bottom-up sizing: name the wedge segment, name the buyer, math out the ACV. The wedge market is more believable than the total market — always.",
     keyMoments: [

@@ -2,6 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  JOURNEY_STAGES,
+  getStage,
+  type JourneyStageNumber,
+} from "@/lib/content/journey-stages";
 
 // Persistent founder-journey strip · sits below the TopBar and shows
 // the five-stage map every founder is on, with the current stage
@@ -13,22 +18,7 @@ import { usePathname } from "next/navigation";
 // Stage state is hardcoded to 3 for now — same as the existing chrome
 // pill — pending real derivation from the user's run history. Surfaces
 // where the strip would compete with vertical chrome (clip / podcast /
-// resource detail pages) opt out via the ROUTES_WITHOUT_STRIP list.
-
-type Stage = {
-  n: 1 | 2 | 3 | 4 | 5;
-  key: string;
-  label: string;
-  hint: string;
-};
-
-const STAGES: Stage[] = [
-  { n: 1, key: "idea", label: "Idea", hint: "Customer interviews · ICP" },
-  { n: 2, key: "validation", label: "Validation", hint: "First paying pilot" },
-  { n: 3, key: "pitch-ready", label: "Pitch-Ready", hint: "Score the deck" },
-  { n: 4, key: "raising", label: "Raising", hint: "Open the round" },
-  { n: 5, key: "scaling", label: "Scaling", hint: "LP cadence · Series A" },
-];
+// resource detail pages) opt out via the HIDDEN_PREFIXES list.
 
 // Hide on clip / podcast / resource detail pages — they have their own
 // breadcrumb and the strip would compete for the same vertical space.
@@ -40,8 +30,8 @@ export function FounderJourneyStrip() {
   if (hidden) return null;
 
   // TODO: derive from real run history once stage detection lands.
-  const currentStage: Stage["n"] = 3;
-  const next = STAGES.find((s) => s.n === currentStage)!;
+  const currentStage: JourneyStageNumber = 3;
+  const next = getStage(currentStage);
 
   return (
     <div
@@ -54,7 +44,7 @@ export function FounderJourneyStrip() {
         </span>
 
         <ol className="flex flex-1 items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {STAGES.map((s, i) => {
+          {JOURNEY_STAGES.map((s, i) => {
             const isCurrent = s.n === currentStage;
             const isPast = s.n < currentStage;
             return (
@@ -96,7 +86,7 @@ export function FounderJourneyStrip() {
                     {s.label}
                   </span>
                 </Link>
-                {i < STAGES.length - 1 && (
+                {i < JOURNEY_STAGES.length - 1 && (
                   <span
                     aria-hidden
                     className={[
@@ -115,7 +105,7 @@ export function FounderJourneyStrip() {
           <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-brand-gold">
             next ·
           </span>
-          <span className="text-[12px] text-foreground/85">{next.hint}</span>
+          <span className="text-[12px] text-foreground/85">{next.shortHint}</span>
         </div>
       </div>
     </div>

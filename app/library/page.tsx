@@ -10,6 +10,8 @@ import { VideoCard } from "@/components/library/VideoCard";
 import { PodcastCard } from "@/components/library/PodcastCard";
 import { ResourceCard } from "@/components/library/ResourceCard";
 import { HorizontalRail } from "@/components/library/HorizontalRail";
+import { StageHero } from "@/components/library/StageHero";
+import type { JourneyStageNumber } from "@/lib/content/journey-stages";
 
 const RUBRIC_LABELS: Record<RubricCategory, string> = {
   founderMarketFit: "founder-market fit",
@@ -229,23 +231,35 @@ function LibraryView() {
   const showPodcasts = media === "all" || media === "podcasts";
   const showResources = media === "all" || media === "resources";
 
+  // When ?stage=N is in the URL the user wants stage context, not the
+  // generic library header. The StageHero replaces it and tells them
+  // what to do at this phase before they scroll into the filtered grid.
+  const validStage =
+    activeStage && activeStage >= 1 && activeStage <= 5
+      ? (activeStage as JourneyStageNumber)
+      : null;
+
   return (
     <main className="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
-      <header className="mb-6 border-b border-border/40 pb-6">
-        <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
-          02 · content library · scott&rsquo;s curriculum
-        </div>
-        <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
-          {SAMPLE_CLIPS.length + PODCAST_EPISODES.length + LIBRARY_RESOURCES.length}{" "}
-          assets · auto-tagged by rubric dimension
-        </h1>
-        <p className="mt-3 max-w-2xl font-serif text-[15px] leading-relaxed text-muted-foreground">
-          Every video, podcast, and PDF is chaptered or summarized by the
-          system, tagged across the 11-dimension partner rubric, and routed to
-          the right journey stage. Filter to your weakest dim or your stage;
-          click a card to open the player or viewer.
-        </p>
-      </header>
+      {validStage ? (
+        <StageHero stage={validStage} />
+      ) : (
+        <header className="mb-6 border-b border-border/40 pb-6">
+          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+            02 · content library · scott&rsquo;s curriculum
+          </div>
+          <h1 className="mt-2 text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
+            {SAMPLE_CLIPS.length + PODCAST_EPISODES.length + LIBRARY_RESOURCES.length}{" "}
+            assets · auto-tagged by rubric dimension
+          </h1>
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+            Every video, podcast, and PDF is chaptered or summarized by the
+            system, tagged across the 11-dimension partner rubric, and routed to
+            the right journey stage. Filter to your weakest dim or your stage;
+            click a card to open the player or viewer.
+          </p>
+        </header>
+      )}
 
       {/* Search row */}
       <div className="mb-5 flex flex-wrap items-center gap-3">
