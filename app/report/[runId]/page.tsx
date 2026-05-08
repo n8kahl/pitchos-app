@@ -16,6 +16,7 @@ import { db } from "@/lib/db";
 import type { ScoreComponent } from "@/lib/ai/schemas";
 import { MemoBody } from "@/components/report/MemoBody";
 import { SlideTeardown } from "@/components/report/SlideTeardown";
+import { InvestorLens } from "@/components/report/InvestorLens";
 import { AskCoachButton } from "@/components/library/AskCoachButton";
 
 type PageProps = {
@@ -399,6 +400,24 @@ export default async function ReportPage({ params }: PageProps) {
             </article>
           ))}
         </div>
+      </section>
+
+      {/* === 08 · Investor lens · same deck through different archetypes === */}
+      <section className="mt-12 sm:mt-16">
+        <SectionEyebrow
+          num="08"
+          label="investor lens simulator · same deck, different archetype"
+        />
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
+          Pick the right partner before sending
+        </h2>
+        <InvestorLens
+          baseScore={run.report.fundabilityScore}
+          detectedAntiPatternKeys={run.antiPatternDetections.map(
+            (d) => d.antiPatternKey
+          )}
+          fullText={extractedSlides.map((s) => s.rawText).join(" ")}
+        />
       </section>
 
       {/* Footer meta */}
