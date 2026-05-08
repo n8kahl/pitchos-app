@@ -22,12 +22,12 @@ export function UploadDropzone() {
       try {
         const res = await fetch("/api/decks/upload", { method: "POST", body });
         const json = (await res.json()) as
-          | { deckId: string; projectId: string; reused: boolean }
+          | { deckId: string; projectId: string; runId: string; reused: boolean }
           | { error: string };
         if (!res.ok || "error" in json) {
           throw new Error("error" in json ? json.error : "Upload failed");
         }
-        router.push(`/decks/${json.deckId}`);
+        router.push(`/runs/${json.runId}`);
       } catch (err) {
         setStatus({
           kind: "error",

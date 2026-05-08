@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "node:crypto";
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
+import { startAnalysisRun } from "@/lib/ai/orchestrator";
 import { deckStorageKey, getStorage } from "@/lib/storage";
 
 export const runtime = "nodejs";
@@ -61,9 +62,11 @@ export async function POST(request: NextRequest): Promise<Response> {
   });
 
   if (existing) {
+    const runId = await startAnalysisRun(existing.id);
     return NextResponse.json({
       deckId: existing.id,
       projectId: existing.projectId,
+      runId,
       checksum,
       bytes: existing.fileSizeBytes,
       reused: true,
@@ -109,9 +112,12 @@ export async function POST(request: NextRequest): Promise<Response> {
     data: { storageKey },
   });
 
+  const runId = await startAnalysisRun(deck.id);
+
   return NextResponse.json({
     deckId: deck.id,
     projectId: project.id,
+    runId,
     checksum,
     bytes: file.size,
     reused: false,

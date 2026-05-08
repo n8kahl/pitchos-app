@@ -1,0 +1,48 @@
+import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { ProgressView } from "@/components/runs/ProgressView";
+
+type PageProps = {
+  params: Promise<{ runId: string }>;
+};
+
+export default async function RunPage({ params }: PageProps) {
+  const { runId } = await params;
+  const run = await db.analysisRun.findUnique({
+    where: { id: runId },
+    include: {
+      deck: { include: { project: true } },
+    },
+  });
+
+  if (!run) notFound();
+
+  return (
+    <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col px-6 py-12">
+      <header className="mb-10 flex items-baseline justify-between border-b border-border/50 pb-6">
+        <div>
+          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-signal-cyan">
+            analysis · in progress
+          </div>
+          <h1 className="mt-2 font-sans text-3xl font-semibold tracking-tight text-foreground">
+            {run.deck.project.companyName}
+          </h1>
+          <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            {run.deck.fileName} · {run.rubricVersion} · {run.partnerProfileVersion}
+          </p>
+        </div>
+        <div className="text-right font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+          <div>run id</div>
+          <div className="text-foreground">{run.id.slice(-12)}</div>
+        </div>
+      </header>
+
+      <ProgressView
+        runId={run.id}
+        initialStage={run.stage}
+        initialStatus={run.status}
+        initialProgress={run.progress}
+      />
+    </main>
+  );
+}
