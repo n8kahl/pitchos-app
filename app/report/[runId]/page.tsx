@@ -117,13 +117,13 @@ export default async function ReportPage({ params }: PageProps) {
       ? _rawSlides
       : run.slideReviews.map((r) => ({
       slideNumber: r.slideNumber,
-      inferredTitle: r.suggestedTitle ?? r.inferredTitle,
+      inferredTitle: r.suggestedTitle ?? r.inferredTitle ?? "",
       purpose: inferPurposeFromTitle(
-        r.suggestedTitle ?? r.inferredTitle,
+        r.suggestedTitle ?? r.inferredTitle ?? "",
         r.slideNumber,
         run.slideReviews.length
       ),
-      rawText: [r.sourceQuote, r.rewriteGuidance].filter(Boolean).join(". "),
+      rawText: [r.sourceQuote, r.rewriteGuidance].filter((x): x is string => x !== null).join(". "),
     }));
 
   const voicePass =
