@@ -132,12 +132,14 @@ export function CommandPalette() {
           </Command.List>
 
           <div className="flex items-center justify-between gap-3 border-t border-border/60 bg-bg-3/40 px-4 py-2 font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <span>↑↓ navigate</span>
               <span>↵ select</span>
               <span>esc close</span>
             </div>
-            <span className="text-brand-gold/70">command palette · prototype</span>
+            <span className="hidden text-muted-foreground/80 sm:inline">
+              chords · g h home · g l library · g c coach
+            </span>
           </div>
         </Command>
       </div>

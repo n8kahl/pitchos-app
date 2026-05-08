@@ -3,6 +3,7 @@ import { MainColumn } from "./MainColumn";
 import { CoachRail } from "./CoachRail";
 import { MobileTabBar } from "./MobileTabBar";
 import { CommandPalette } from "./CommandPalette";
+import { GlobalShortcuts } from "./GlobalShortcuts";
 import { CoachProvider } from "@/lib/state/coach";
 import { PaletteProvider } from "@/lib/state/palette";
 
@@ -20,6 +21,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
         <MobileTabBar />
         <CommandPalette />
+        <GlobalShortcuts />
       </CoachProvider>
     </PaletteProvider>
   );
