@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { usePalette } from "@/lib/state/palette";
+import { useToast } from "@/lib/state/toast";
 
 // Global keyboard shortcuts that make the chrome feel like an app:
 // - g h / g l / g c / g d / g p / g r → go-anywhere chords
@@ -13,13 +14,15 @@ import { usePalette } from "@/lib/state/palette";
 
 const CHORD_TIMEOUT_MS = 1_200;
 
-const GO_TARGETS: Record<string, string> = {
-  h: "/",
-  l: "/library",
-  c: "/coach",
-  d: "/dashboard",
-  p: "/pitchos",
-  r: "/assessment",
+type GoTarget = { href: string; label: string };
+
+const GO_TARGETS: Record<string, GoTarget> = {
+  h: { href: "/", label: "Home" },
+  l: { href: "/library", label: "Content library" },
+  c: { href: "/coach", label: "AI Coach" },
+  d: { href: "/dashboard", label: "Dashboard" },
+  p: { href: "/pitchos", label: "PitchOS Premium" },
+  r: { href: "/assessment", label: "Founder readiness" },
 };
 
 function isTextInput(target: EventTarget | null): boolean {
@@ -33,6 +36,7 @@ function isTextInput(target: EventTarget | null): boolean {
 export function GlobalShortcuts() {
   const router = useRouter();
   const { isOpen: paletteOpen, open: openPalette } = usePalette();
+  const { toast } = useToast();
   const leaderActive = useRef(false);
   const leaderTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -73,7 +77,14 @@ export function GlobalShortcuts() {
         clearLeader();
         if (target) {
           e.preventDefault();
-          router.push(target);
+          router.push(target.href);
+          // Light confirmation that the chord fired — also doubles as
+          // discoverability for new users learning the keymap.
+          toast({
+            title: `→ ${target.label}`,
+            description: `g ${key}`,
+            durationMs: 1_800,
+          });
         }
       }
     }
@@ -83,7 +94,7 @@ export function GlobalShortcuts() {
       clearLeader();
       window.removeEventListener("keydown", onKey);
     };
-  }, [router, paletteOpen, openPalette]);
+  }, [router, paletteOpen, openPalette, toast]);
 
   return null;
 }
