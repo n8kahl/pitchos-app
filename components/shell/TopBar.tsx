@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { usePalette } from "@/lib/state/palette";
+import { RunStatusPill } from "./RunStatusPill";
 
 const TITLES: Record<string, string> = {
   "/": "Home",
@@ -80,22 +81,9 @@ export function TopBar() {
           <SearchIcon />
         </button>
 
-        {/* Stage pill · hides on phone, shows from sm */}
-        <div className="hidden items-center gap-2 rounded-full border border-brand-green/30 bg-brand-green/5 px-3 py-1 sm:flex">
-          <span className="stage-dot-pulse h-1.5 w-1.5 rounded-full bg-brand-green shadow-[0_0_8px_var(--color-brand-green)]" />
-          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-brand-green">
-            Stage 3 · Pitch-Ready
-          </span>
-        </div>
-
-        {/* Phone-only stage indicator — just the dot, tooltip-style label */}
-        <div
-          aria-label="Stage 3 · Pitch-Ready"
-          title="Stage 3 · Pitch-Ready"
-          className="grid h-9 w-9 place-items-center rounded-full border border-brand-green/30 bg-brand-green/5 sm:hidden"
-        >
-          <span className="stage-dot-pulse h-2 w-2 rounded-full bg-brand-green shadow-[0_0_8px_var(--color-brand-green)]" />
-        </div>
+        {/* Status pill · in-flight run · last fundability score · founder
+            stage fallback. Polls /api/runs/active. */}
+        <RunStatusPill />
       </div>
     </header>
   );
