@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { usePalette } from "@/lib/state/palette";
 import { useToast } from "@/lib/state/toast";
+import { useCoach } from "@/lib/state/coach";
 
 // Global keyboard shortcuts that make the chrome feel like an app:
 // - g h / g l / g c / g d / g p / g r → go-anywhere chords
@@ -11,18 +12,23 @@ import { useToast } from "@/lib/state/toast";
 // All chords are suppressed while the user is typing in inputs,
 // textareas, contenteditable surfaces, or while the palette is open
 // (cmdk owns its own keymap).
+//
+// `g c` opens the persistent Coach rail rather than routing to /coach
+// — Coach is now a panel, not a page.
 
 const CHORD_TIMEOUT_MS = 1_200;
 
-type GoTarget = { href: string; label: string };
+type GoTarget =
+  | { kind: "route"; href: string; label: string }
+  | { kind: "coach"; label: string };
 
 const GO_TARGETS: Record<string, GoTarget> = {
-  h: { href: "/", label: "Home" },
-  l: { href: "/library", label: "Content library" },
-  c: { href: "/coach", label: "AI Coach" },
-  d: { href: "/dashboard", label: "Dashboard" },
-  p: { href: "/pitchos", label: "PitchOS Premium" },
-  r: { href: "/assessment", label: "Founder readiness" },
+  h: { kind: "route", href: "/", label: "Home" },
+  l: { kind: "route", href: "/library", label: "Content library" },
+  c: { kind: "coach", label: "AI Coach" },
+  d: { kind: "route", href: "/dashboard", label: "Dashboard" },
+  p: { kind: "route", href: "/pitchos", label: "PitchOS Premium" },
+  r: { kind: "route", href: "/assessment", label: "Founder readiness" },
 };
 
 function isTextInput(target: EventTarget | null): boolean {
@@ -36,6 +42,7 @@ function isTextInput(target: EventTarget | null): boolean {
 export function GlobalShortcuts() {
   const router = useRouter();
   const { isOpen: paletteOpen, open: openPalette } = usePalette();
+  const { open: openCoach } = useCoach();
   const { toast } = useToast();
   const leaderActive = useRef(false);
   const leaderTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -77,7 +84,11 @@ export function GlobalShortcuts() {
         clearLeader();
         if (target) {
           e.preventDefault();
-          router.push(target.href);
+          if (target.kind === "route") {
+            router.push(target.href);
+          } else {
+            openCoach();
+          }
           // Light confirmation that the chord fired — also doubles as
           // discoverability for new users learning the keymap.
           toast({
@@ -94,7 +105,7 @@ export function GlobalShortcuts() {
       clearLeader();
       window.removeEventListener("keydown", onKey);
     };
-  }, [router, paletteOpen, openPalette, toast]);
+  }, [router, paletteOpen, openPalette, openCoach, toast]);
 
   return null;
 }

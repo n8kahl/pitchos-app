@@ -114,7 +114,14 @@ export function CommandPalette() {
                   <Command.Item
                     key={item.href}
                     value={`go ${section.label} ${item.label} ${item.href}`}
-                    onSelect={() => go(item.href)}
+                    onSelect={() => {
+                      if (item.action === "open-coach") {
+                        close();
+                        openCoach();
+                      } else {
+                        go(item.href);
+                      }
+                    }}
                     className={ITEM_BASE}
                   >
                     <span className="grid h-5 w-5 place-items-center text-base text-muted-foreground transition data-[selected=true]:text-brand-gold">
@@ -122,7 +129,7 @@ export function CommandPalette() {
                     </span>
                     <span className="flex-1">{item.label}</span>
                     <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-                      {section.label.toLowerCase()}
+                      {item.action === "open-coach" ? "rail" : section.label.toLowerCase()}
                     </span>
                   </Command.Item>
                 ))

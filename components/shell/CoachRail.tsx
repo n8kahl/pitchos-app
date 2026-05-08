@@ -6,7 +6,13 @@ import { COACH_EXAMPLES } from "@/lib/content/coach-exchanges";
 import { useCoach } from "@/lib/state/coach";
 import { CoachCitationCard } from "@/components/coach/CoachCitationCard";
 
-const STARTER_PROMPTS = COACH_EXAMPLES.map((e) => e.prompt);
+type CoachMode = "discovery" | "structuring" | "sharpening";
+
+const MODES: Array<{ key: CoachMode; label: string }> = [
+  { key: "discovery", label: "Discovery" },
+  { key: "structuring", label: "Structure" },
+  { key: "sharpening", label: "Sharpen" },
+];
 
 // Match Tailwind's `lg` breakpoint. At lg+ the rail docks alongside main
 // content; below lg it stays modal with a backdrop. Uses
@@ -46,6 +52,17 @@ export function CoachRail() {
     COACH_EXAMPLES.findIndex((e) => e.id === activeExchangeId)
   );
   const exchange = COACH_EXAMPLES[exchangeIdx];
+  const currentMode: CoachMode = exchange.mode;
+
+  function selectMode(next: CoachMode) {
+    if (next === currentMode) return;
+    const first = COACH_EXAMPLES.find((e) => e.mode === next);
+    if (first) open({ exchangeId: first.id });
+  }
+
+  const otherInMode = COACH_EXAMPLES.filter(
+    (e) => e.mode === currentMode && e.id !== exchange.id
+  );
 
   // Esc to close + simple focus management
   useEffect(() => {
@@ -149,26 +166,52 @@ export function CoachRail() {
           <div className="h-1 w-10 rounded-full bg-border" />
         </div>
 
-        <div className="flex items-center gap-3 border-b border-border/60 px-5 py-4">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-gold to-brand-green text-[12px] font-bold text-[#0a1410]">
-            S
-          </div>
-          <div className="flex-1">
-            <div className="font-serif text-[14px] font-semibold leading-tight text-foreground">
-              Scott · AI Coach
+        <div className="border-b border-border/60">
+          <div className="flex items-center gap-3 px-5 pt-4 pb-3">
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-gold to-brand-green text-[12px] font-bold text-[#0a1410]">
+              S
             </div>
-            <div className="mt-0.5 flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-brand-green">
-              <span className="stage-dot-pulse h-1.5 w-1.5 rounded-full bg-brand-green shadow-[0_0_6px_var(--color-brand-green)]" />
-              ready · sharpening mode
+            <div className="flex-1">
+              <div className="font-serif text-[14px] font-semibold leading-tight text-foreground">
+                Scott · AI Coach
+              </div>
+              <div className="mt-0.5 flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-brand-green">
+                <span className="stage-dot-pulse h-1.5 w-1.5 rounded-full bg-brand-green shadow-[0_0_6px_var(--color-brand-green)]" />
+                ready · {currentMode} mode
+              </div>
             </div>
+            <button
+              onClick={close}
+              aria-label="Collapse Coach"
+              className="rounded-md border border-border/60 px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition hover:bg-muted/40 hover:text-foreground"
+            >
+              {isLg ? "collapse" : "close"}
+            </button>
           </div>
-          <button
-            onClick={close}
-            aria-label="Close Coach"
-            className="rounded-md border border-border/60 px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition hover:bg-muted/40 hover:text-foreground"
-          >
-            close
-          </button>
+          {/* Mode tabs · the same three modes the standalone /coach page
+              had, now where the user actually is. */}
+          <div className="flex items-center gap-1 px-3 pb-3" role="tablist" aria-label="Coach mode">
+            {MODES.map((m) => {
+              const active = m.key === currentMode;
+              return (
+                <button
+                  key={m.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => selectMode(m.key)}
+                  className={[
+                    "flex-1 rounded-md px-2 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition",
+                    active
+                      ? "bg-brand-gold/15 text-brand-gold shadow-[inset_0_-2px_0_var(--color-brand-gold)]"
+                      : "text-muted-foreground hover:bg-muted/30 hover:text-foreground",
+                  ].join(" ")}
+                >
+                  {m.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5">
@@ -226,23 +269,26 @@ export function CoachRail() {
 
           <div className="mt-6">
             <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-              other questions
+              other questions · {currentMode} mode
             </div>
-            <ul className="mt-2 space-y-1.5">
-              {STARTER_PROMPTS.map((p, i) =>
-                i === exchangeIdx ? null : (
+            {otherInMode.length === 0 ? (
+              <div className="mt-2 rounded-md border border-dashed border-border px-3 py-2 text-[12px] text-muted-foreground">
+                No other prebaked exchanges in this mode yet. Live RAG ships
+                in platform phase 5.
+              </div>
+            ) : (
+              <ul className="mt-2 space-y-1.5">
+                {otherInMode.map((e) => (
                   <li
-                    key={i}
-                    onClick={() =>
-                      open({ exchangeId: COACH_EXAMPLES[i].id })
-                    }
+                    key={e.id}
+                    onClick={() => open({ exchangeId: e.id })}
                     className="cursor-pointer rounded-md border border-dashed border-border px-3 py-2 text-[12.5px] text-muted-foreground transition hover:border-brand-gold/40 hover:text-foreground"
                   >
-                    {p}
+                    {e.prompt}
                   </li>
-                )
-              )}
-            </ul>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 

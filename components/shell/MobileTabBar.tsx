@@ -5,15 +5,23 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MOBILE_TABS, NAV_SECTIONS } from "./nav-data";
 import { AccountPopover } from "./AccountPopover";
+import { useCoach } from "@/lib/state/coach";
 
 export function MobileTabBar() {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
+  const { open: openCoach, isOpen: coachIsOpen } = useCoach();
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
   };
+
+  const tabClass = (active: boolean) =>
+    [
+      "flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.1em] transition",
+      active ? "text-brand-gold" : "text-muted-foreground hover:text-foreground",
+    ].join(" ");
 
   return (
     <>
@@ -26,34 +34,40 @@ export function MobileTabBar() {
         }}
       >
         {MOBILE_TABS.map((t) => {
-          const active = !t.isMore && isActive(t.href);
           if (t.isMore) {
             return (
               <button
                 key="more"
                 onClick={() => setMoreOpen(true)}
                 aria-label="Open more navigation"
-                className={[
-                  "flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.1em] transition",
-                  moreOpen ? "text-brand-gold" : "text-muted-foreground hover:text-foreground",
-                ].join(" ")}
+                className={tabClass(moreOpen)}
               >
                 <span className="text-lg">{t.icon}</span>
                 <span>{t.label}</span>
               </button>
             );
           }
+          if (t.action === "open-coach") {
+            const active = coachIsOpen;
+            return (
+              <button
+                key={t.href}
+                type="button"
+                onClick={() => openCoach()}
+                aria-label="Open Scott AI Coach"
+                aria-expanded={active}
+                className={tabClass(active)}
+              >
+                <span className={["text-lg leading-none", active ? "scale-110" : ""].join(" ")}>
+                  {t.icon}
+                </span>
+                <span>{t.label}</span>
+              </button>
+            );
+          }
+          const active = isActive(t.href);
           return (
-            <Link
-              key={t.href}
-              href={t.href}
-              className={[
-                "flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.1em] transition",
-                active
-                  ? "text-brand-gold"
-                  : "text-muted-foreground hover:text-foreground",
-              ].join(" ")}
-            >
+            <Link key={t.href} href={t.href} className={tabClass(active)}>
               <span
                 className={[
                   "text-lg leading-none",
@@ -85,6 +99,8 @@ function MoreDrawer({
   onClose: () => void;
   pathname: string;
 }) {
+  const { open: openCoach, isOpen: coachIsOpen } = useCoach();
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -139,34 +155,57 @@ function MoreDrawer({
               </div>
               <ul className="space-y-1">
                 {section.items.map((item) => {
-                  const active = isActive(item.href);
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        onClick={onClose}
+                  const active =
+                    item.action === "open-coach"
+                      ? coachIsOpen
+                      : isActive(item.href);
+                  const className = [
+                    "flex w-full items-center gap-3 rounded-md px-3 py-3 text-left text-[14px] transition",
+                    active
+                      ? "bg-brand-gold/10 text-foreground"
+                      : "text-foreground/85 hover:bg-muted/40",
+                  ].join(" ");
+                  const inner = (
+                    <>
+                      <span
                         className={[
-                          "flex items-center gap-3 rounded-md px-3 py-3 text-[14px] transition",
-                          active
-                            ? "bg-brand-gold/10 text-foreground"
-                            : "text-foreground/85 hover:bg-muted/40",
+                          "flex h-5 w-5 shrink-0 items-center justify-center text-base",
+                          active ? "text-brand-gold" : "text-muted-foreground",
                         ].join(" ")}
                       >
-                        <span
-                          className={[
-                            "flex h-5 w-5 shrink-0 items-center justify-center text-base",
-                            active ? "text-brand-gold" : "text-muted-foreground",
-                          ].join(" ")}
-                        >
-                          {item.icon}
+                        {item.icon}
+                      </span>
+                      <span className="flex-1">{item.label}</span>
+                      {item.badge && (
+                        <span className="rounded-sm bg-brand-gold/15 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase tracking-[0.1em] text-brand-gold">
+                          {item.badge}
                         </span>
-                        <span className="flex-1">{item.label}</span>
-                        {item.badge && (
-                          <span className="rounded-sm bg-brand-gold/15 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase tracking-[0.1em] text-brand-gold">
-                            {item.badge}
-                          </span>
-                        )}
-                      </Link>
+                      )}
+                    </>
+                  );
+                  return (
+                    <li key={item.href}>
+                      {item.action === "open-coach" ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            openCoach();
+                            onClose();
+                          }}
+                          aria-expanded={coachIsOpen}
+                          className={className}
+                        >
+                          {inner}
+                        </button>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          onClick={onClose}
+                          className={className}
+                        >
+                          {inner}
+                        </Link>
+                      )}
                     </li>
                   );
                 })}
