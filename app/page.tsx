@@ -9,6 +9,7 @@ import { LatestRun, LatestRunSkeleton } from "@/components/home/LatestRun";
 import { PodcastCard } from "@/components/library/PodcastCard";
 import { ResourceCard } from "@/components/library/ResourceCard";
 import { VideoCard } from "@/components/library/VideoCard";
+import { HorizontalRail } from "@/components/library/HorizontalRail";
 
 export default function HomePage() {
   // Static rails render immediately; the DB-backed "Latest run" card
@@ -151,8 +152,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Recommended next · uses the shared VideoCard so thumbnails come
-          straight from YouTube · same chrome as the library grid */}
+      {/* Recommended next · horizontal rail keeps three+ cards in view
+          without burning vertical real estate */}
       <section className="mt-10 sm:mt-14">
         <SectionRow
           eyebrow="02 · what scott would have you watch next"
@@ -160,14 +161,14 @@ export default function HomePage() {
           titleEm="weakest-dim first"
           right="re-ranks weekly · live in phase 6"
         />
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <HorizontalRail ariaLabel="Recommended videos">
           {lessonRail.map((c, idx) => (
             <VideoCard key={c.id} clip={c} idx={idx} />
           ))}
-        </div>
+        </HorizontalRail>
       </section>
 
-      {/* Long-form · real podcast appearances */}
+      {/* Long-form · real podcast appearances · horizontal rail */}
       <section className="mt-10 sm:mt-14">
         <SectionRow
           eyebrow="03 · long-form · scott on the road"
@@ -175,14 +176,14 @@ export default function HomePage() {
           titleEm="real interviews"
           right={`${PODCAST_EPISODES.length} episode${PODCAST_EPISODES.length === 1 ? "" : "s"} · audio`}
         />
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <HorizontalRail ariaLabel="Featured podcast episodes">
           {featuredPodcasts.map((ep) => (
             <PodcastCard key={ep.id} episode={ep} />
           ))}
-        </div>
+        </HorizontalRail>
       </section>
 
-      {/* Reference · real PDFs and infographics */}
+      {/* Reference · real PDFs and infographics · horizontal rail */}
       <section className="mt-10 sm:mt-14">
         <SectionRow
           eyebrow="04 · reference · pull as you go"
@@ -190,11 +191,11 @@ export default function HomePage() {
           titleEm="and the canonical decks"
           right={`${LIBRARY_RESOURCES.length} resource${LIBRARY_RESOURCES.length === 1 ? "" : "s"}`}
         />
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <HorizontalRail ariaLabel="Featured resources">
           {featuredResources.map((r) => (
             <ResourceCard key={r.id} resource={r} />
           ))}
-        </div>
+        </HorizontalRail>
       </section>
 
       {/* Your raise · last analysis · streams in via Suspense */}
