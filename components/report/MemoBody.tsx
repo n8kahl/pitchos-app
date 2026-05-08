@@ -39,7 +39,7 @@ export function MemoBody({ body }: Props) {
 
   const paragraphs = body.split(/\n\s*\n/);
   return (
-    <article className="font-serif text-[17px] leading-[1.75] text-foreground/95">
+    <article className="font-prose text-[17px] leading-[1.75] text-foreground/95">
       {paragraphs.map((para, i) => (
         <p key={i} className="mb-6 max-w-prose">
           {renderCitations(para, onCite)}

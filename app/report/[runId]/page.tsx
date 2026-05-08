@@ -123,10 +123,10 @@ export default async function ReportPage({ params }: PageProps) {
         <div className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-brand-gold">
           partner memo · scott · black dog vp
         </div>
-        <h1 className="mt-3 font-serif text-3xl font-semibold leading-[1.04] tracking-tight text-foreground sm:text-5xl">
+        <h1 className="mt-3 font-prose text-3xl font-semibold leading-[1.04] tracking-tight text-foreground sm:text-5xl">
           {run.deck.project.companyName}
         </h1>
-        <p className="mt-3 max-w-2xl font-serif text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="mt-3 max-w-2xl font-prose text-base leading-relaxed text-muted-foreground sm:text-lg">
           {run.report.executiveSummary}
         </p>
 
@@ -165,10 +165,10 @@ export default async function ReportPage({ params }: PageProps) {
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-brand-gold">
             ★ partner verdict
           </div>
-          <h2 className="mt-3 max-w-3xl font-serif text-2xl font-semibold leading-snug text-foreground sm:text-3xl">
+          <h2 className="mt-3 max-w-3xl font-prose text-2xl font-semibold leading-snug text-foreground sm:text-3xl">
             {memo.decision.verdict}
           </h2>
-          <p className="mt-4 max-w-3xl font-serif text-[15px] leading-[1.7] text-foreground/85 sm:text-base">
+          <p className="mt-4 max-w-3xl font-prose text-[15px] leading-[1.7] text-foreground/85 sm:text-base">
             {memo.decision.rationale}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-brand-gold/20 pt-5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em]">
@@ -198,7 +198,7 @@ export default async function ReportPage({ params }: PageProps) {
       {/* === 02 · Bull / bear === */}
       <section className="mt-12 sm:mt-16">
         <SectionEyebrow num="02" label="bull / bear · agent disagreement" />
-        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           The two cases
         </h2>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -206,7 +206,7 @@ export default async function ReportPage({ params }: PageProps) {
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-green">
               bull case
             </div>
-            <p className="mt-3 font-serif text-[15px] leading-[1.7] text-foreground/90">
+            <p className="mt-3 font-prose text-[15px] leading-[1.7] text-foreground/90">
               {memo.bullCase}
             </p>
           </article>
@@ -214,7 +214,7 @@ export default async function ReportPage({ params }: PageProps) {
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-signal-red">
               bear case
             </div>
-            <p className="mt-3 font-serif text-[15px] leading-[1.7] text-foreground/90">
+            <p className="mt-3 font-prose text-[15px] leading-[1.7] text-foreground/90">
               {memo.bearCase}
             </p>
           </article>
@@ -224,7 +224,7 @@ export default async function ReportPage({ params }: PageProps) {
       {/* === 03 · Scorecard === */}
       <section className="mt-12 sm:mt-16">
         <SectionEyebrow num="03" label={`scorecard · ${run.rubricVersion}`} />
-        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           Sub-scores · 11 dimensions
         </h2>
         <div className="mt-5 overflow-hidden rounded-md border border-border">
@@ -268,7 +268,7 @@ export default async function ReportPage({ params }: PageProps) {
           num="04"
           label="named objections · catalog-anchored"
         />
-        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           {run.objections.length} anti-patterns Scott would flag
         </h2>
         <div className="mt-5 space-y-4">
@@ -284,10 +284,10 @@ export default async function ReportPage({ params }: PageProps) {
                 </div>
                 <SeverityBadge severity={o.severity} />
               </div>
-              <h3 className="mt-2 font-serif text-lg font-semibold text-foreground">
+              <h3 className="mt-2 font-prose text-lg font-semibold text-foreground">
                 {o.title}
               </h3>
-              <blockquote className="mt-3 border-l-2 border-brand-gold/60 pl-4 font-serif italic leading-snug text-foreground/90">
+              <blockquote className="mt-3 border-l-2 border-brand-gold/60 pl-4 font-prose italic leading-snug text-foreground/90">
                 &ldquo;{o.objection}&rdquo;
               </blockquote>
               {o.sourceQuote && (
@@ -295,7 +295,7 @@ export default async function ReportPage({ params }: PageProps) {
                   evidence · &ldquo;{o.sourceQuote}&rdquo;
                 </p>
               )}
-              <p className="mt-4 max-w-2xl font-serif text-[15px] leading-[1.7] text-foreground/85">
+              <p className="mt-4 max-w-2xl font-prose text-[15px] leading-[1.7] text-foreground/85">
                 {o.howToAddress}
               </p>
               <div className="mt-4">
@@ -316,7 +316,7 @@ export default async function ReportPage({ params }: PageProps) {
           num="05"
           label="slide-by-slide teardown · click [slide N] in the memo to jump here"
         />
-        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           {run.slideReviews.length} slides reviewed
         </h2>
         <div className="mt-5 space-y-4">
@@ -348,7 +348,7 @@ export default async function ReportPage({ params }: PageProps) {
                   </span>
                 </div>
               </div>
-              <h3 className="mt-2 font-serif text-lg font-semibold text-foreground">
+              <h3 className="mt-2 font-prose text-lg font-semibold text-foreground">
                 {s.suggestedTitle ?? s.inferredTitle ?? `Slide ${s.slideNumber}`}
               </h3>
               {s.sourceQuote && (
@@ -384,7 +384,7 @@ export default async function ReportPage({ params }: PageProps) {
                   </ul>
                 </div>
               )}
-              <div className="mt-4 max-w-2xl font-serif text-[14px] italic leading-[1.7] text-foreground/85">
+              <div className="mt-4 max-w-2xl font-prose text-[14px] italic leading-[1.7] text-foreground/85">
                 {s.rewriteGuidance}
               </div>
               {s.expectedScoreDelta > 0 && (
@@ -400,10 +400,10 @@ export default async function ReportPage({ params }: PageProps) {
       {/* === 06 · What would need to be true === */}
       <section className="mt-12 sm:mt-16">
         <SectionEyebrow num="06" label="what would need to be true" />
-        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           What turns this into a yes
         </h2>
-        <p className="mt-2 max-w-2xl font-serif text-[15px] leading-[1.7] text-muted-foreground">
+        <p className="mt-2 max-w-2xl font-prose text-[15px] leading-[1.7] text-muted-foreground">
           Each item is achievable inside the round-close window. Land
           these, the deck graduates from{" "}
           {run.report.meetingLikelihood.toLowerCase().replace(/_/g, " ")} to
@@ -418,7 +418,7 @@ export default async function ReportPage({ params }: PageProps) {
               <span className="font-mono text-[11px] font-bold tabular-nums text-brand-gold">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="font-serif text-[15px] leading-[1.65] text-foreground/90">
+              <span className="font-prose text-[15px] leading-[1.65] text-foreground/90">
                 {item}
               </span>
             </li>
@@ -429,7 +429,7 @@ export default async function ReportPage({ params }: PageProps) {
       {/* === 07 · Diligence === */}
       <section className="mt-12 sm:mt-16">
         <SectionEyebrow num="07" label="diligence · before IC" />
-        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
           What we&rsquo;d want before IC
         </h2>
         <div className="mt-5 space-y-3">
@@ -445,7 +445,7 @@ export default async function ReportPage({ params }: PageProps) {
                 <div className="font-sans text-sm font-semibold text-foreground">
                   {d.request}
                 </div>
-                <div className="mt-1.5 max-w-2xl font-serif text-[14px] leading-[1.7] text-foreground/80">
+                <div className="mt-1.5 max-w-2xl font-prose text-[14px] leading-[1.7] text-foreground/80">
                   {d.whyItMatters}
                 </div>
                 <div className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">

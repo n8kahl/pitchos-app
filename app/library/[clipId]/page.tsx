@@ -74,7 +74,7 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
               ★ AI summary · auto-extracted
             </div>
-            <p className="mt-2 font-serif text-[15px] leading-[1.7] text-foreground/90">
+            <p className="mt-2 font-prose text-[15px] leading-[1.7] text-foreground/90">
               {clip.aiSummary}
             </p>
           </div>
@@ -124,7 +124,7 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
                   <div className="font-mono text-[11px] font-semibold tabular-nums text-brand-gold">
                     {m.at}
                   </div>
-                  <blockquote className="border-l-2 border-brand-green/60 pl-4 font-serif text-[15px] italic leading-snug text-foreground/90">
+                  <blockquote className="border-l-2 border-brand-green/60 pl-4 font-prose text-[15px] italic leading-snug text-foreground/90">
                     &ldquo;{m.quote}&rdquo;
                   </blockquote>
                 </Link>

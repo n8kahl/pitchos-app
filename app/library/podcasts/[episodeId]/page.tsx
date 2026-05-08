@@ -55,7 +55,7 @@ export default async function PodcastEpisodePage({
         <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
           ★ AI summary · auto-extracted
         </div>
-        <p className="mt-2 font-serif text-[15px] leading-[1.7] text-foreground/90">
+        <p className="mt-2 font-prose text-[15px] leading-[1.7] text-foreground/90">
           {episode.aiSummary}
         </p>
       </div>

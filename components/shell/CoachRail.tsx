@@ -225,7 +225,7 @@ export function CoachRail() {
             <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
               you asked
             </div>
-            <p className="mt-1.5 font-serif text-[14px] leading-snug text-foreground">
+            <p className="mt-1.5 font-prose text-[14px] leading-snug text-foreground">
               {exchange.prompt}
             </p>
           </div>
@@ -234,7 +234,7 @@ export function CoachRail() {
             scott replies · grounded in {exchange.citations.length} source
             {exchange.citations.length === 1 ? "" : "s"}
           </div>
-          <div className="mt-2 max-w-prose whitespace-pre-line font-serif text-[14px] leading-[1.7] text-foreground/90">
+          <div className="mt-2 max-w-prose whitespace-pre-line font-prose text-[14px] leading-[1.7] text-foreground/90">
             {exchange.reply.replace(/\[\^\d+\]/g, "")}
           </div>
 

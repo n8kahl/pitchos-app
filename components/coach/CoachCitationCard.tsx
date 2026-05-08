@@ -32,7 +32,7 @@ export function CoachCitationCard({
           </span>
           <span className="shrink-0">play at {citation.at} →</span>
         </div>
-        <p className="mt-1.5 font-serif text-[13px] italic leading-snug text-foreground/85">
+        <p className="mt-1.5 font-prose text-[13px] italic leading-snug text-foreground/85">
           &ldquo;{citation.excerpt}&rdquo;
         </p>
       </Link>
@@ -55,7 +55,7 @@ export function CoachCitationCard({
           </span>
           <span className="shrink-0">cued at {citation.at} →</span>
         </div>
-        <p className="mt-1.5 font-serif text-[13px] italic leading-snug text-foreground/85">
+        <p className="mt-1.5 font-prose text-[13px] italic leading-snug text-foreground/85">
           &ldquo;{citation.excerpt}&rdquo;
         </p>
       </Link>
@@ -85,7 +85,7 @@ export function CoachCitationCard({
           {citation.pageRef ?? "open"} →
         </span>
       </div>
-      <p className="mt-1.5 font-serif text-[13px] italic leading-snug text-foreground/85">
+      <p className="mt-1.5 font-prose text-[13px] italic leading-snug text-foreground/85">
         &ldquo;{citation.excerpt}&rdquo;
       </p>
     </Link>

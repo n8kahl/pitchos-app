@@ -19,15 +19,25 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  --font-serif: var(--font-source-serif);
-  --font-heading: var(--font-source-serif);
+  /*
+   * NAMING NOTE · `font-serif` here renders as Inter (sans). The
+   * Tailwind utility name is preserved so existing className usages
+   * continue to work, but the rendered font is the chrome sans. Use
+   * `font-prose` whenever Source Serif is what the design wants
+   * (memo body, Coach reply prose, italic quote excerpts).
+   */
+  --font-serif: var(--font-inter);
+  --font-prose: var(--font-source-serif);
+  --font-heading: var(--font-inter);
 
-  /* Brand surface tokens */
-  --color-forest: #202F18;          /* BDVP brand color */
+  /* Brand surface tokens · slightly lifted from the original
+     forest-near-black so chrome edges, chips, and cards are
+     readable without the green undertone reading as "swampy." */
+  --color-forest: #202F18;          /* BDVP brand · used as accent gradient */
   --color-forest-2: #2A3D22;        /* hover / nested */
-  --color-bg-2: #101a13;
-  --color-bg-3: #16241a;
-  --color-bg-card: #13211a;
+  --color-bg-2: #131e18;             /* was #101a13 */
+  --color-bg-3: #182a20;             /* was #16241a */
+  --color-bg-card: #16221c;          /* was #13211a */
 
   /* Brand accents · pulled from real assets */
   --color-brand-gold: #F5C842;      /* logo paws · primary CTA */
@@ -85,25 +95,30 @@
  * Dark surface · forest-leaning. Gold is the primary CTA color (logo
  * paws). Green is the positive / active state (logo script). Both used
  * sparingly — never together as gradient chrome.
+ *
+ * Palette is calibrated for readable contrast: bg slightly lifted
+ * from pure-black, foreground brighter, borders bumped to 18% so chips
+ * and cards stop disappearing into the surface. Brand identity stays
+ * the same (forest + gold + green).
  */
 :root {
-  --background: #0a1410;            /* deep forest, near-black with green undertone */
-  --foreground: #eef1ec;
-  --card: #13211a;
-  --card-foreground: #eef1ec;
-  --popover: #13211a;
-  --popover-foreground: #eef1ec;
+  --background: #0c1815;            /* was #0a1410 · slight lift */
+  --foreground: #f4f7f1;            /* was #eef1ec · brighter */
+  --card: #16221c;                   /* was #13211a · slight lift */
+  --card-foreground: #f4f7f1;
+  --popover: #16221c;
+  --popover-foreground: #f4f7f1;
   --primary: #F5C842;               /* gold = primary CTA */
   --primary-foreground: #0a1410;
-  --secondary: #16241a;
-  --secondary-foreground: #eef1ec;
-  --muted: #101a13;
-  --muted-foreground: #b6c0b3;      /* sage-leaning gray */
+  --secondary: #182a20;
+  --secondary-foreground: #f4f7f1;
+  --muted: #131e18;                  /* matches bg-2 */
+  --muted-foreground: #c5cdc1;       /* was #b6c0b3 · brighter sage gray */
   --accent: #3CA94A;                /* green = positive */
   --accent-foreground: #0a1410;
   --destructive: #ef4444;
-  --border: rgba(187, 201, 181, 0.10);
-  --input: #16241a;
+  --border: rgba(187, 201, 181, 0.18); /* was 0.10 · readable */
+  --input: #182a20;
   --ring: #F5C842;
   --chart-1: #F5C842;               /* gold */
   --chart-2: #3CA94A;               /* green */
@@ -111,13 +126,13 @@
   --chart-4: #f59e0b;               /* amber (data) */
   --chart-5: #ef4444;               /* red (data) */
   --radius: 0.5rem;
-  --sidebar: #101a13;
-  --sidebar-foreground: #eef1ec;
+  --sidebar: #131e18;
+  --sidebar-foreground: #f4f7f1;
   --sidebar-primary: #F5C842;
   --sidebar-primary-foreground: #0a1410;
-  --sidebar-accent: #16241a;
-  --sidebar-accent-foreground: #eef1ec;
-  --sidebar-border: rgba(187, 201, 181, 0.10);
+  --sidebar-accent: #182a20;
+  --sidebar-accent-foreground: #f4f7f1;
+  --sidebar-border: rgba(187, 201, 181, 0.18);
   --sidebar-ring: #F5C842;
 }
 
@@ -142,10 +157,11 @@ body::before {
   html {
     @apply font-sans;
   }
-  /* Display headings render in Source Serif 4 by default — editorial premium */
-  h1, h2, h3 {
-    font-family: var(--font-source-serif), Georgia, serif;
-  }
+  /*
+   * Headings inherit sans from html · use the font-prose utility on
+   * memo body, Coach reply prose, AI summary text, and italic quotes
+   * when Source Serif is the right register.
+   */
   /* Skip-to-content link, off-screen until focused */
   .skip-link {
     position: fixed;
