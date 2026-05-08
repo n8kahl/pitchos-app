@@ -82,14 +82,14 @@ export function ProgressView({
           <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
             progress
           </div>
-          <div className="font-mono text-2xl font-semibold tabular-nums text-signal-cyan">
+          <div className="font-mono text-2xl font-semibold tabular-nums text-brand-gold">
             {state.progress}
             <span className="ml-1 text-sm text-muted-foreground">%</span>
           </div>
         </div>
         <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
           <div
-            className="h-full bg-signal-cyan transition-[width] duration-500 ease-out"
+            className="h-full bg-brand-gold transition-[width] duration-500 ease-out"
             style={{ width: `${state.progress}%` }}
           />
         </div>
@@ -106,9 +106,9 @@ export function ProgressView({
               className={[
                 "flex items-start gap-4 rounded-md border px-5 py-4 transition",
                 isDone
-                  ? "border-signal-cyan/30 bg-signal-cyan/5"
+                  ? "border-brand-green/30 bg-brand-green/5"
                   : isCurrent
-                  ? "border-signal-cyan bg-card"
+                  ? "border-brand-gold bg-card"
                   : "border-border bg-card/30",
               ].join(" ")}
             >
@@ -116,9 +116,9 @@ export function ProgressView({
                 className={[
                   "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px]",
                   isDone
-                    ? "border-signal-cyan bg-signal-cyan text-background"
+                    ? "border-brand-green bg-brand-green text-background"
                     : isCurrent
-                    ? "border-signal-cyan text-signal-cyan"
+                    ? "border-brand-gold text-brand-gold"
                     : "border-border text-muted-foreground",
                 ].join(" ")}
               >
@@ -131,12 +131,12 @@ export function ProgressView({
                 <div
                   className={[
                     "mt-1 text-sm",
-                    isCurrent ? "text-signal-cyan" : "text-foreground",
+                    isCurrent ? "text-brand-gold" : "text-foreground",
                   ].join(" ")}
                 >
                   {s.label}
                   {isCurrent && (
-                    <span className="ml-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-signal-cyan" />
+                    <span className="ml-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand-gold" />
                   )}
                 </div>
               </div>

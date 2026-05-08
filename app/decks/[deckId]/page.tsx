@@ -17,7 +17,7 @@ export default async function DeckLandingPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-6 py-16">
-      <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-signal-cyan">
+      <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-gold">
         deck received
       </div>
       <h1 className="mt-3 font-sans text-3xl font-semibold tracking-tight text-foreground">
@@ -52,7 +52,7 @@ export default async function DeckLandingPage({ params }: PageProps) {
 
       <Link
         href="/"
-        className="mt-8 font-mono text-xs uppercase tracking-widest text-signal-cyan hover:text-signal-cyan/80"
+        className="mt-8 font-mono text-xs uppercase tracking-widest text-brand-gold hover:text-brand-gold/80"
       >
         ← upload another deck
       </Link>

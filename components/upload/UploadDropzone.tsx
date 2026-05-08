@@ -63,8 +63,8 @@ export function UploadDropzone() {
         className={[
           "group relative flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-4 rounded-lg border border-dashed transition",
           dragOver
-            ? "border-signal-cyan bg-signal-cyan/5"
-            : "border-border bg-card/40 hover:border-signal-cyan/60 hover:bg-card/60",
+            ? "border-brand-gold bg-brand-gold/5"
+            : "border-border bg-card/40 hover:border-brand-gold/60 hover:bg-card/60",
           isUploading ? "pointer-events-none opacity-60" : "",
         ].join(" ")}
       >
@@ -82,7 +82,7 @@ export function UploadDropzone() {
 
         {isUploading ? (
           <div className="flex flex-col items-center gap-3 text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-signal-cyan border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-gold border-t-transparent" />
             <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               uploading {status.fileName}
             </div>
@@ -93,7 +93,7 @@ export function UploadDropzone() {
               aria-hidden
               viewBox="0 0 24 24"
               fill="none"
-              className="h-10 w-10 stroke-signal-cyan/80 transition group-hover:stroke-signal-cyan"
+              className="h-10 w-10 stroke-brand-gold/80 transition group-hover:stroke-brand-gold"
               strokeWidth="1.5"
             >
               <path d="M12 16V4M12 4l-4 4M12 4l4 4" strokeLinecap="round" />

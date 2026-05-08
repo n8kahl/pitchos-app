@@ -28,20 +28,20 @@ const RUBRIC_LABELS: Record<string, string> = {
 };
 
 function scoreColor(score: number): string {
-  if (score >= 75) return "text-signal-cyan";
-  if (score >= 60) return "text-signal-amber";
+  if (score >= 75) return "text-brand-green";
+  if (score >= 60) return "text-brand-gold";
   return "text-signal-red";
 }
 
 function scoreBar(score: number): string {
-  if (score >= 75) return "bg-signal-cyan";
-  if (score >= 60) return "bg-signal-amber";
+  if (score >= 75) return "bg-brand-green";
+  if (score >= 60) return "bg-brand-gold";
   return "bg-signal-red";
 }
 
 function meetingLikelihoodColor(likelihood: string): string {
-  if (likelihood === "STRONG_YES" || likelihood === "YES") return "text-signal-cyan";
-  if (likelihood === "MAYBE") return "text-signal-amber";
+  if (likelihood === "STRONG_YES" || likelihood === "YES") return "text-brand-green";
+  if (likelihood === "MAYBE") return "text-brand-gold";
   return "text-signal-red";
 }
 
@@ -91,7 +91,7 @@ export default async function ReportPage({ params }: PageProps) {
       <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
         <Link
           href="/"
-          className="text-signal-cyan transition hover:text-signal-cyan/80"
+          className="text-brand-gold transition hover:text-brand-gold/80"
         >
           ← upload another deck
         </Link>
@@ -101,7 +101,7 @@ export default async function ReportPage({ params }: PageProps) {
             className={[
               "rounded-sm border px-2 py-1",
               voicePass
-                ? "border-signal-cyan/40 text-signal-cyan"
+                ? "border-brand-gold/40 text-brand-gold"
                 : "border-signal-red/40 text-signal-red",
             ].join(" ")}
           >
@@ -112,7 +112,7 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Header */}
       <header className="mt-10 border-b border-border/50 pb-10">
-        <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-signal-cyan">
+        <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-brand-gold">
           partner memo · scott · black dog vp
         </div>
         <h1 className="mt-4 font-sans text-5xl font-semibold leading-[1.04] tracking-tight text-foreground">
@@ -167,8 +167,8 @@ export default async function ReportPage({ params }: PageProps) {
           Investment cases
         </h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <article className="rounded-md border border-signal-cyan/30 bg-signal-cyan/5 p-6">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-signal-cyan">
+          <article className="rounded-md border border-brand-gold/30 bg-brand-gold/5 p-6">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-brand-gold">
               bull case
             </div>
             <p className="mt-3 font-serif text-[15px] leading-relaxed text-foreground/90">
@@ -256,7 +256,7 @@ export default async function ReportPage({ params }: PageProps) {
               <h3 className="mt-3 font-sans text-lg font-semibold text-foreground">
                 {o.title}
               </h3>
-              <blockquote className="mt-4 border-l-2 border-signal-cyan/60 pl-4 font-serif italic text-foreground/90">
+              <blockquote className="mt-4 border-l-2 border-brand-gold/60 pl-4 font-serif italic text-foreground/90">
                 &ldquo;{o.objection}&rdquo;
               </blockquote>
               {o.sourceQuote && (
@@ -336,8 +336,8 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Decision callout */}
       <section className="mt-16">
-        <div className="rounded-lg border border-signal-cyan/30 bg-gradient-to-br from-signal-cyan/10 via-card to-card p-8">
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal-cyan">
+        <div className="rounded-lg border border-brand-gold/30 bg-gradient-to-br from-brand-gold/10 via-card to-card p-8">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-gold">
             final partner recommendation
           </div>
           <h2 className="mt-3 font-serif text-2xl font-semibold leading-snug text-foreground">
@@ -405,7 +405,7 @@ function SeverityBadge({ severity }: { severity: string }) {
     severity === "VERY_HIGH" || severity === "HIGH"
       ? "border-signal-red/40 bg-signal-red/10 text-signal-red"
       : severity === "MEDIUM"
-      ? "border-signal-amber/40 bg-signal-amber/10 text-signal-amber"
+      ? "border-brand-gold/40 bg-brand-gold/10 text-brand-gold"
       : "border-border bg-muted text-muted-foreground";
   return (
     <span
@@ -429,7 +429,7 @@ function renderCitations(text: string): React.ReactNode {
       return (
         <span
           key={i}
-          className="ml-0.5 inline-block translate-y-[-1px] rounded-sm border border-border bg-muted/60 px-1 py-px align-baseline font-mono text-[10px] tabular-nums tracking-tight text-signal-cyan"
+          className="ml-0.5 inline-block translate-y-[-1px] rounded-sm border border-border bg-muted/60 px-1 py-px align-baseline font-mono text-[10px] tabular-nums tracking-tight text-brand-gold"
         >
           {m[1]}
         </span>

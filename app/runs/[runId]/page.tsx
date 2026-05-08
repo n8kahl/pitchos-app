@@ -21,10 +21,10 @@ export default async function RunPage({ params }: PageProps) {
     <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col px-6 py-12">
       <header className="mb-10 flex items-baseline justify-between border-b border-border/50 pb-6">
         <div>
-          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-signal-cyan">
+          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-gold">
             analysis · in progress
           </div>
-          <h1 className="mt-2 font-sans text-3xl font-semibold tracking-tight text-foreground">
+          <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-foreground">
             {run.deck.project.companyName}
           </h1>
           <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">

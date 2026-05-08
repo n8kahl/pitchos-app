@@ -4,20 +4,44 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Brand-true palette · Black Dog · The Founder Platform
+ *
+ * Source of truth: 15_proposed_homepage.html + CLAUDE.md "Strategic
+ * decisions" §8. Forest green surfaces, gold + bright green as the
+ * twin accents (gold for premium / CTA, green for active/positive).
+ * No cyan, no purple gradients — that aesthetic abandons three years
+ * of Scott's brand equity.
+ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
   --font-serif: var(--font-source-serif);
-  --font-heading: var(--font-inter);
+  --font-heading: var(--font-source-serif);
 
-  /* Brand-true signal palette per SDD §21.1 */
-  --color-signal-cyan: #22d3ee;
+  /* Brand surface tokens */
+  --color-forest: #202F18;          /* BDVP brand color */
+  --color-forest-2: #2A3D22;        /* hover / nested */
+  --color-bg-2: #101a13;
+  --color-bg-3: #16241a;
+  --color-bg-card: #13211a;
+
+  /* Brand accents · pulled from real assets */
+  --color-brand-gold: #F5C842;      /* logo paws · primary CTA */
+  --color-brand-gold-2: #E8B526;    /* hover */
+  --color-brand-green: #3CA94A;     /* logo script · positive state */
+  --color-brand-green-2: #2D8438;   /* hover */
+  --color-vcfp: #42AC40;            /* VC Fast Pitch event green */
+  --color-sage: #BBC9B5;            /* soft accent */
+  --color-sage-2: #9DB096;
+
+  /* Semantic data signals (used inside dashboard surfaces only;
+     never on hero, brand, or CTA chrome) */
   --color-signal-amber: #f59e0b;
   --color-signal-red: #ef4444;
-  --color-signal-green: #3ca94a; /* Black Dog logo script */
-  --color-brand-gold: #f5c842;   /* Black Dog logo paws */
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -58,43 +82,54 @@
 }
 
 /*
- * Dark theme is the default and only theme — analyst tool, not a SaaS
- * dashboard. Per SDD §21.1: "The product MUST look like a serious analyst
- * tool. Dense, monospaced data accents, restrained color, dark theme."
+ * Dark surface · forest-leaning. Gold is the primary CTA color (logo
+ * paws). Green is the positive / active state (logo script). Both used
+ * sparingly — never together as gradient chrome.
  */
 :root {
-  --background: #070a13;            /* deep navy-black */
-  --foreground: #e6e9f0;
-  --card: #0c111d;                  /* slightly lighter for surfaces */
-  --card-foreground: #e6e9f0;
-  --popover: #0c111d;
-  --popover-foreground: #e6e9f0;
-  --primary: #22d3ee;               /* signal cyan = primary action */
-  --primary-foreground: #070a13;
-  --secondary: #1a1f2e;
-  --secondary-foreground: #e6e9f0;
-  --muted: #131826;
-  --muted-foreground: #8a93a6;
-  --accent: #1a1f2e;
-  --accent-foreground: #e6e9f0;
+  --background: #0a1410;            /* deep forest, near-black with green undertone */
+  --foreground: #eef1ec;
+  --card: #13211a;
+  --card-foreground: #eef1ec;
+  --popover: #13211a;
+  --popover-foreground: #eef1ec;
+  --primary: #F5C842;               /* gold = primary CTA */
+  --primary-foreground: #0a1410;
+  --secondary: #16241a;
+  --secondary-foreground: #eef1ec;
+  --muted: #101a13;
+  --muted-foreground: #b6c0b3;      /* sage-leaning gray */
+  --accent: #3CA94A;                /* green = positive */
+  --accent-foreground: #0a1410;
   --destructive: #ef4444;
-  --border: #1f2638;
-  --input: #1a1f2e;
-  --ring: #22d3ee;
-  --chart-1: #22d3ee;
-  --chart-2: #f59e0b;
-  --chart-3: #3ca94a;
-  --chart-4: #f5c842;
-  --chart-5: #ef4444;
-  --radius: 0.625rem;
-  --sidebar: #0a0e18;
-  --sidebar-foreground: #e6e9f0;
-  --sidebar-primary: #22d3ee;
-  --sidebar-primary-foreground: #070a13;
-  --sidebar-accent: #1a1f2e;
-  --sidebar-accent-foreground: #e6e9f0;
-  --sidebar-border: #1f2638;
-  --sidebar-ring: #22d3ee;
+  --border: rgba(187, 201, 181, 0.10);
+  --input: #16241a;
+  --ring: #F5C842;
+  --chart-1: #F5C842;               /* gold */
+  --chart-2: #3CA94A;               /* green */
+  --chart-3: #BBC9B5;               /* sage */
+  --chart-4: #f59e0b;               /* amber (data) */
+  --chart-5: #ef4444;               /* red (data) */
+  --radius: 0.5rem;
+  --sidebar: #101a13;
+  --sidebar-foreground: #eef1ec;
+  --sidebar-primary: #F5C842;
+  --sidebar-primary-foreground: #0a1410;
+  --sidebar-accent: #16241a;
+  --sidebar-accent-foreground: #eef1ec;
+  --sidebar-border: rgba(187, 201, 181, 0.10);
+  --sidebar-ring: #F5C842;
+}
+
+/* Subtle paper noise on dark surfaces — matches 15_proposed_homepage.html */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.03;
 }
 
 @layer base {
@@ -106,5 +141,9 @@
   }
   html {
     @apply font-sans;
+  }
+  /* Display headings render in Source Serif 4 by default — editorial premium */
+  h1, h2, h3 {
+    font-family: var(--font-source-serif), Georgia, serif;
   }
 }
