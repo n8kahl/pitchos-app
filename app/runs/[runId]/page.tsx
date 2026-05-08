@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { ProgressView } from "@/components/runs/ProgressView";
@@ -6,8 +7,21 @@ type PageProps = {
   params: Promise<{ runId: string }>;
 };
 
+// The chrome renders immediately; only the run header + progress
+// view wait on the DB. The skeleton preserves the layout shape so
+// content lands without shifting under the cursor.
 export default async function RunPage({ params }: PageProps) {
   const { runId } = await params;
+  return (
+    <main className="mx-auto max-w-4xl px-8 py-10">
+      <Suspense fallback={<RunPageSkeleton />}>
+        <RunPageBody runId={runId} />
+      </Suspense>
+    </main>
+  );
+}
+
+async function RunPageBody({ runId }: { runId: string }) {
   const run = await db.analysisRun.findUnique({
     where: { id: runId },
     include: {
@@ -18,7 +32,7 @@ export default async function RunPage({ params }: PageProps) {
   if (!run) notFound();
 
   return (
-    <main className="mx-auto max-w-4xl px-8 py-10">
+    <>
       <header className="mb-8 flex items-baseline justify-between border-b border-border/40 pb-6">
         <div>
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
@@ -43,6 +57,34 @@ export default async function RunPage({ params }: PageProps) {
         initialStatus={run.status}
         initialProgress={run.progress}
       />
-    </main>
+    </>
+  );
+}
+
+function RunPageSkeleton() {
+  return (
+    <div aria-hidden>
+      <header className="mb-8 flex items-baseline justify-between border-b border-border/40 pb-6">
+        <div className="space-y-3">
+          <div className="h-2.5 w-56 animate-pulse rounded-full bg-muted/50" />
+          <div className="h-9 w-72 animate-pulse rounded-md bg-muted/40" />
+          <div className="h-2.5 w-80 max-w-full animate-pulse rounded-full bg-muted/50" />
+        </div>
+        <div className="space-y-2 text-right">
+          <div className="ml-auto h-2.5 w-16 animate-pulse rounded-full bg-muted/50" />
+          <div className="ml-auto h-3 w-24 animate-pulse rounded-md bg-muted/40" />
+        </div>
+      </header>
+
+      <div className="space-y-3">
+        <div className="h-3 w-full animate-pulse rounded-full bg-muted/40" />
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-12 animate-pulse rounded-lg border border-border/60 bg-card/30"
+          />
+        ))}
+      </div>
+    </div>
   );
 }
