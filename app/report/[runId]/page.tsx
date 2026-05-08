@@ -17,6 +17,7 @@ import type { ScoreComponent } from "@/lib/ai/schemas";
 import { MemoBody } from "@/components/report/MemoBody";
 import { SlideTeardown } from "@/components/report/SlideTeardown";
 import { InvestorLens } from "@/components/report/InvestorLens";
+import { QARehearsal } from "@/components/report/QARehearsal";
 import { AskCoachButton } from "@/components/library/AskCoachButton";
 
 type PageProps = {
@@ -417,6 +418,27 @@ export default async function ReportPage({ params }: PageProps) {
             (d) => d.antiPatternKey
           )}
           fullText={extractedSlides.map((s) => s.rawText).join(" ")}
+        />
+      </section>
+
+      {/* === 09 · Q&A rehearsal · partner-voiced questions, click to expand === */}
+      <section className="mt-12 sm:mt-16">
+        <SectionEyebrow
+          num="09"
+          label="q&a rehearsal · the questions a partner will ask in the room"
+        />
+        <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
+          Walk in ready for these
+        </h2>
+        <QARehearsal
+          objections={run.objections.map((o) => ({
+            antiPatternKey: o.antiPatternKey,
+            title: o.title,
+            objection: o.objection,
+            whyItMatters: o.whyItMatters,
+            howToAddress: o.howToAddress,
+            evidenceRequired: o.evidenceRequired,
+          }))}
         />
       </section>
 
