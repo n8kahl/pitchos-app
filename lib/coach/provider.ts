@@ -36,6 +36,20 @@ export interface CoachReply {
   provider: "mock" | "anthropic";
 }
 
+// Streaming events emitted by stream(). The route serializes each one
+// as a single newline-delimited JSON object so the client can
+// progressively render text as it arrives. `match` short-circuits the
+// rest of the stream when the mock provider routes to a prebaked
+// exchange — the client switches active exchange instead of building
+// a live response.
+export type CoachStreamEvent =
+  | { type: "match"; matchedExchangeId: string }
+  | { type: "sources"; sources: import("./retrieval").CoachSource[] }
+  | { type: "text"; chunk: string }
+  | { type: "done"; provider: "mock" | "anthropic" }
+  | { type: "error"; message: string };
+
 export interface CoachProvider {
   ask(input: CoachInput): Promise<CoachReply>;
+  stream?(input: CoachInput): AsyncIterable<CoachStreamEvent>;
 }

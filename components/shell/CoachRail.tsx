@@ -84,33 +84,83 @@ export function CoachRail() {
     setIsThinking(true);
     setSubmitNote(null);
     try {
-      const res = await fetch("/api/coach/chat", {
+      const res = await fetch("/api/coach/chat/stream", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ question: q }),
       });
-      const json = await res.json();
-      if (!res.ok || "error" in json) {
-        throw new Error("error" in json ? json.error : "Coach call failed");
+      if (!res.ok || !res.body) {
+        const fallback = await res.json().catch(() => ({}));
+        throw new Error(fallback?.error ?? `Coach call failed (${res.status})`);
       }
-      if (json.matchedExchangeId) {
-        // Mock provider routed to a prebaked exchange · render the
-        // canonical exchange UI by switching the active exchange.
-        open({ exchangeId: json.matchedExchangeId });
-        setLiveResponse(null);
-        if (inputRef.current) inputRef.current.value = "";
-      } else if (typeof json.text === "string" && json.text.length > 0) {
-        // No prebaked match · render the live response block. Same
-        // path the Anthropic provider takes once the key is set.
-        setLiveResponse({
-          question: q,
-          text: json.text,
-          sources: Array.isArray(json.sources) ? json.sources : [],
-          provider: json.provider === "anthropic" ? "anthropic" : "mock",
-        });
-        if (inputRef.current) inputRef.current.value = "";
-      } else {
-        setSubmitNote("No exchange covered that exactly.");
+
+      // Read newline-delimited JSON events as they stream in. Buffer
+      // partial lines across chunks so split tokens don't break the
+      // parser. Each event progressively builds the live response.
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let liveStarted = false;
+      let provider: "mock" | "anthropic" = "mock";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          let event: { type: string; [k: string]: unknown };
+          try {
+            event = JSON.parse(line);
+          } catch {
+            continue;
+          }
+          if (event.type === "match" && typeof event.matchedExchangeId === "string") {
+            open({ exchangeId: event.matchedExchangeId });
+            setLiveResponse(null);
+            if (inputRef.current) inputRef.current.value = "";
+            await reader.cancel().catch(() => {});
+            return;
+          }
+          if (event.type === "sources" && Array.isArray(event.sources)) {
+            setLiveResponse({
+              question: q,
+              text: "",
+              sources: event.sources as never,
+              provider,
+            });
+            liveStarted = true;
+            if (inputRef.current) inputRef.current.value = "";
+          }
+          if (event.type === "text" && typeof event.chunk === "string") {
+            const chunk = event.chunk;
+            setLiveResponse((prev) =>
+              prev
+                ? { ...prev, text: prev.text + chunk }
+                : {
+                    question: q,
+                    text: chunk,
+                    sources: [],
+                    provider,
+                  }
+            );
+            liveStarted = true;
+          }
+          if (event.type === "done") {
+            provider =
+              event.provider === "anthropic" ? "anthropic" : "mock";
+            setLiveResponse((prev) => (prev ? { ...prev, provider } : prev));
+          }
+          if (event.type === "error" && typeof event.message === "string") {
+            setSubmitNote(event.message);
+          }
+        }
+      }
+
+      if (!liveStarted) {
+        setSubmitNote("Coach returned no content. Try rephrasing.");
       }
     } catch (err) {
       setSubmitNote(err instanceof Error ? err.message : "Coach call failed");

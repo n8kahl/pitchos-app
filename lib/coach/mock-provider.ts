@@ -4,7 +4,12 @@ import {
   type CoachExchange,
 } from "@/lib/content/coach-exchanges";
 import { retrieveSources, type CoachSource } from "./retrieval";
-import type { CoachInput, CoachProvider, CoachReply } from "./provider";
+import type {
+  CoachInput,
+  CoachProvider,
+  CoachReply,
+  CoachStreamEvent,
+} from "./provider";
 
 // Default Coach provider · always available, no API key required.
 //
@@ -125,5 +130,54 @@ export class MockCoachProvider implements CoachProvider {
       matchedExchangeId: null,
       provider: "mock",
     };
+  }
+
+  async *stream(input: CoachInput): AsyncIterable<CoachStreamEvent> {
+    const queryToks = tokens(input.question);
+    let bestExchange: CoachExchange | null = null;
+    let bestScore = 0;
+    for (const e of COACH_EXAMPLES) {
+      const modeBonus = input.mode && e.mode === input.mode ? 1 : 0;
+      const score = scoreExchange(queryToks, e) + modeBonus;
+      if (score > bestScore) {
+        bestScore = score;
+        bestExchange = e;
+      }
+    }
+
+    // Strong match · short-circuit the stream so the client can
+    // switch active exchange instead of building a live response.
+    if (bestExchange && bestScore >= MIN_MATCH_SCORE) {
+      yield { type: "match", matchedExchangeId: bestExchange.id };
+      yield { type: "done", provider: "mock" };
+      return;
+    }
+
+    // Weak match · stream the retrieval fallback. Sources first so
+    // the rail can render the citation list even before text arrives.
+    const retrieved = retrieveSources(input.question, { topN: 5 });
+    yield { type: "sources", sources: retrieved };
+
+    const text = retrieved.length
+      ? "No prebaked exchange covers that exactly — here are the closest assets in the corpus. Live AI lands when ANTHROPIC_API_KEY is set; until then, the Coach answers from the curated exchange set."
+      : "No prebaked exchange covers that. Try a question about ICP, wedge, traction, AI defensibility, or term sheets — or wait for live AI in the next deploy.";
+
+    // Chunk by word-pairs with a small delay so the UI feels alive.
+    // Anthropic streaming yields real tokens at this same shape.
+    const words = text.split(/(\s+)/);
+    let buffer = "";
+    let count = 0;
+    for (const piece of words) {
+      buffer += piece;
+      count += piece.trim().length > 0 ? 1 : 0;
+      if (count >= 2) {
+        yield { type: "text", chunk: buffer };
+        buffer = "";
+        count = 0;
+        await new Promise((r) => setTimeout(r, 30));
+      }
+    }
+    if (buffer) yield { type: "text", chunk: buffer };
+    yield { type: "done", provider: "mock" };
   }
 }

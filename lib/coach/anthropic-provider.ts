@@ -1,7 +1,12 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { retrieveSources, type CoachSource } from "./retrieval";
-import type { CoachInput, CoachProvider, CoachReply } from "./provider";
+import type {
+  CoachInput,
+  CoachProvider,
+  CoachReply,
+  CoachStreamEvent,
+} from "./provider";
 
 // Anthropic-backed Coach provider. Uses Sonnet 4.6 with a
 // retrieval-augmented system prompt — the keyword retriever picks up
@@ -94,5 +99,32 @@ export class AnthropicCoachProvider implements CoachProvider {
       matchedExchangeId: null,
       provider: "anthropic",
     };
+  }
+
+  async *stream(input: CoachInput): AsyncIterable<CoachStreamEvent> {
+    const sources = retrieveSources(input.question, { topN: 5 });
+    const systemPrompt = `${SCOTT_VOICE_RULES}\n\nRetrieved corpus context:\n${formatSources(sources)}`;
+
+    // Yield the retrieved sources first so the rail can render the
+    // citation list while text streams in.
+    yield { type: "sources", sources };
+
+    const stream = this.client.messages.stream({
+      model: MODEL,
+      max_tokens: MAX_OUTPUT_TOKENS,
+      system: systemPrompt,
+      messages: [{ role: "user", content: input.question }],
+    });
+
+    for await (const event of stream) {
+      if (
+        event.type === "content_block_delta" &&
+        event.delta.type === "text_delta"
+      ) {
+        yield { type: "text", chunk: event.delta.text };
+      }
+    }
+
+    yield { type: "done", provider: "anthropic" };
   }
 }
