@@ -5,23 +5,32 @@ import { ProgressView } from "@/components/runs/ProgressView";
 
 type PageProps = {
   params: Promise<{ runId: string }>;
+  searchParams: Promise<{ demo?: string }>;
 };
 
 // The chrome renders immediately; only the run header + progress
 // view wait on the DB. The skeleton preserves the layout shape so
 // content lands without shifting under the cursor.
-export default async function RunPage({ params }: PageProps) {
+export default async function RunPage({ params, searchParams }: PageProps) {
   const { runId } = await params;
+  const { demo } = await searchParams;
+  const isDemo = demo === "1";
   return (
     <main className="mx-auto max-w-4xl px-8 py-10">
       <Suspense fallback={<RunPageSkeleton />}>
-        <RunPageBody runId={runId} />
+        <RunPageBody runId={runId} isDemo={isDemo} />
       </Suspense>
     </main>
   );
 }
 
-async function RunPageBody({ runId }: { runId: string }) {
+async function RunPageBody({
+  runId,
+  isDemo,
+}: {
+  runId: string;
+  isDemo: boolean;
+}) {
   const run = await db.analysisRun.findUnique({
     where: { id: runId },
     include: {
@@ -38,7 +47,7 @@ async function RunPageBody({ runId }: { runId: string }) {
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
             ★ pitchos · analysis in progress
           </div>
-          <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl tracking-tight text-foreground">
+          <h1 className="mt-2 text-3xl font-semibold sm:text-4xl tracking-tight text-foreground">
             {run.deck.project.companyName}
           </h1>
           <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -50,6 +59,28 @@ async function RunPageBody({ runId }: { runId: string }) {
           <div className="text-foreground">{run.id.slice(-12)}</div>
         </div>
       </header>
+
+      {isDemo && (
+        <div className="mb-6 rounded-xl border border-brand-gold/30 bg-gradient-to-br from-brand-gold/5 via-transparent to-transparent p-5">
+          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+            ★ demo run · meshops fixture · seed-stage saas
+          </div>
+          <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-foreground/85">
+            About to score a 12-slide deck against the partner rubric. Watch
+            the chain — the ticking stages below are the same nine
+            transformations a real deck runs through. The mock provider
+            returns deterministic Scott-voiced output, so the memo at the
+            end is the same one Scott reads as the voice baseline.
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+            <span>~2 second analysis</span>
+            <span aria-hidden>·</span>
+            <span>9 stages</span>
+            <span aria-hidden>·</span>
+            <span>partner memo lands at /report</span>
+          </div>
+        </div>
+      )}
 
       <ProgressView
         runId={run.id}

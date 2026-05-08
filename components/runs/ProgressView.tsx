@@ -3,16 +3,75 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-const STAGE_LABELS: Array<{ key: string; label: string; mono: string }> = [
-  { key: "VALIDATING_FILE", label: "Validating PDF", mono: "01 · validate" },
-  { key: "EXTRACTING_FACTS", label: "Extracting structured claims · per-slide quote anchoring", mono: "02 · extract" },
-  { key: "REVIEWING_SLIDES", label: "Slide-by-slide review", mono: "03 · slides" },
-  { key: "SCORING_FUNDABILITY", label: "Scoring against Black Dog VP rubric v1.3", mono: "04 · score" },
-  { key: "FINDING_OBJECTIONS", label: "Detecting closed-catalog anti-patterns", mono: "05 · objections" },
-  { key: "BUILDING_DILIGENCE", label: "Building diligence checklist", mono: "06 · diligence" },
-  { key: "WRITING_MEMO", label: "Synthesizing partner-voiced memo", mono: "07 · memo" },
-  { key: "BUILDING_ROADMAP", label: "Counterfactual rewrites + score deltas", mono: "08 · roadmap" },
-  { key: "FINALIZING_REPORT", label: "Finalizing report · voice regression check", mono: "09 · finalize" },
+const STAGE_LABELS: Array<{
+  key: string;
+  label: string;
+  mono: string;
+  narrative: string;
+}> = [
+  {
+    key: "VALIDATING_FILE",
+    label: "Validating PDF",
+    mono: "01 · validate",
+    narrative:
+      "Page count, file integrity, embedded-text vs scanned-image check.",
+  },
+  {
+    key: "EXTRACTING_FACTS",
+    label: "Extracting structured claims · per-slide quote anchoring",
+    mono: "02 · extract",
+    narrative:
+      "Pulling claim spans from each slide. Every claim gets a verbatim quote and a slide number so nothing in the memo is unsourced.",
+  },
+  {
+    key: "REVIEWING_SLIDES",
+    label: "Slide-by-slide review",
+    mono: "03 · slides",
+    narrative:
+      "Twelve slides read against the partner-rubric question for that section. Notes on what's strong, what's missing, what's misordered.",
+  },
+  {
+    key: "SCORING_FUNDABILITY",
+    label: "Scoring against Black Dog VP rubric v1.3",
+    mono: "04 · score",
+    narrative:
+      "All 11 dimensions scored 0–100. Founder-market fit is double-weighted; wedge clarity and traction quality tied second.",
+  },
+  {
+    key: "FINDING_OBJECTIONS",
+    label: "Detecting closed-catalog anti-patterns",
+    mono: "05 · objections",
+    narrative:
+      "Sixteen named patterns plus Scott's two custom — wedge-as-feature, vanity-NRR-on-small-n, top-down-TAM-only, AI-without-moat. Every detection cites a verbatim slide quote.",
+  },
+  {
+    key: "BUILDING_DILIGENCE",
+    label: "Building diligence checklist",
+    mono: "06 · diligence",
+    narrative:
+      "What the partner asks before writing a check. Structured by dimension so the founder knows exactly what proof to surface in the data room.",
+  },
+  {
+    key: "WRITING_MEMO",
+    label: "Synthesizing partner-voiced memo",
+    mono: "07 · memo",
+    narrative:
+      "Scott's signature open, decision close, slide citations woven through. Reads like a real partner wrote it.",
+  },
+  {
+    key: "BUILDING_ROADMAP",
+    label: "Counterfactual rewrites + score deltas",
+    mono: "08 · roadmap",
+    narrative:
+      "Top three changes, each with a before/after slide rewrite and the predicted rubric-score delta. Operators get a punch list, not platitudes.",
+  },
+  {
+    key: "FINALIZING_REPORT",
+    label: "Finalizing report · voice regression check",
+    mono: "09 · finalize",
+    narrative:
+      "Banned-phrase check (twenty-four phrases), citation count (≥8), signature open, decision close. Memos that fail twice are auto-rejected.",
+  },
 ];
 
 const TERMINAL_STAGES = new Set(["COMPLETED", "FAILED"]);
@@ -139,6 +198,13 @@ export function ProgressView({
                     <span className="ml-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand-gold" />
                   )}
                 </div>
+                {/* Narrative caption · only shown for current + done so
+                    the inactive stages don't drown the user in text. */}
+                {(isCurrent || isDone) && (
+                  <p className="mt-1 max-w-prose text-[12.5px] leading-relaxed text-muted-foreground">
+                    {s.narrative}
+                  </p>
+                )}
               </div>
             </li>
           );
