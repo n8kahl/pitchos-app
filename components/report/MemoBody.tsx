@@ -15,6 +15,9 @@ export function MemoBody({ body }: Props) {
   const [pulsing, setPulsing] = useState<number | null>(null);
 
   const onCite = useCallback((slideNumber: number) => {
+    window.dispatchEvent(
+      new CustomEvent("pitchos:slide-cite", { detail: { slideNumber } })
+    );
     const el = document.getElementById(`slide-${slideNumber}`);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });

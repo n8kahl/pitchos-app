@@ -15,6 +15,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import type { ScoreComponent } from "@/lib/ai/schemas";
 import { MemoBody } from "@/components/report/MemoBody";
+import { SlideTeardown } from "@/components/report/SlideTeardown";
 import { AskCoachButton } from "@/components/library/AskCoachButton";
 
 type PageProps = {
@@ -92,6 +93,16 @@ export default async function ReportPage({ params }: PageProps) {
   const scoring =
     (run.report.keyMetrics as { scoring?: ScoreComponent[] } | null)
       ?.scoring ?? [];
+
+  const extractedSlides =
+    (run.extractionJson as {
+      slides?: Array<{
+        slideNumber: number;
+        inferredTitle: string;
+        purpose: string;
+        rawText: string;
+      }>;
+    } | null)?.slides ?? [];
 
   const voicePass =
     memo.voiceMarkers.bannedPhraseHits.length === 0 &&
@@ -314,91 +325,20 @@ export default async function ReportPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* === 05 · Slide reviews · citation jump targets === */}
+      {/* === 05 · Slide-by-slide teardown · rail + detail · citation jump targets === */}
       <section className="mt-12 sm:mt-16">
         <SectionEyebrow
           num="05"
-          label="slide-by-slide teardown · click [slide N] in the memo to jump here"
+          label="slide-by-slide teardown · click [slide N] in the memo or any thumb"
         />
         <h2 className="mt-3 font-prose text-2xl font-semibold tracking-tight text-foreground">
-          {run.slideReviews.length} slides reviewed
+          The deck, slide by slide
         </h2>
-        <div className="mt-5 space-y-4">
-          {run.slideReviews.map((s) => (
-            <article
-              key={s.id}
-              id={`slide-${s.slideNumber}`}
-              className="scroll-mt-24 rounded-md border border-border bg-card/40 p-5 transition sm:p-6"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-                  slide {String(s.slideNumber).padStart(2, "0")} ·{" "}
-                  {s.slidePurpose ?? "—"}
-                </div>
-                <div className="flex items-center gap-2 font-mono text-[10px] tabular-nums">
-                  <span className="text-muted-foreground">clarity</span>
-                  <span className={scoreColor(s.clarityScore)}>
-                    {s.clarityScore}
-                  </span>
-                  <span className="text-muted-foreground">·</span>
-                  <span className="text-muted-foreground">evidence</span>
-                  <span className={scoreColor(s.evidenceScore)}>
-                    {s.evidenceScore}
-                  </span>
-                  <span className="text-muted-foreground">·</span>
-                  <span className="text-muted-foreground">impact</span>
-                  <span className={scoreColor(s.investorImpactScore)}>
-                    {s.investorImpactScore}
-                  </span>
-                </div>
-              </div>
-              <h3 className="mt-2 font-prose text-lg font-semibold text-foreground">
-                {s.suggestedTitle ?? s.inferredTitle ?? `Slide ${s.slideNumber}`}
-              </h3>
-              {s.sourceQuote && (
-                <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                  evidence · &ldquo;{s.sourceQuote}&rdquo;
-                </p>
-              )}
-              {s.whatWorks.length > 0 && (
-                <div className="mt-4">
-                  <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-green">
-                    works
-                  </div>
-                  <ul className="mt-1.5 space-y-1 text-[14px] leading-snug text-foreground/85">
-                    {s.whatWorks.map((w, i) => (
-                      <li key={i} className="pl-4 -indent-4">
-                        · {w}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {s.issues.length > 0 && (
-                <div className="mt-3">
-                  <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-signal-red">
-                    issues
-                  </div>
-                  <ul className="mt-1.5 space-y-1 text-[14px] leading-snug text-foreground/85">
-                    {s.issues.map((iss, i) => (
-                      <li key={i} className="pl-4 -indent-4">
-                        · {iss}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              <div className="mt-4 max-w-2xl font-prose text-[14px] italic leading-[1.7] text-foreground/85">
-                {s.rewriteGuidance}
-              </div>
-              {s.expectedScoreDelta > 0 && (
-                <div className="mt-3 inline-flex items-center gap-2 rounded-sm border border-brand-gold/30 bg-brand-gold/5 px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-                  if rewritten · +{s.expectedScoreDelta} pts projected
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
+        <SlideTeardown
+          slides={extractedSlides}
+          reviews={run.slideReviews}
+          companyName={run.deck.project.companyName}
+        />
       </section>
 
       {/* === 06 · What would need to be true === */}
