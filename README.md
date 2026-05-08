@@ -63,3 +63,36 @@ npm run dev
 | `npm run db:migrate` | Run migrations against `DATABASE_URL` |
 | `npm run db:seed` | Seed rubric + profile |
 | `npm run db:studio` | Open Prisma Studio |
+| `npm run vercel-build` | Production build · migrate + seed + next build |
+
+## Deploy · Vercel + Neon
+
+The single-tenant prototype deploys cleanly to Vercel (Next.js 16 App
+Router, server-rendered, streaming SSE) backed by a Neon Postgres on
+the free tier. ~10 minutes end-to-end.
+
+1. **Create the database.** [neon.tech](https://neon.tech) → new
+   project → copy the pooled connection string (looks like
+   `postgresql://user:pass@ep-xxxxx-pooler.region.aws.neon.tech/neondb?sslmode=require`).
+2. **Import to Vercel.** [vercel.com/new](https://vercel.com/new) →
+   import this repo. Set env vars before clicking Deploy:
+
+   | Variable | Value | Required |
+   |---|---|---|
+   | `DATABASE_URL` | Neon pooled connection string | yes |
+   | `AI_PROVIDER` | `mock` | yes |
+   | `AI_MAX_FILE_MB` | `25` | yes |
+   | `PROMPT_VERSION` | `v0.2` | yes |
+   | `ANTHROPIC_API_KEY` | Anthropic key | optional · enables live Coach |
+
+3. **Deploy.** Vercel auto-detects the `vercel-build` script and runs
+   `prisma migrate deploy && prisma db seed && next build` on the
+   first deploy. The seed populates the partner rubric v1.3 + Scott's
+   voice profile that the orchestrator depends on.
+4. **Smoke test.** Visit the deploy URL · /pitchos → "Try with the
+   MeshOps sample deck" → analysis runs through 9 stages → partner
+   memo lands.
+
+To enable the live Coach later: add `ANTHROPIC_API_KEY` and redeploy.
+The provider switch in `app/api/coach/chat/stream/route.ts` flips
+automatically.
