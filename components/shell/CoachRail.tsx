@@ -388,20 +388,16 @@ export function CoachRail() {
               </div>
 
               {liveResponse.sources.length > 0 && (
-                <details className="group mt-6 [&::-webkit-details-marker]:hidden">
-                  <summary className="flex cursor-pointer list-none items-center justify-between rounded-md border border-border/60 bg-card/40 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground transition hover:border-brand-gold/40 hover:text-foreground marker:hidden">
-                    <span>
-                      retrieved sources ·{" "}
-                      <span className="text-brand-gold">
-                        {liveResponse.sources.length}
-                      </span>{" "}
-                      in this platform
+                <div className="mt-6">
+                  <div className="flex items-center gap-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em]">
+                    <span className="text-brand-gold">★</span>
+                    <span className="text-brand-gold">cited sources</span>
+                    <span className="rounded-sm bg-brand-gold/15 px-1.5 py-0.5 text-brand-gold">
+                      {liveResponse.sources.length}
                     </span>
-                    <span className="font-sans text-[12px] transition group-open:rotate-180">
-                      ▾
-                    </span>
-                  </summary>
-                  <ul className="mt-2 space-y-2">
+                    <span className="text-muted-foreground">in this platform</span>
+                  </div>
+                  <ul className="mt-2.5 space-y-2">
                     {liveResponse.sources.map((s, i) => (
                       <li key={i}>
                         <CoachCitationCard
@@ -411,7 +407,7 @@ export function CoachRail() {
                       </li>
                     ))}
                   </ul>
-                </details>
+                </div>
               )}
             </>
           ) : (
@@ -439,27 +435,23 @@ export function CoachRail() {
                 {exchange.reply.replace(/\[\^\d+\]/g, "")}
               </div>
 
-              <details className="group mt-6 [&::-webkit-details-marker]:hidden">
-                <summary className="flex cursor-pointer list-none items-center justify-between rounded-md border border-border/60 bg-card/40 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground transition hover:border-brand-gold/40 hover:text-foreground marker:hidden">
-                  <span>
-                    cited sources ·{" "}
-                    <span className="text-brand-gold">
-                      {exchange.citations.length}
-                    </span>{" "}
-                    in this platform
+              <div className="mt-6">
+                <div className="flex items-center gap-2 font-mono text-[9px] font-bold uppercase tracking-[0.14em]">
+                  <span className="text-brand-gold">★</span>
+                  <span className="text-brand-gold">cited sources</span>
+                  <span className="rounded-sm bg-brand-gold/15 px-1.5 py-0.5 text-brand-gold">
+                    {exchange.citations.length}
                   </span>
-                  <span className="font-sans text-[12px] transition group-open:rotate-180">
-                    ▾
-                  </span>
-                </summary>
-                <ul className="mt-2 space-y-2">
+                  <span className="text-muted-foreground">in this platform</span>
+                </div>
+                <ul className="mt-2.5 space-y-2">
                   {exchange.citations.map((c, i) => (
                     <li key={i}>
                       <CoachCitationCard citation={c} onSelect={close} />
                     </li>
                   ))}
                 </ul>
-              </details>
+              </div>
 
               <div className="mt-6">
                 <div className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
