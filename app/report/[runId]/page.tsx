@@ -97,12 +97,7 @@ export default async function ReportPage({ params }: PageProps) {
     (run.report.keyMetrics as { scoring?: ScoreComponent[] } | null)
       ?.scoring ?? [];
 
-  const extractedSlides: Array<{
-    slideNumber: number;
-    inferredTitle: string;
-    purpose: string;
-    rawText: string;
-  }> =
+  const _rawSlides =
     (run.extractionJson as {
       slides?: Array<{
         slideNumber: number;
@@ -110,8 +105,17 @@ export default async function ReportPage({ params }: PageProps) {
         purpose: string;
         rawText: string;
       }>;
-    } | null)?.slides ??
-    run.slideReviews.map((r) => ({
+    } | null)?.slides ?? [];
+
+  const extractedSlides: Array<{
+    slideNumber: number;
+    inferredTitle: string;
+    purpose: string;
+    rawText: string;
+  }> =
+    _rawSlides.length > 0
+      ? _rawSlides
+      : run.slideReviews.map((r) => ({
       slideNumber: r.slideNumber,
       inferredTitle: r.suggestedTitle ?? r.inferredTitle,
       purpose: inferPurposeFromTitle(
@@ -127,7 +131,7 @@ export default async function ReportPage({ params }: PageProps) {
     memo.voiceMarkers.citedSlideClaims >= 8;
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-6 pb-24 pt-8 sm:px-8 sm:pt-10">
+    <main className="mx-auto w-full max-w-screen-xl px-6 pb-24 pt-8 sm:px-10 sm:pt-10">
       {/* Top bar · back to dashboard + voice integrity */}
       <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
         <Link
