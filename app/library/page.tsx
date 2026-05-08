@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useMemo, useState } from "react";
+import { Suspense, useCallback, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Search,
@@ -151,11 +151,54 @@ function matchesQueryResource(r: LibraryResource, q: string): boolean {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
+// ─── Animation keyframes ─────────────────────────────────────────────────────
+
+const ANIM_STYLES = `
+  @keyframes lib-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lib-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes lib-slide-down {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lib-scale-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .lib-fade-up   { animation: lib-fade-up   0.45s cubic-bezier(0.16,1,0.3,1) both; }
+  .lib-fade-in   { animation: lib-fade-in   0.25s ease both; }
+  .lib-slide-down { animation: lib-slide-down 0.28s cubic-bezier(0.16,1,0.3,1) both; }
+  .lib-scale-in  { animation: lib-scale-in  0.3s  cubic-bezier(0.16,1,0.3,1) both; }
+  .lib-dim-card  { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease; }
+  .lib-dim-card:hover:not(.lib-dim-card--active) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -4px rgba(0,0,0,0.35);
+  }
+  .lib-dim-card:active { transform: scale(0.97) translateY(0) !important; }
+  .lib-dim-card--active {
+    box-shadow: 0 0 0 1px rgba(var(--brand-gold-rgb, 180,140,60), 0.5),
+                0 4px 20px -4px rgba(var(--brand-gold-rgb, 180,140,60), 0.15);
+  }
+  .lib-search-wrap:focus-within {
+    box-shadow: 0 0 0 2px rgba(var(--brand-gold-rgb, 180,140,60), 0.18);
+  }
+  .lib-stage-pill { transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease; }
+  .lib-stage-pill:active { transform: scale(0.93); }
+`;
+
 export default function LibraryPage() {
   return (
-    <Suspense fallback={null}>
-      <LibraryView />
-    </Suspense>
+    <>
+      <style dangerouslySetInnerHTML={{ __html: ANIM_STYLES }} />
+      <Suspense fallback={null}>
+        <LibraryView />
+      </Suspense>
+    </>
   );
 }
 
@@ -174,6 +217,12 @@ function LibraryView() {
 
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+
+  // Changes whenever active filters change — used as key to re-trigger grid entrance
+  const filterKey = `${activeDim ?? ""}|${activeStage ?? ""}|${media}|${sort}|${activeShow ?? ""}`;
+  const prevFilterKey = useRef(filterKey);
+  const filterChanged = filterKey !== prevFilterKey.current;
+  if (filterChanged) prevFilterKey.current = filterKey;
 
   const setParam = useCallback(
     (updates: Record<string, string | null>) => {
@@ -282,7 +331,7 @@ function LibraryView() {
     <main className="mx-auto max-w-6xl px-5 py-6 sm:px-8 sm:py-8">
 
       {/* ── Zone 1: Slim toolbar ─────────────────────────────────────────── */}
-      <div className="mb-6 space-y-2.5">
+      <div className="mb-6 space-y-2.5 lib-fade-up" style={{ animationDelay: "0ms" }}>
         <div className="flex flex-wrap items-center gap-2">
 
           {/* Stage tabs */}
@@ -304,7 +353,7 @@ function LibraryView() {
           {/* Search */}
           <div
             className={[
-              "flex flex-1 min-w-[160px] items-center gap-2 rounded-lg border bg-muted/20 px-3 py-2 transition-colors",
+              "lib-search-wrap flex flex-1 min-w-[160px] items-center gap-2 rounded-lg border bg-muted/20 px-3 py-2 transition-all duration-200",
               searchFocused ? "border-brand-gold/50 bg-muted/40" : "border-border/60",
             ].join(" ")}
           >
@@ -324,7 +373,11 @@ function LibraryView() {
               className="flex-1 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
             />
             {query && (
-              <button onClick={() => setQuery("")} aria-label="Clear search">
+              <button
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="transition-opacity hover:opacity-70 active:scale-90"
+              >
                 <X className="h-3 w-3 text-muted-foreground hover:text-foreground" strokeWidth={2} />
               </button>
             )}
@@ -349,7 +402,7 @@ function LibraryView() {
                   aria-label={label}
                   title={label}
                   className={[
-                    "rounded-md p-1.5 transition",
+                    "rounded-md p-1.5 transition-all duration-150 active:scale-90",
                     isHighlighted
                       ? "bg-brand-gold/20 text-brand-gold"
                       : isDimmed
@@ -368,13 +421,19 @@ function LibraryView() {
             type="button"
             onClick={() => setFiltersOpen((o) => !o)}
             className={[
-              "flex items-center gap-1.5 rounded-lg border px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.1em] transition",
+              "flex items-center gap-1.5 rounded-lg border px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.1em] transition-all duration-200 active:scale-95",
               filtersOpen || extraFilterCount > 0
                 ? "border-brand-gold/50 bg-brand-gold/10 text-brand-gold"
-                : "border-border/60 bg-muted/20 text-muted-foreground hover:text-foreground",
+                : "border-border/60 bg-muted/20 text-muted-foreground hover:text-foreground hover:border-border",
             ].join(" ")}
           >
-            <SlidersHorizontal className="h-3.5 w-3.5" strokeWidth={1.5} />
+            <SlidersHorizontal
+              className={[
+                "h-3.5 w-3.5 transition-transform duration-300",
+                filtersOpen ? "rotate-90" : "",
+              ].join(" ")}
+              strokeWidth={1.5}
+            />
             {extraFilterCount > 0 ? `${extraFilterCount} more` : "More"}
           </button>
 
@@ -382,7 +441,7 @@ function LibraryView() {
             <button
               type="button"
               onClick={clearAll}
-              className="flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.1em] text-brand-gold transition hover:text-brand-gold-2"
+              className="flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.1em] text-brand-gold transition hover:opacity-70 active:scale-95 lib-fade-in"
             >
               <X className="h-3 w-3" strokeWidth={2} />
               Clear all
@@ -390,9 +449,9 @@ function LibraryView() {
           )}
         </div>
 
-        {/* Inline filter panel */}
+        {/* Inline filter panel — animates in */}
         {filtersOpen && (
-          <div className="rounded-xl border border-border/60 bg-card/40 p-4 space-y-4">
+          <div className="rounded-xl border border-border/60 bg-card/40 p-4 space-y-4 lib-slide-down">
             {showVideos && (
               <div>
                 <div className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
@@ -430,23 +489,25 @@ function LibraryView() {
       </div>
 
       {/* ── Stage hero or page header ────────────────────────────────────── */}
-      {validStage ? (
-        <div className="mb-6">
-          <StageHero stage={validStage} />
-        </div>
-      ) : !activeDim ? (
-        <header className="mb-6 border-b border-border/40 pb-5">
-          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
-            02 · content library · scott&rsquo;s curriculum
+      <div className="lib-fade-up" style={{ animationDelay: "60ms" }}>
+        {validStage ? (
+          <div className="mb-6">
+            <StageHero stage={validStage} />
           </div>
-          <h1 className="mt-2 text-2xl font-semibold sm:text-3xl leading-tight tracking-tight text-foreground">
-            {SAMPLE_CLIPS.length + PODCAST_EPISODES.length + LIBRARY_RESOURCES.length} assets · pick a stage or a weakness to focus
-          </h1>
-        </header>
-      ) : null}
+        ) : !activeDim ? (
+          <header className="mb-6 border-b border-border/40 pb-5">
+            <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+              02 · content library · scott&rsquo;s curriculum
+            </div>
+            <h1 className="mt-2 text-2xl font-semibold sm:text-3xl leading-tight tracking-tight text-foreground">
+              {SAMPLE_CLIPS.length + PODCAST_EPISODES.length + LIBRARY_RESOURCES.length} assets · pick a stage or a weakness to focus
+            </h1>
+          </header>
+        ) : null}
+      </div>
 
       {/* ── Zone 3: Dimension browser ────────────────────────────────────── */}
-      <div className="mb-6">
+      <div className="mb-6 lib-fade-up" style={{ animationDelay: "110ms" }}>
         <div className="mb-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
           Browse by what you need to fix
         </div>
@@ -454,7 +515,7 @@ function LibraryView() {
           className="flex gap-2.5 overflow-x-auto pb-2"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {ALL_DIMS.map((d) => {
+          {ALL_DIMS.map((d, i) => {
             const active = activeDim === d;
             const Icon = DIM_ICONS[d];
             return (
@@ -463,20 +524,24 @@ function LibraryView() {
                 type="button"
                 onClick={() => setActiveDim(active ? null : d)}
                 className={[
-                  "flex w-[152px] shrink-0 flex-col gap-2 rounded-xl border px-3.5 py-3 text-left transition",
+                  "lib-dim-card flex w-[152px] shrink-0 flex-col gap-2 rounded-xl border px-3.5 py-3 text-left lib-fade-up",
                   active
-                    ? "border-brand-gold/60 bg-brand-gold/10"
+                    ? "lib-dim-card--active border-brand-gold/60 bg-brand-gold/10"
                     : "border-border/60 bg-card/40 hover:border-brand-gold/30 hover:bg-card/70",
                 ].join(" ")}
+                style={{ animationDelay: `${110 + i * 28}ms` }}
               >
                 <Icon
-                  className={active ? "h-4 w-4 text-brand-gold" : "h-4 w-4 text-muted-foreground"}
+                  className={[
+                    "h-4 w-4 transition-colors duration-150",
+                    active ? "text-brand-gold" : "text-muted-foreground",
+                  ].join(" ")}
                   strokeWidth={1.5}
                 />
                 <div>
                   <div
                     className={[
-                      "font-mono text-[10.5px] font-bold uppercase leading-tight tracking-[0.09em]",
+                      "font-mono text-[10.5px] font-bold uppercase leading-tight tracking-[0.09em] transition-colors duration-150",
                       active ? "text-brand-gold" : "text-foreground",
                     ].join(" ")}
                   >
@@ -492,9 +557,12 @@ function LibraryView() {
         </div>
       </div>
 
-      {/* ── Focused mode header ──────────────────────────────────────────── */}
+      {/* ── Focused mode header — slides in when dim is selected ─────────── */}
       {activeDim && (
-        <div className="mb-6 flex items-start gap-4 rounded-xl border border-brand-gold/30 bg-brand-gold/[0.05] px-5 py-4">
+        <div
+          key={activeDim}
+          className="mb-6 flex items-start gap-4 rounded-xl border border-brand-gold/30 bg-brand-gold/[0.05] px-5 py-4 lib-slide-down"
+        >
           <div className="flex-1">
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
               Focused on
@@ -509,7 +577,7 @@ function LibraryView() {
           <button
             type="button"
             onClick={() => setActiveDim(null)}
-            className="mt-0.5 flex shrink-0 items-center gap-1.5 rounded-lg border border-border/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground transition hover:text-foreground"
+            className="mt-0.5 flex shrink-0 items-center gap-1.5 rounded-lg border border-border/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground transition-all duration-150 hover:text-foreground hover:border-border active:scale-95"
           >
             <X className="h-3 w-3" strokeWidth={2} />
             Clear
@@ -518,14 +586,22 @@ function LibraryView() {
       )}
 
       {/* ── Result count ─────────────────────────────────────────────────── */}
-      <div className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+      <div
+        className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground lib-fade-up"
+        style={{ animationDelay: "180ms" }}
+      >
         {totalShown} asset{totalShown === 1 ? "" : "s"}
-        {hasAnyFilter && <span className="ml-1.5 text-brand-gold">· filtered</span>}
+        {hasAnyFilter && (
+          <span className="ml-1.5 text-brand-gold lib-fade-in">· filtered</span>
+        )}
       </div>
 
-      {/* ── Content ──────────────────────────────────────────────────────── */}
+      {/* ── Content — re-animates on filter change ───────────────────────── */}
       {totalShown === 0 ? (
-        <div className="rounded-xl border border-dashed border-border/80 bg-card/20 p-10 text-center">
+        <div
+          key={`empty-${filterKey}`}
+          className="rounded-xl border border-dashed border-border/80 bg-card/20 p-10 text-center lib-scale-in"
+        >
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
             No matches
           </div>
@@ -538,13 +614,13 @@ function LibraryView() {
           <button
             type="button"
             onClick={clearAll}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-brand-gold/40 bg-brand-gold/10 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand-gold transition hover:bg-brand-gold/20"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-brand-gold/40 bg-brand-gold/10 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand-gold transition hover:bg-brand-gold/20 active:scale-95"
           >
             Clear all filters
           </button>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div key={filterKey} className="space-y-12 lib-fade-up" style={{ animationDelay: "0ms" }}>
           {showVideos && filteredClips.length > 0 && (
             <Section
               eyebrow={`${filteredClips.length} video${filteredClips.length === 1 ? "" : "s"} · embedded youtube`}
@@ -605,7 +681,7 @@ function StagePill({
       type="button"
       onClick={onClick}
       className={[
-        "rounded-md px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em] transition",
+        "lib-stage-pill rounded-md px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em]",
         active
           ? "bg-brand-gold text-[#0a0e0c]"
           : "text-muted-foreground hover:text-foreground",
