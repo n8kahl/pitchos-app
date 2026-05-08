@@ -1,10 +1,11 @@
+import Link from "next/link";
 import type { LibraryResource } from "@/lib/content/resources";
 
 // PDF / infographic card. Uses a brand-true SVG/CSS cover instead of
 // hosted thumbnail imagery so every resource ships with consistent
-// chrome and zero extra asset overhead. View opens in a new tab (the
-// browser's native PDF viewer for .pdf, full image for .jpg). Download
-// forces a save with the original filename.
+// chrome and zero extra asset overhead. View routes to the internal
+// /library/resources/[id] viewer page; Download forces a save of the
+// underlying file with its original filename.
 
 const ACCENT_GRADIENT: Record<LibraryResource["coverAccent"], string> = {
   gold: "from-[#1a2218] via-[#1c2a1c] to-[#2a3520]",
@@ -71,14 +72,12 @@ export function ResourceCard({ resource }: { resource: LibraryResource }) {
           ))}
         </div>
         <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-4">
-          <a
-            href={resource.fileUrl}
-            target="_blank"
-            rel="noreferrer noopener"
+          <Link
+            href={`/library/resources/${resource.id}`}
             className="flex-1 rounded-md bg-brand-gold px-3 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0a1410] transition hover:bg-brand-gold-2"
           >
             View →
-          </a>
+          </Link>
           <a
             href={resource.fileUrl}
             download={filename}

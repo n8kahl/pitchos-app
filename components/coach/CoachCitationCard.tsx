@@ -65,11 +65,14 @@ export function CoachCitationCard({
   // resource
   const resource = getResourceById(citation.resourceId);
   if (!resource) return null;
+  // Route to the internal viewer; pass `?t=<pageRef>` so the viewer
+  // can deep-link the iframe to the right page when the user lands.
+  const href = citation.pageRef
+    ? `/library/resources/${resource.id}?t=${encodeURIComponent(citation.pageRef)}`
+    : `/library/resources/${resource.id}`;
   return (
-    <a
-      href={resource.fileUrl}
-      target="_blank"
-      rel="noreferrer noopener"
+    <Link
+      href={href}
       onClick={onSelect}
       className="block rounded-md border border-sage/25 bg-sage/5 px-3.5 py-3 transition hover:border-sage/50 hover:bg-sage/10"
     >
@@ -85,7 +88,7 @@ export function CoachCitationCard({
       <p className="mt-1.5 font-serif text-[13px] italic leading-snug text-foreground/85">
         &ldquo;{citation.excerpt}&rdquo;
       </p>
-    </a>
+    </Link>
   );
 }
 
