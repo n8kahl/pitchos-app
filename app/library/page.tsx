@@ -4,8 +4,12 @@ import Link from "next/link";
 import { Suspense, useCallback, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SAMPLE_CLIPS, SHOW_LABELS, type SampleClip } from "@/lib/content/sample-clips";
+import { PODCAST_EPISODES, type PodcastEpisode } from "@/lib/content/podcast-episodes";
+import { LIBRARY_RESOURCES, type LibraryResource } from "@/lib/content/resources";
 import type { RubricCategory } from "@/lib/ai/anti-patterns";
 import { WatchedBadge } from "@/components/library/WatchedBadge";
+import { PodcastCard } from "@/components/library/PodcastCard";
+import { ResourceCard } from "@/components/library/ResourceCard";
 
 const RUBRIC_LABELS: Record<RubricCategory, string> = {
   founderMarketFit: "founder-market fit",
@@ -22,12 +26,20 @@ const RUBRIC_LABELS: Record<RubricCategory, string> = {
 };
 
 type SortKey = "newest" | "longest" | "shortest" | "by-show";
+type MediaKey = "all" | "videos" | "podcasts" | "resources";
 
 const SORT_LABELS: Record<SortKey, string> = {
   newest: "Newest",
   longest: "Longest",
   shortest: "Shortest",
   "by-show": "By show",
+};
+
+const MEDIA_LABELS: Record<MediaKey, string> = {
+  all: "All",
+  videos: "Videos",
+  podcasts: "Podcasts",
+  resources: "Resources",
 };
 
 const ALL_SHOWS: SampleClip["show"][] = [
@@ -39,8 +51,6 @@ const ALL_SHOWS: SampleClip["show"][] = [
 
 const ALL_STAGES: Array<1 | 2 | 3 | 4 | 5> = [1, 2, 3, 4, 5];
 
-// Available rubric dims (sorted by appearance count in the corpus, with
-// the partner-rubric weight order as the tiebreaker)
 const ALL_DIMS: RubricCategory[] = [
   "founderMarketFit",
   "wedgeClarity",
@@ -55,7 +65,7 @@ const ALL_DIMS: RubricCategory[] = [
   "riskSurface",
 ];
 
-function matchesQuery(clip: SampleClip, q: string): boolean {
+function matchesQueryClip(clip: SampleClip, q: string): boolean {
   const target = [
     clip.title,
     clip.aiSummary,
@@ -72,6 +82,26 @@ function matchesQuery(clip: SampleClip, q: string): boolean {
     .every((token) => target.includes(token));
 }
 
+function matchesQueryEpisode(ep: PodcastEpisode, q: string): boolean {
+  const target = [ep.episodeTitle, ep.show, ep.host, ep.aiSummary, ...ep.rubricDims]
+    .join(" ")
+    .toLowerCase();
+  return q
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((token) => target.includes(token));
+}
+
+function matchesQueryResource(r: LibraryResource, q: string): boolean {
+  const target = [r.title, r.source, r.blurb, ...r.rubricDims].join(" ").toLowerCase();
+  return q
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((token) => target.includes(token));
+}
+
 export default function LibraryPage() {
   return (
     <Suspense fallback={null}>
@@ -81,10 +111,6 @@ export default function LibraryPage() {
 }
 
 function LibraryView() {
-  // Filter state lives in the URL so deep-linking and back/forward work
-  // like an app — the palette can route to /library?dim=wedgeClarity
-  // and the chips light up correctly. router.replace + scroll: false
-  // keeps the URL synchronized without polluting browser history.
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -95,6 +121,7 @@ function LibraryView() {
   const stageRaw = searchParams.get("stage");
   const activeStage = stageRaw ? Number(stageRaw) : null;
   const sort = (searchParams.get("sort") as SortKey) ?? "newest";
+  const media = (searchParams.get("media") as MediaKey | null) ?? "all";
 
   const setParam = useCallback(
     (updates: Record<string, string | null>) => {
@@ -109,10 +136,7 @@ function LibraryView() {
     [router, pathname, searchParams]
   );
 
-  const setQuery = useCallback(
-    (q: string) => setParam({ q: q || null }),
-    [setParam]
-  );
+  const setQuery = useCallback((q: string) => setParam({ q: q || null }), [setParam]);
   const setActiveDim = useCallback(
     (d: RubricCategory | null) => setParam({ dim: d }),
     [setParam]
@@ -129,8 +153,13 @@ function LibraryView() {
     (s: SortKey) => setParam({ sort: s === "newest" ? null : s }),
     [setParam]
   );
+  const setMedia = useCallback(
+    (m: MediaKey) => setParam({ media: m === "all" ? null : m }),
+    [setParam]
+  );
 
-  const filtered = useMemo(() => {
+  // Videos
+  const filteredClips = useMemo(() => {
     let list = [...SAMPLE_CLIPS];
     if (activeDim) list = list.filter((c) => c.rubricDims.includes(activeDim));
     if (activeShow) list = list.filter((c) => c.show === activeShow);
@@ -138,7 +167,7 @@ function LibraryView() {
       list = list.filter((c) =>
         c.journeyStages.includes(activeStage as 1 | 2 | 3 | 4 | 5)
       );
-    if (query.trim()) list = list.filter((c) => matchesQuery(c, query.trim()));
+    if (query.trim()) list = list.filter((c) => matchesQueryClip(c, query.trim()));
 
     switch (sort) {
       case "newest":
@@ -157,11 +186,48 @@ function LibraryView() {
     return list;
   }, [query, activeDim, activeShow, activeStage, sort]);
 
+  // Podcasts (show filter does not apply — podcasts have hosts, not shows
+  // from the rubric's enum)
+  const filteredEpisodes = useMemo(() => {
+    let list = [...PODCAST_EPISODES];
+    if (activeDim) list = list.filter((e) => e.rubricDims.includes(activeDim));
+    if (activeStage)
+      list = list.filter((e) =>
+        e.journeyStages.includes(activeStage as 1 | 2 | 3 | 4 | 5)
+      );
+    if (query.trim()) list = list.filter((e) => matchesQueryEpisode(e, query.trim()));
+    list.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+    return list;
+  }, [query, activeDim, activeStage]);
+
+  // Resources (no published date — sort alphabetically)
+  const filteredResources = useMemo(() => {
+    let list = [...LIBRARY_RESOURCES];
+    if (activeDim) list = list.filter((r) => r.rubricDims.includes(activeDim));
+    if (activeStage)
+      list = list.filter((r) =>
+        r.journeyStages.includes(activeStage as 1 | 2 | 3 | 4 | 5)
+      );
+    if (query.trim()) list = list.filter((r) => matchesQueryResource(r, query.trim()));
+    list.sort((a, b) => a.title.localeCompare(b.title));
+    return list;
+  }, [query, activeDim, activeStage]);
+
+  const totalShown =
+    (media === "videos" || media === "all" ? filteredClips.length : 0) +
+    (media === "podcasts" || media === "all" ? filteredEpisodes.length : 0) +
+    (media === "resources" || media === "all" ? filteredResources.length : 0);
+
   const filterCount =
     (activeDim ? 1 : 0) +
     (activeShow ? 1 : 0) +
     (activeStage ? 1 : 0) +
-    (query.trim() ? 1 : 0);
+    (query.trim() ? 1 : 0) +
+    (media !== "all" ? 1 : 0);
+
+  const showVideos = media === "all" || media === "videos";
+  const showPodcasts = media === "all" || media === "podcasts";
+  const showResources = media === "all" || media === "resources";
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
@@ -170,12 +236,14 @@ function LibraryView() {
           02 · content library · scott&rsquo;s curriculum
         </div>
         <h1 className="mt-2 font-serif text-3xl font-semibold sm:text-4xl leading-[1.05] tracking-tight text-foreground">
-          {SAMPLE_CLIPS.length} clips · auto-tagged by rubric dimension
+          {SAMPLE_CLIPS.length + PODCAST_EPISODES.length + LIBRARY_RESOURCES.length}{" "}
+          assets · auto-tagged by rubric dimension
         </h1>
         <p className="mt-3 max-w-2xl font-serif text-[15px] leading-relaxed text-muted-foreground">
-          Every clip is chaptered by an LLM, tagged across the 11-dimension
-          partner rubric, and routed to the right journey stage. Filter to
-          your weakest dim or your stage; click a card to open the player.
+          Every video, podcast, and PDF is chaptered or summarized by the
+          system, tagged across the 11-dimension partner rubric, and routed to
+          the right journey stage. Filter to your weakest dim or your stage;
+          click a card to open the player or viewer.
         </p>
       </header>
 
@@ -196,8 +264,8 @@ function LibraryView() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="wedge clarity, vanity NRR, why-now…"
-            aria-label="Search clips"
+            placeholder="wedge clarity, term sheet, vanity NRR…"
+            aria-label="Search the library"
             className="flex-1 bg-transparent text-[14px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none"
           />
           {query && (
@@ -211,7 +279,6 @@ function LibraryView() {
           )}
         </div>
 
-        {/* Sort dropdown */}
         <label className="flex items-center gap-2 rounded-md border border-border/60 bg-card/40 px-3 py-2 text-[12.5px]">
           <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
             sort
@@ -230,7 +297,24 @@ function LibraryView() {
         </label>
       </div>
 
-      {/* Filter chips · rubric dim */}
+      {/* Media-type chips · the most-used cut */}
+      <div className="mb-3">
+        <div className="mb-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+          media type
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {(Object.keys(MEDIA_LABELS) as MediaKey[]).map((m) => (
+            <Chip
+              key={m}
+              label={MEDIA_LABELS[m]}
+              active={media === m}
+              onClick={() => setMedia(m)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Rubric dim */}
       <div className="mb-3">
         <div className="mb-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
           rubric dimension
@@ -252,28 +336,30 @@ function LibraryView() {
         </div>
       </div>
 
-      {/* Filter chips · show + stage */}
+      {/* Show + stage */}
       <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div>
-          <div className="mb-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-            show
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            <Chip
-              label="all"
-              active={activeShow === null}
-              onClick={() => setActiveShow(null)}
-            />
-            {ALL_SHOWS.map((s) => (
+        {showVideos && (
+          <div>
+            <div className="mb-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+              show
+            </div>
+            <div className="flex flex-wrap gap-1.5">
               <Chip
-                key={s}
-                label={SHOW_LABELS[s]}
-                active={activeShow === s}
-                onClick={() => setActiveShow(activeShow === s ? null : s)}
+                label="all"
+                active={activeShow === null}
+                onClick={() => setActiveShow(null)}
               />
-            ))}
+              {ALL_SHOWS.map((s) => (
+                <Chip
+                  key={s}
+                  label={SHOW_LABELS[s]}
+                  active={activeShow === s}
+                  onClick={() => setActiveShow(activeShow === s ? null : s)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         <div>
           <div className="mb-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
             journey stage
@@ -299,16 +385,23 @@ function LibraryView() {
       {/* Result row */}
       <div className="mb-4 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
         <span>
-          {filtered.length} of {SAMPLE_CLIPS.length} clip
-          {filtered.length === 1 ? "" : "s"}
+          {totalShown} asset{totalShown === 1 ? "" : "s"}
           {filterCount > 0 && (
-            <span className="ml-2 text-brand-gold">· {filterCount} filter{filterCount === 1 ? "" : "s"}</span>
+            <span className="ml-2 text-brand-gold">
+              · {filterCount} filter{filterCount === 1 ? "" : "s"}
+            </span>
           )}
         </span>
         {filterCount > 0 && (
           <button
             onClick={() =>
-              setParam({ q: null, dim: null, show: null, stage: null })
+              setParam({
+                q: null,
+                dim: null,
+                show: null,
+                stage: null,
+                media: null,
+              })
             }
             className="text-brand-gold hover:text-brand-gold-2"
           >
@@ -317,8 +410,7 @@ function LibraryView() {
         )}
       </div>
 
-      {/* Grid */}
-      {filtered.length === 0 ? (
+      {totalShown === 0 ? (
         <div className="rounded-xl border border-dashed border-border/80 bg-card/20 p-10 text-center">
           <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
             no matches
@@ -327,90 +419,146 @@ function LibraryView() {
             Nothing matches that filter set.
           </h3>
           <p className="mt-2 font-serif text-[14px] leading-relaxed text-muted-foreground">
-            Try clearing a chip or broadening the query. The corpus has{" "}
-            {SAMPLE_CLIPS.length} clips total today; ingestion adds 50+ in
-            phase 6.
+            Try clearing a chip or broadening the query.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((c, idx) => (
-            <Link
-              key={c.id}
-              href={`/library/${c.id}`}
-              className="group flex flex-col overflow-hidden rounded-xl border border-border/80 bg-card/40 transition hover:-translate-y-0.5 hover:border-brand-gold/40"
+        <div className="space-y-12">
+          {showVideos && filteredClips.length > 0 && (
+            <Section
+              eyebrow={`${filteredClips.length} video${filteredClips.length === 1 ? "" : "s"} · embedded YouTube`}
+              title="Talks, fireside cuts, and panel pulls"
             >
-              <div className="relative aspect-[16/10] bg-gradient-to-br from-forest to-[#0c1812]">
-                <WatchedBadge clipId={c.id} />
-                <div
-                  className={[
-                    "absolute inset-0",
-                    idx % 4 === 0
-                      ? "bg-[radial-gradient(circle_at_30%_30%,rgba(60,169,74,0.14),transparent_60%)]"
-                      : idx % 4 === 1
-                      ? "bg-[radial-gradient(circle_at_70%_30%,rgba(245,200,66,0.14),transparent_60%)]"
-                      : idx % 4 === 2
-                      ? "bg-[radial-gradient(circle_at_50%_60%,rgba(187,201,181,0.10),transparent_60%)]"
-                      : "bg-[radial-gradient(circle_at_70%_70%,rgba(66,172,64,0.12),transparent_60%)]",
-                  ].join(" ")}
-                />
-                <div className="absolute right-3 top-3 rounded-sm bg-black/55 px-2 py-1 font-mono text-[10px] font-semibold tabular-nums text-foreground">
-                  {c.durationMin} min
-                </div>
-                <div className="absolute bottom-3 left-3 right-3 z-10 flex items-end justify-between">
-                  <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-foreground">
-                    {SHOW_LABELS[c.show]}
-                  </div>
-                  <div
-                    className={[
-                      "grid h-9 w-9 place-items-center rounded-full transition group-hover:scale-110",
-                      idx % 2 === 0
-                        ? "bg-brand-gold text-[#0a1410]"
-                        : "bg-brand-green text-white",
-                    ].join(" ")}
-                    aria-hidden
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4"
-                      fill="currentColor"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {filteredClips.map((c, idx) => (
+                  <VideoCard key={c.id} clip={c} idx={idx} />
+                ))}
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <h3 className="font-serif text-lg font-semibold leading-tight tracking-tight text-foreground">
-                  {c.title}
-                </h3>
-                <p className="mt-2 flex-1 text-[13px] leading-relaxed text-muted-foreground">
-                  {c.aiSummary.split(". ")[0]}.
-                </p>
-                <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-border/40 pt-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em]">
-                  {c.rubricDims.slice(0, 2).map((d) => (
-                    <span
-                      key={d}
-                      className="rounded-sm bg-brand-gold/10 px-1.5 py-0.5 text-brand-gold"
-                    >
-                      {RUBRIC_LABELS[d]}
-                    </span>
-                  ))}
-                  {c.rubricDims.length > 2 && (
-                    <span className="rounded-sm bg-muted/40 px-1.5 py-0.5 text-muted-foreground">
-                      +{c.rubricDims.length - 2}
-                    </span>
-                  )}
-                  <span className="ml-auto text-muted-foreground">
-                    stage {c.journeyStages.join("·")}
-                  </span>
-                </div>
+            </Section>
+          )}
+
+          {showPodcasts && filteredEpisodes.length > 0 && (
+            <Section
+              eyebrow={`${filteredEpisodes.length} podcast episode${filteredEpisodes.length === 1 ? "" : "s"} · audio`}
+              title="Long-form interviews"
+            >
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {filteredEpisodes.map((e) => (
+                  <PodcastCard key={e.id} episode={e} />
+                ))}
               </div>
-            </Link>
-          ))}
+            </Section>
+          )}
+
+          {showResources && filteredResources.length > 0 && (
+            <Section
+              eyebrow={`${filteredResources.length} resource${filteredResources.length === 1 ? "" : "s"} · pdfs and infographics`}
+              title="Reference material"
+            >
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {filteredResources.map((r) => (
+                  <ResourceCard key={r.id} resource={r} />
+                ))}
+              </div>
+            </Section>
+          )}
         </div>
       )}
     </main>
+  );
+}
+
+function Section({
+  eyebrow,
+  title,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="mb-5 border-b border-border/40 pb-3">
+        <div className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+          {eyebrow}
+        </div>
+        <h2 className="mt-1 font-serif text-2xl font-semibold leading-tight tracking-tight text-foreground">
+          {title}
+        </h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function VideoCard({ clip, idx }: { clip: SampleClip; idx: number }) {
+  return (
+    <Link
+      href={`/library/${clip.id}`}
+      className="group flex flex-col overflow-hidden rounded-xl border border-border/80 bg-card/40 transition hover:-translate-y-0.5 hover:border-brand-gold/40"
+    >
+      <div className="relative aspect-[16/10] bg-gradient-to-br from-forest to-[#0c1812]">
+        <WatchedBadge clipId={clip.id} />
+        {/* Real YouTube thumbnail · maxresdefault falls back gracefully
+            to mqdefault when not available. */}
+        <img
+          src={`https://i.ytimg.com/vi/${clip.youtubeId}/mqdefault.jpg`}
+          alt=""
+          loading="lazy"
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover opacity-70 transition group-hover:opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+        <div className="absolute right-3 top-3 rounded-sm bg-black/55 px-2 py-1 font-mono text-[10px] font-semibold tabular-nums text-foreground">
+          {clip.durationMin} min
+        </div>
+        <div className="absolute bottom-3 left-3 right-3 z-10 flex items-end justify-between">
+          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-foreground">
+            {SHOW_LABELS[clip.show]}
+          </div>
+          <div
+            className={[
+              "grid h-9 w-9 place-items-center rounded-full transition group-hover:scale-110",
+              idx % 2 === 0
+                ? "bg-brand-gold text-[#0a1410]"
+                : "bg-brand-green text-white",
+            ].join(" ")}
+            aria-hidden
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-serif text-lg font-semibold leading-tight tracking-tight text-foreground">
+          {clip.title}
+        </h3>
+        <p className="mt-2 flex-1 text-[13px] leading-relaxed text-muted-foreground">
+          {clip.aiSummary.split(". ")[0]}.
+        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-border/40 pt-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em]">
+          {clip.rubricDims.slice(0, 2).map((d) => (
+            <span
+              key={d}
+              className="rounded-sm bg-brand-gold/10 px-1.5 py-0.5 text-brand-gold"
+            >
+              {RUBRIC_LABELS[d]}
+            </span>
+          ))}
+          {clip.rubricDims.length > 2 && (
+            <span className="rounded-sm bg-muted/40 px-1.5 py-0.5 text-muted-foreground">
+              +{clip.rubricDims.length - 2}
+            </span>
+          )}
+          <span className="ml-auto text-muted-foreground">
+            stage {clip.journeyStages.join("·")}
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -428,10 +576,10 @@ function Chip({
       type="button"
       onClick={onClick}
       className={[
-        "rounded-full border px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] transition",
+        "rounded-md border px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition",
         active
-          ? "border-brand-gold bg-brand-gold/15 text-brand-gold"
-          : "border-border/60 bg-card/40 text-muted-foreground hover:border-brand-gold/40 hover:text-foreground",
+          ? "border-brand-gold/60 bg-brand-gold/15 text-brand-gold"
+          : "border-border/80 bg-muted/30 text-muted-foreground hover:border-brand-gold/30 hover:text-foreground",
       ].join(" ")}
     >
       {label}

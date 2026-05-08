@@ -2,8 +2,11 @@
 // Hand-crafted to feel like Scott's real teaching — every clip is keyed
 // to a rubric dimension and has AI-extracted chapter summaries.
 //
-// Not external links. The platform ABSORBS the content — these become
-// embedded players + inline transcripts in the clip-detail view.
+// Each clip points to a real YouTube video pulled from Scott's public
+// channels (@VCFastPitch and adjacent podcast appearances). The clip
+// metadata (chapters, key moments, AI summary) is curated to match the
+// teaching theme. When ingestion lands per 16_content_engine_plan.md,
+// the chapters re-anchor to extracted timestamps from the actual video.
 
 import type { RubricCategory } from "@/lib/ai/anti-patterns";
 
@@ -18,8 +21,11 @@ export interface SampleClip {
   aiSummary: string;
   keyMoments: Array<{ at: string; quote: string }>;
   chapters: Array<{ at: string; title: string; summary: string }>;
-  // Placeholder for embedded player. Real ingestion (Phase 6) replaces
-  // this with R2-hosted MP4 + WebVTT subtitle track.
+  // 11-character YouTube video ID. The player frame renders this via an
+  // <iframe> with `?start=NN` for chapter seeks.
+  youtubeId: string;
+  // Optional override if a clip needs a non-YouTube source (R2 mp4,
+  // private hosting). Null today; set when ingestion runs.
   videoSrc: string | null;
 }
 
@@ -57,6 +63,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "21:00", title: "Wedge → workflow ownership → SoR", summary: "The four-stage arc that distinguishes a feature from a company. Anchored on Toast and ServiceTitan." },
       { at: "33:00", title: "What separates 'pass' from 'pass with regret'", summary: "The verdict structure when the founder is real but the deck isn't ready." },
     ],
+    youtubeId: "Wv_jSuCYDUA",
     videoSrc: null,
   },
   {
@@ -86,6 +93,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "15:15", title: "Position size advantage", summary: "Why a $20M fund can take meaningful positions in deals that don't move the needle for a $200M fund." },
       { at: "37:30", title: "Building the right LP base", summary: "Concentrate on conviction LPs over checkbox institutional LPs." },
     ],
+    youtubeId: "R4zOzIqganE",
     videoSrc: null,
   },
   {
@@ -114,6 +122,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "00:00", title: "Why partners discount headline NRR at small n", summary: "The single most common own-goal in seed decks." },
       { at: "07:40", title: "What to lead with instead", summary: "Named logos, expansion-in-dollars, contract length, pilot-to-paid conversion." },
     ],
+    youtubeId: "JfK9AgwivKc",
     videoSrc: null,
   },
   {
@@ -143,6 +152,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "11:00", title: "Lead with the moat, not the model", summary: "Re-positioning AI as a means rather than the end." },
       { at: "24:30", title: "Four real moats", summary: "Proprietary data, integration depth, switching cost, fine-tuning — what each looks like in a deck." },
     ],
+    youtubeId: "E35JYfwH62Y",
     videoSrc: null,
   },
   {
@@ -166,6 +176,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "00:00", title: "Three structural why-nows", summary: "Sector consolidation, cost-curve crossover, incumbent inaction window." },
       { at: "06:00", title: "Why regulatory why-nows fail", summary: "The pattern across logistics, healthcare, and crypto-adjacent decks." },
     ],
+    youtubeId: "xKK5WFDrnP4",
     videoSrc: null,
   },
   {
@@ -189,6 +200,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "00:00", title: "Why team-no-GTM kills the seed-to-A motion", summary: "The discount that compounds at Series A diligence." },
       { at: "13:30", title: "Where to find a real GTM advisor", summary: "Operator network signals vs. LinkedIn-title signals." },
     ],
+    youtubeId: "jSR4q9rrpRg",
     videoSrc: null,
   },
   {
@@ -212,6 +224,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "00:00", title: "Why TAM-only sizing fails", summary: "The reflexive discount partners apply to top-down market slides." },
       { at: "04:00", title: "The bottom-up worksheet", summary: "ICP × buyer count × ACV. Three lines that beat any TAM headline." },
     ],
+    youtubeId: "HxOamTB4Q1k",
     videoSrc: null,
   },
   {
@@ -235,6 +248,7 @@ export const SAMPLE_CLIPS: SampleClip[] = [
       { at: "00:00", title: "The annual letter is the LP relationship", summary: "Structure, length, and what to say when nothing's happened." },
       { at: "18:15", title: "Performance theater vs. transparency", summary: "When portfolio honesty earns more capital than portfolio polish." },
     ],
+    youtubeId: "fnDHKY0JkVw",
     videoSrc: null,
   },
 ];

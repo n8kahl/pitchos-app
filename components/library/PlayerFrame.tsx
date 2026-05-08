@@ -7,17 +7,39 @@ type Props = {
   clipId: string;
   durationMin: number;
   initialT?: string;
+  // 11-character YouTube video ID. When set, the frame renders a
+  // privacy-enhanced YouTube embed; without it, the legacy stub.
+  youtubeId?: string | null;
+  title?: string;
 };
 
+// Parse "MM:SS" or "HH:MM:SS" into seconds. Used for ?start= on the
+// YouTube embed so chapter-link clicks (?t=08:42) seek the player.
+function parseTimecode(t: string): number {
+  const parts = t.split(":").map((n) => parseInt(n, 10));
+  if (parts.some((p) => Number.isNaN(p))) return 0;
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  if (parts.length === 2) return parts[0] * 60 + parts[1];
+  return parts[0] ?? 0;
+}
+
 /**
- * Player-frame placeholder · Phase 6 swaps for an R2-hosted MP4 + WebVTT
- * subtitle track. For the demo:
- *   - A play button that doesn't go anywhere (yet)
- *   - A scrubber bar at 18% to feel "in progress"
- *   - When ?t= is present (or changes), the frame **pulses gold** and
- *     shows a "Seeking to HH:MM" toast that fades after 1.4s
+ * Embedded video player for a clip.
+ *
+ * - When youtubeId is provided, renders a privacy-enhanced YouTube
+ *   iframe. Chapter clicks (?t=08:42) reload the iframe at the new
+ *   start time and pulse the frame gold for confirmation.
+ * - The visit is recorded on mount and whenever ?t= changes — feeds
+ *   the "Continue watching" rail on Home.
+ * - Without youtubeId, falls back to the original placeholder.
  */
-export function PlayerFrame({ clipId, durationMin, initialT }: Props) {
+export function PlayerFrame({
+  clipId,
+  durationMin,
+  initialT,
+  youtubeId,
+  title,
+}: Props) {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [seekToast, setSeekToast] = useState<string | null>(null);
   const [t, setT] = useState<string | undefined>(initialT);
@@ -39,7 +61,7 @@ export function PlayerFrame({ clipId, durationMin, initialT }: Props) {
     return () => window.removeEventListener("popstate", sync);
   }, [t]);
 
-  // When t changes, pulse the frame and show toast
+  // When t changes, pulse the frame and show toast.
   useEffect(() => {
     if (!t) return;
     const el = frameRef.current;
@@ -54,6 +76,35 @@ export function PlayerFrame({ clipId, durationMin, initialT }: Props) {
     };
   }, [t]);
 
+  if (youtubeId) {
+    const startSec = t ? parseTimecode(t) : 0;
+    const src = `https://www.youtube-nocookie.com/embed/${youtubeId}?start=${startSec}&rel=0&modestbranding=1&playsinline=1`;
+    return (
+      <div
+        ref={frameRef}
+        className="relative aspect-video overflow-hidden rounded-xl border border-border/80 bg-black transition"
+      >
+        <iframe
+          // Re-mount on t change so the new ?start= takes effect.
+          key={`${youtubeId}-${startSec}`}
+          src={src}
+          title={title ?? "Clip player"}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+          className="absolute inset-0 h-full w-full border-0"
+        />
+        {seekToast && (
+          <div className="pointer-events-none absolute right-4 top-4 z-20 flex items-center gap-2 rounded-md border border-brand-gold/40 bg-bg-2/90 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold shadow-lg backdrop-blur">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-gold" />
+            {seekToast}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Legacy stub · used when a clip lacks a youtubeId (e.g. private mp4).
   return (
     <div
       ref={frameRef}
@@ -75,7 +126,6 @@ export function PlayerFrame({ clipId, durationMin, initialT }: Props) {
         </div>
       </div>
 
-      {/* Toast · floats top-right when ?t= changes */}
       {seekToast && (
         <div className="pointer-events-none absolute right-4 top-4 z-20 flex items-center gap-2 rounded-md border border-brand-gold/40 bg-bg-2/90 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold shadow-lg backdrop-blur">
           <span className="h-1.5 w-1.5 rounded-full bg-brand-gold" />

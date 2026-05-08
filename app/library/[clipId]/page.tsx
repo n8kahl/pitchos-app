@@ -61,7 +61,13 @@ export default async function ClipDetailPage({ params, searchParams }: PageProps
             </div>
           </div>
 
-          <PlayerFrame clipId={clip.id} durationMin={clip.durationMin} initialT={t} />
+          <PlayerFrame
+            clipId={clip.id}
+            durationMin={clip.durationMin}
+            initialT={t}
+            youtubeId={clip.youtubeId}
+            title={clip.title}
+          />
 
           {/* AI summary */}
           <div className="mt-6 rounded-xl border border-brand-gold/20 bg-brand-gold/5 p-5">
