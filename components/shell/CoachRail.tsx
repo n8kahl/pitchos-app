@@ -7,13 +7,6 @@ import { useCoach } from "@/lib/state/coach";
 import { CoachCitationCard } from "@/components/coach/CoachCitationCard";
 import type { CoachSource } from "@/lib/coach/retrieval";
 
-type LiveResponse = {
-  question: string;
-  text: string;
-  sources: CoachSource[];
-  provider: "mock" | "anthropic";
-};
-
 // Adapter · CoachSource (live retrieval shape) → CoachCitation
 // (prebaked-exchange shape). Lets the existing CoachCitationCard
 // render live sources without a parallel component.
@@ -59,7 +52,16 @@ function useIsLg(): boolean {
 
 export function CoachRail() {
   const pathname = usePathname();
-  const { isOpen, open, close, activeExchangeId, primingPrompt } = useCoach();
+  const {
+    isOpen,
+    open,
+    close,
+    activeExchangeId,
+    primingPrompt,
+    liveResponse,
+    setLiveResponse,
+    updateLiveResponse,
+  } = useCoach();
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const isLg = useIsLg();
   const isDocked = isLg && isOpen;
@@ -75,7 +77,6 @@ export function CoachRail() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isThinking, setIsThinking] = useState(false);
   const [submitNote, setSubmitNote] = useState<string | null>(null);
-  const [liveResponse, setLiveResponse] = useState<LiveResponse | null>(null);
 
   async function submitQuestion(e: React.FormEvent) {
     e.preventDefault();
@@ -136,7 +137,7 @@ export function CoachRail() {
           }
           if (event.type === "text" && typeof event.chunk === "string") {
             const chunk = event.chunk;
-            setLiveResponse((prev) =>
+            updateLiveResponse((prev) =>
               prev
                 ? { ...prev, text: prev.text + chunk }
                 : {
@@ -151,7 +152,9 @@ export function CoachRail() {
           if (event.type === "done") {
             provider =
               event.provider === "anthropic" ? "anthropic" : "mock";
-            setLiveResponse((prev) => (prev ? { ...prev, provider } : prev));
+            updateLiveResponse((prev) =>
+              prev ? { ...prev, provider } : prev
+            );
           }
           if (event.type === "error" && typeof event.message === "string") {
             setSubmitNote(event.message);
