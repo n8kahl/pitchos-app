@@ -46,8 +46,9 @@ export function FounderJourneyStrip() {
 
         <ol className="flex flex-1 items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {JOURNEY_STAGES.map((s, i) => {
-            const isCurrent = s.n === currentStage;
-            const isPast = s.n < currentStage;
+            // Before the assessment, show all stages neutral — no fake default
+            const isCurrent = hasAssessment && s.n === currentStage;
+            const isPast = hasAssessment && s.n < currentStage;
             return (
               <li key={s.key} className="flex shrink-0 items-center gap-1">
                 <Link
